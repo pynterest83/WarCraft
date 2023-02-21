@@ -14,10 +14,10 @@ private:
     bool alive;
 public:
     boss(SDL_Renderer* renderer);
-    ~boss(){};
+    ~boss() {};
     void move();
     void update(SDL_Renderer* renderer);
     SDL_Rect getbossBullet();
     void kill();
     bool isKilled(return !alive);
-}
+};
