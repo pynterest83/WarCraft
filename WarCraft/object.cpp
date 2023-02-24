@@ -17,7 +17,7 @@ void object::show(SDL_Renderer* renderer){
 }
 
 void object::setImg(SDL_Renderer* renderer, string path){
-    body=RD::loadTexture(renderer, path);
+    body=IMG_LoadTexture(renderer, path.c_str());
     if (body==NULL){
         cout << "fail to load image";
     }

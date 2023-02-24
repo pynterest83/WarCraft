@@ -7,19 +7,20 @@ player::player(SDL_Renderer* renderer){
 	rect.h = 60;
     setPos(x,y);
     shot.setImg(renderer,"E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/playerBullet.png");
+	setImg(renderer, "E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/player.png");
     speed=10;
 	blood=40;
 	alive=true;
 }
 
-void player::move(SDL_Event e){
+void player::move(){
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (rect.x<SCREEN_WIDTH-rect.w && state[SDL_SCANCODE_D]) rect.x+=speed;
 	if (rect.x-speed>0 && state[SDL_SCANCODE_A]) rect.x-=speed;
 	if (rect.y-speed>0 && state[SDL_SCANCODE_W]) rect.y-=speed;
 	if (rect.y<SCREEN_HEIGHT-rect.h && state[SDL_SCANCODE_S]) rect.y+=speed;
 
-	if (e.type == SDL_MOUSEBUTTONDOWN) {
+	if (state[SDL_SCANCODE_SPACE]) {
 		if (!shot.is_Move()) {
 			shot.setPos(rect.x+rect.w/2, rect.y + rect.h/2 - shot.getRect().h/2);
 			shot.setStatus(true);
@@ -45,13 +46,8 @@ void player::update(SDL_Renderer* renderer)
 		show(renderer);
 
 		if (shot.is_Move()) {
-			setImg(renderer, "E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/playershot.png");
 			shot.fire();
 			shot.show(renderer);
-		}
-
-		if (!shot.is_Move()){
-			setImg(renderer,"E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/player.png");
 		}
 	}
 }

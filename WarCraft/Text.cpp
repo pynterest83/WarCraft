@@ -46,4 +46,6 @@ void Text::createaText(TTF_Font* font, SDL_Renderer* renderer)
 	textSurface = TTF_RenderText_Solid(font, str.c_str(), text_color);
 	body = SDL_CreateTextureFromSurface(renderer, textSurface);
 	show(renderer);
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(body);
 }

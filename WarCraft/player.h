@@ -15,7 +15,7 @@ private:
 	bool alive;
 public:
 	player(SDL_Renderer* renderer);
-	void move(SDL_Event e);
+	void move();
 	~player();
 	void update(SDL_Renderer* renderer);
 	SDL_Rect getRectBullet();

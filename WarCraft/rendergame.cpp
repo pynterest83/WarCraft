@@ -39,15 +39,6 @@ void RD::quitSDL(SDL_Window* window, SDL_Renderer* renderer)
 	SDL_Quit();
 }
 
-SDL_Texture* RD::loadTexture(SDL_Renderer* renderer, string path)
-{
-	SDL_Texture* newTexture = NULL;
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-	SDL_FreeSurface(loadedSurface);
-	return newTexture;
-}
-
 bool RD::checkCollision(SDL_Rect a, SDL_Rect b)
 {
     //The sides of the rectangles

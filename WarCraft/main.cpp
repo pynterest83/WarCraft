@@ -29,11 +29,15 @@ int main(int argc, char* argv[]){
 	t.setText("Score: ");
 
 	//load background
-	SDL_Texture* bgr = loadTexture(renderer, "E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/bgr.png");
+	SDL_Texture* bgr = IMG_LoadTexture(renderer, "E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/bgr.png");
 
 	//initialize player and enemy
 	player astro(renderer);
 	vector<creep> list_creep;
+	for (int i = 0; i < 15; i++) {
+		creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+		list_creep.push_back(sEnemy);
+	}
 	
 	//default feature
 	bool end=false;
@@ -47,18 +51,14 @@ int main(int argc, char* argv[]){
 			if (event.type == SDL_QUIT) {
 				quit = true;
 			}
-			astro.move(event);
 		}
 		//render background
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, bgr, NULL, NULL);
 
-		//render creep and check shooting
-		for (int i = 0; i < 15; i++) {
-
-			creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
-			list_creep.push_back(sEnemy);
-		}
+		astro.move();
+		
+		//check shooting
 		for(int i = 0; i < 15; i++) {
 
 			if (!list_creep.at(i).is_killed()) {
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]){
 		//render and update astro by time
 		astro.update(renderer);
 		if (astro.isKilled() || end){
-			quit=true;
+			//quit=true;
 		}
 		
 		// render score text
