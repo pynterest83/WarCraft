@@ -82,3 +82,12 @@ bool RD::checkCollision(SDL_Rect a, SDL_Rect b)
     //If none of the sides from A are outside B
     return true;
 }
+
+bool RD::checkSeen(SDL_Rect a, SDL_Rect b) {
+    return (b.y <= a.y && b.y >= a.y - a.h);
+}
+
+bool RD::checkCrash(SDL_Rect a, SDL_Rect b) {
+    if (checkCollision(a, b) && a.x + a.w <= b.x + 5 && checkSeen(a,b)) return true;
+    return false;
+}

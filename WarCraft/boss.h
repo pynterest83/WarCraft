@@ -16,8 +16,10 @@ public:
     boss(SDL_Renderer* renderer);
     ~boss() {};
     void move();
-    void update(SDL_Renderer* renderer);
-    SDL_Rect getbossBullet();
+    void update(SDL_Renderer* renderer,SDL_Rect a, SDL_Rect b);
+    void autoshot();
+    SDL_Rect getRectbossBullet();
+    bossBullet& getBossBullet() { return bossShot; }
     void kill();
-    bool isKilled(return !alive);
+    bool isKilled() { return !alive; };
 };

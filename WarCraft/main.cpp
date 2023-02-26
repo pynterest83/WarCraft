@@ -7,9 +7,15 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <stdlib.h>
+#include <time.h>
+#include "boss.h"
+#include "ebullet.h"
+#include "bossBullet.h"
 
 //using namespace rendergame
 using namespace RD;
+using namespace std;
 
 int main(int argc, char* argv[]){
 	srand(time(NULL));
@@ -29,24 +35,26 @@ int main(int argc, char* argv[]){
 	t.setText("Score: ");
 
 	//load background
-	SDL_Texture* bgr = IMG_LoadTexture(renderer, "E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft/bgr.png");
+	SDL_Texture* bgr = IMG_LoadTexture(renderer, "bgr.png");
+	SDL_Texture *scorebar = IMG_LoadTexture(renderer, "scorebar.png");
+	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 
 	//initialize player and enemy
 	player astro(renderer);
 	vector<creep> list_creep;
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 5; i++) {
 		creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
 		list_creep.push_back(sEnemy);
 	}
-	
+	boss Boss(renderer);
+
 	//default feature
-	bool end=false;
-	int cnt=0;
 	int score=0;
 	int level=1;
 
 	//main loop
 	while (!quit){
+		//event loop
         while (SDL_PollEvent(&event) != 0) {
 			if (event.type == SDL_QUIT) {
 				quit = true;
@@ -55,50 +63,58 @@ int main(int argc, char* argv[]){
 		//render background
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, bgr, NULL, NULL);
+		SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 
 		astro.move();
 		
 		//check shooting
-		for(int i = 0; i < 15; i++) {
+		for(int i = 0; i < 5; i++) {
 
 			if (!list_creep.at(i).is_killed()) {
 				//check astro bullet - enemy
 				if (list_creep.at(i).getRect().x<SCREEN_WIDTH){
 					if (checkCollision(astro.getRectBullet(),list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
 						list_creep.at(i).kill();
+						creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+						list_creep.at(i) = sEnemy;
 						astro.getBullet().setStatus(false);
-						cnt++;
-						score=cnt*100;
-						if (cnt==15) end=true;
+						score+=10;
 					}
 				}
 
 				//check astro - enemy bullet
 				if (checkCollision(astro.getRect(),list_creep.at(i).getRectShotback()) ){
 					astro.kill();
+					list_creep.at(i).getShotback().setStatus(false);
 				}
 
 				//check astro - enemy 
-				if (checkCollision(astro.getRect(), list_creep.at(i).getRect())) {
+				if (checkCrash(astro.getRect(), list_creep.at(i).getRect())) {
+					SDL_Delay(500);
 					astro.kill();
 					list_creep.at(i).kill();
+					creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+					list_creep.at(i) = sEnemy;
+					score += 10;
 				}
-				
+
 				// enemy move and update enemy
-				int opt=rand();	
+				int opt = rand();
 				list_creep.at(i).move(opt);
-				if (list_creep.at(i).getRect().y<=astro.getRect().y+astro.getRect().h/2 && list_creep.at(i).getRect().y>=astro.getRect().y-astro.getRect().h/2) list_creep.at(i).autoshot();
-				
-				list_creep.at(i).update(renderer);
+				list_creep.at(i).update(renderer, astro.getRect(), list_creep.at(i).getRect());
+				if (astro.getRect().x + astro.getRect().h < list_creep.at(i).getRect().x - 20) list_creep.at(i).autoshot();
 			}
 		}
 
+		//boss
+
+
 		//render and update astro by time
 		astro.update(renderer);
-		if (astro.isKilled() || end){
-			//quit=true;
+		if (astro.isKilled()){
+			quit=true;
 		}
-		
+
 		// render score text
 		t.setText("Score: " + to_string(score));
 		t.createaText(font_text, renderer);

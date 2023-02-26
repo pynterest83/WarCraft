@@ -19,8 +19,9 @@ namespace RD {
     void logSDLError(const string& msg, bool fatal);
 	void initSDL(SDL_Window*& window, SDL_Renderer*& renderer);
 	void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
-	SDL_Texture* loadTexture(SDL_Renderer* renderer, string path);
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
+	bool checkSeen(SDL_Rect a, SDL_Rect b);
+	bool checkCrash(SDL_Rect a, SDL_Rect b);
 }
 
 #endif

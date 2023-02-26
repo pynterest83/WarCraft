@@ -5,19 +5,21 @@ ebullet::ebullet()
 	x;
 	y;
 	isMove = false;
-	speed = 30;
+	speed = 5;
 	rect.w = 20;
-	rect.h = 10;
+	rect.h = 20;
 }
 
 ebullet::~ebullet()
 {
 }
 
-void ebullet::fire()
+void ebullet::fire(SDL_Rect a, SDL_Rect b)
 {
-	if (rect.x < 0) {
+	if (rect.x < 0 || rect.y <0 || rect.y > SCREEN_HEIGHT) {
 		isMove = false;
 	}
+	float direct = (float)(b.y - a.y) / (float)(b.x - a.x);
 	rect.x -= speed;
+	rect.y -= direct * speed;
 }

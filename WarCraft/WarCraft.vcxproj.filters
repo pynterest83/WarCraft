@@ -97,6 +97,30 @@
     <Image Include="scorebar.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="enemyBullet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Kla%27ed - Battlecruiser - Base.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Kla%27ed - Battlecruiser - Destruction.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Kla%27ed - Battlecruiser - Engine.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Kla%27ed - Battlecruiser - Shield.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Kla%27ed - Battlecruiser - Weapons.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="boss.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\Chu Huy Quang\Downloads\LTNC2022_UET_Nhom-11-_-Asteroid-Bullet--master\LTNC2022_UET_Nhom-11-_-Asteroid-Bullet--master\image\bossbul.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Aller_Rg.ttf">

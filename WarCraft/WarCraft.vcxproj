@@ -43,8 +43,16 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="bgr.png" />
+    <Image Include="boss.png" />
+    <Image Include="C:\Users\Chu Huy Quang\Downloads\LTNC2022_UET_Nhom-11-_-Asteroid-Bullet--master\LTNC2022_UET_Nhom-11-_-Asteroid-Bullet--master\image\bossbul.png" />
     <Image Include="creep.png" />
     <Image Include="creepbul.png" />
+    <Image Include="enemyBullet.png" />
+    <Image Include="Kla%27ed - Battlecruiser - Base.png" />
+    <Image Include="Kla%27ed - Battlecruiser - Destruction.png" />
+    <Image Include="Kla%27ed - Battlecruiser - Engine.png" />
+    <Image Include="Kla%27ed - Battlecruiser - Shield.png" />
+    <Image Include="Kla%27ed - Battlecruiser - Weapons.png" />
     <Image Include="player.png" />
     <Image Include="playerBullet.png" />
     <Image Include="playershot.png" />

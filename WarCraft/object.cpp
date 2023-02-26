@@ -14,6 +14,9 @@ object::~object(){
 
 void object::show(SDL_Renderer* renderer){
     SDL_RenderCopy(renderer, body, NULL, &rect);
+    if (renderer == NULL) {
+        cout << "show failed" << endl;
+    }
 }
 
 void object::setImg(SDL_Renderer* renderer, string path){
