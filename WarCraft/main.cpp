@@ -66,7 +66,7 @@ int main(int argc, char* argv[]){
 		SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 
 		astro.move();
-		
+		Boss.update(renderer, astro.getRect(), Boss.getRect());
 		//check shooting
 		for(int i = 0; i < 5; i++) {
 
@@ -80,6 +80,11 @@ int main(int argc, char* argv[]){
 						astro.getBullet().setStatus(false);
 						score+=10;
 					}
+				}
+				
+				// check cho nay a bao oi
+				if (checkCollision(astro.getRect(), Boss.getRect())) {
+					cout << 1 << endl;
 				}
 
 				//check astro - enemy bullet
