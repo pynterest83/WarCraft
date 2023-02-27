@@ -9,6 +9,7 @@ private:
     int y;
     ebullet shotback;
     bool alive;
+    int blood;
 public:
     creep(SDL_Renderer* renderer, int _x);
     ~creep(){};
@@ -17,6 +18,10 @@ public:
     void autoshot();
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };
-    void kill(){ alive = false;};
+    void kill(){
+        blood--;
+        if (blood == 0) alive = false;
+    }; 
     bool is_killed() { return !alive; };
+    void setBoss(SDL_Renderer * renderer);
 };

@@ -19,8 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="boss.cpp" />
-    <ClCompile Include="bossBullet.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="creep.cpp" />
     <ClCompile Include="ebullet.cpp" />
@@ -31,8 +29,6 @@
     <ClCompile Include="Text.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="boss.h" />
-    <ClInclude Include="bossBullet.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="creep.h" />
     <ClInclude Include="ebullet.h" />

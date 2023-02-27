@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma once
+
 #include "rendergame.h"
 
 class object {
@@ -15,4 +17,5 @@ public:
     SDL_Rect getRect() const {
 		return rect;
 	}
+    void Animation();
 };

@@ -21,12 +21,6 @@
     <ClCompile Include="creep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boss.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bossBullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,12 +41,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="boss.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bossBullet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="bullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>

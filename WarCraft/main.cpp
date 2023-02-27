@@ -4,14 +4,16 @@
 #include "object.h"
 #include "creep.h"
 #include "text.h"
+#include "ebullet.h"
 #include <vector>
 #include <string>
 #include <random>
 #include <stdlib.h>
 #include <time.h>
-#include "boss.h"
-#include "ebullet.h"
-#include "bossBullet.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 //using namespace rendergame
 using namespace RD;
@@ -21,8 +23,8 @@ int main(int argc, char* argv[]){
 	srand(time(NULL));
 
 	//default feature
-    SDL_Window* window;
-	SDL_Renderer* renderer;
+    SDL_Window* window = NULL;
+	SDL_Renderer* renderer = NULL;
 	SDL_Event event;
 	bool quit = false;
 
@@ -46,7 +48,10 @@ int main(int argc, char* argv[]){
 		creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
 		list_creep.push_back(sEnemy);
 	}
-	boss Boss(renderer);
+
+	creep Boss(renderer, SCREEN_WIDTH - 100);
+	Boss.setBoss(renderer);
+	Boss.autoshot();
 
 	//default feature
 	int score=0;
@@ -66,10 +71,9 @@ int main(int argc, char* argv[]){
 		SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 
 		astro.move();
-		Boss.update(renderer, astro.getRect(), Boss.getRect());
+
 		//check shooting
 		for(int i = 0; i < 5; i++) {
-
 			if (!list_creep.at(i).is_killed()) {
 				//check astro bullet - enemy
 				if (list_creep.at(i).getRect().x<SCREEN_WIDTH){
@@ -80,11 +84,6 @@ int main(int argc, char* argv[]){
 						astro.getBullet().setStatus(false);
 						score+=10;
 					}
-				}
-				
-				// check cho nay a bao oi
-				if (checkCollision(astro.getRect(), Boss.getRect())) {
-					cout << 1 << endl;
 				}
 
 				//check astro - enemy bullet
@@ -110,10 +109,8 @@ int main(int argc, char* argv[]){
 				if (astro.getRect().x + astro.getRect().h < list_creep.at(i).getRect().x - 20) list_creep.at(i).autoshot();
 			}
 		}
-
-		//boss
-
-
+		
+		Boss.update(renderer, astro.getRect(), Boss.getRect());
 		//render and update astro by time
 		astro.update(renderer);
 		if (astro.isKilled()){

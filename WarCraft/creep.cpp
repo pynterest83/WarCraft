@@ -1,7 +1,7 @@
 #include "creep.h"
 
 creep::creep(SDL_Renderer *renderer, int _x){
-    alive=true;
+    alive = true;
     x= _x;
     y= rand()%(SCREEN_HEIGHT-60);
     rect.w = 50;
@@ -9,6 +9,7 @@ creep::creep(SDL_Renderer *renderer, int _x){
     setPos(x,y);
     setImg(renderer, "creep.png");
     shotback.setImg(renderer, "creepbul.png");
+    blood = 1;
 }
 
 void creep::move(int opt){
@@ -33,7 +34,6 @@ void creep::autoshot(){
 void creep::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
     if (alive) {
         show(renderer);
-
         if (shotback.is_Move()) {
             shotback.fire(a, b);
             shotback.show(renderer);
@@ -46,3 +46,11 @@ SDL_Rect creep::getRectShotback(){
     return shotback.getRect();
 }
 
+void creep::setBoss(SDL_Renderer *renderer) {
+    blood = 100;
+    rect.w = 100;
+    rect.h = 75;
+    setImg(renderer, "boss.png");
+    shotback.setImg(renderer, "bossbul.png");
+    setPos(SCREEN_WIDTH - 100, SCREEN_HEIGHT / 2);
+}
