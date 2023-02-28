@@ -158,8 +158,6 @@ int main(int argc, char* argv[]){
 		t.setText("Score: " + to_string(score));
 		t.createaText(font_text, renderer);
 
-		cout << cnt << endl;
-
 		SDL_RenderPresent(renderer);
     }
 	
