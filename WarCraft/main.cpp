@@ -2,7 +2,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "object.h"
-#include "creep.h"
+#include "enemy.h"
 #include "text.h"
 #include "ebullet.h"
 #include <vector>
@@ -43,19 +43,21 @@ int main(int argc, char* argv[]){
 
 	//initialize player and enemy
 	player astro(renderer);
-	vector<creep> list_creep;
+	vector<enemy> list_creep;
 	for (int i = 0; i < 5; i++) {
-		creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+		enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
 		list_creep.push_back(sEnemy);
 	}
-
-	creep Boss(renderer, SCREEN_WIDTH - 100);
+	// Set Boss
+	enemy Boss(renderer, SCREEN_WIDTH - 100);
 	Boss.setBoss(renderer);
 	Boss.autoshot();
 
 	//default feature
 	int score=0;
 	int level=1;
+	bool check = true;
+	int cnt = 0;
 
 	//main loop
 	while (!quit){
@@ -79,10 +81,11 @@ int main(int argc, char* argv[]){
 				if (list_creep.at(i).getRect().x<SCREEN_WIDTH){
 					if (checkCollision(astro.getRectBullet(),list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
 						list_creep.at(i).kill();
-						creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
 						list_creep.at(i) = sEnemy;
 						astro.getBullet().setStatus(false);
 						score+=10;
+						cnt++;
 					}
 				}
 
@@ -97,20 +100,54 @@ int main(int argc, char* argv[]){
 					SDL_Delay(500);
 					astro.kill();
 					list_creep.at(i).kill();
-					creep sEnemy(renderer, SCREEN_WIDTH + i * 200);
+					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
 					list_creep.at(i) = sEnemy;
 					score += 10;
+					cnt++;
 				}
 
 				// enemy move and update enemy
-				int opt = rand();
+				int opt = rand()%10000;
 				list_creep.at(i).move(opt);
 				list_creep.at(i).update(renderer, astro.getRect(), list_creep.at(i).getRect());
-				if (astro.getRect().x + astro.getRect().h < list_creep.at(i).getRect().x - 20) list_creep.at(i).autoshot();
+				if (astro.getRect().x + astro.getRect().w < list_creep.at(i).getRect().x) list_creep.at(i).autoshot();
 			}
 		}
 		
-		Boss.update(renderer, astro.getRect(), Boss.getRect());
+		// generate boss
+		if (cnt == 15) check = true;
+		if (score >= 150 && check) {
+			Boss.update(renderer, astro.getRect(), Boss.getRect());
+			if (astro.getRect().x + astro.getRect().w < Boss.getRect().x) Boss.autoshot();
+			int opt = rand()%10000;
+			Boss.move(opt);
+
+			if (checkCollision(astro.getRectBullet(), Boss.getRect()) && astro.getBullet().is_Move()) {
+				Boss.kill();
+				astro.getBullet().setStatus(false);
+			}
+
+			if (checkCollision(astro.getRect(), Boss.getRectShotback())) {
+				astro.kill();
+				Boss.getShotback().setStatus(false);
+			}
+
+			if (checkCrash(astro.getRect(), Boss.getRect())) {
+				SDL_Delay(500);
+				astro.kill();
+				Boss.kill();
+			}
+				
+			if (Boss.is_killed() && check) {
+				enemy Boss1(renderer, SCREEN_WIDTH - 100);
+				Boss1.setBoss(renderer);
+				check = false;
+				score += 50;
+				cnt = 0;
+				Boss = Boss1;
+			}
+		}
+
 		//render and update astro by time
 		astro.update(renderer);
 		if (astro.isKilled()){
@@ -120,6 +157,8 @@ int main(int argc, char* argv[]){
 		// render score text
 		t.setText("Score: " + to_string(score));
 		t.createaText(font_text, renderer);
+
+		cout << cnt << endl;
 
 		SDL_RenderPresent(renderer);
     }

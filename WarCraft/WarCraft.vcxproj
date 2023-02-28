@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="creep.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="ebullet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
@@ -30,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
-    <ClInclude Include="creep.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="ebullet.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />

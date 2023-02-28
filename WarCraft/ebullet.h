@@ -19,4 +19,8 @@ public:
 		}
 	}
 	bool is_Move() { return isMove; }
+	int getSpeed(int _speed) { 
+		speed = _speed;
+		return speed; 
+	}
 };

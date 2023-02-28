@@ -1,6 +1,6 @@
-#include "creep.h"
+#include "enemy.h"
 
-creep::creep(SDL_Renderer *renderer, int _x){
+enemy::enemy(SDL_Renderer *renderer, int _x){
     alive = true;
     x= _x;
     y= rand()%(SCREEN_HEIGHT-60);
@@ -12,7 +12,7 @@ creep::creep(SDL_Renderer *renderer, int _x){
     blood = 1;
 }
 
-void creep::move(int opt){
+void enemy::move(int opt){
     if (rect.y == 0 || rect.y==SCREEN_HEIGHT-rect.h) opt-=1; 
     rect.x-=2;
     if (rect.y < SCREEN_HEIGHT - rect.h && opt % 2 == 0) {
@@ -24,14 +24,14 @@ void creep::move(int opt){
     if (rect.x<-rect.w) rect.x=SCREEN_WIDTH;
 }
 
-void creep::autoshot(){
+void enemy::autoshot(){
     if (!shotback.is_Move() && rect.x<SCREEN_WIDTH){
         shotback.setPos(rect.x, rect.y + rect.h/2 - shotback.getRect().h/2);
         shotback.setStatus(true);
     }
 }
 
-void creep::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
+void enemy::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
     if (alive) {
         show(renderer);
         if (shotback.is_Move()) {
@@ -42,15 +42,16 @@ void creep::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
     else SDL_DestroyTexture(body);
 }
 
-SDL_Rect creep::getRectShotback(){
+SDL_Rect enemy::getRectShotback(){
     return shotback.getRect();
 }
 
-void creep::setBoss(SDL_Renderer *renderer) {
-    blood = 100;
+void enemy::setBoss(SDL_Renderer *renderer) {
+    blood = 10;
     rect.w = 100;
     rect.h = 75;
     setImg(renderer, "boss.png");
     shotback.setImg(renderer, "bossbul.png");
+    shotback.getSpeed(10);
     setPos(SCREEN_WIDTH - 100, SCREEN_HEIGHT / 2);
 }

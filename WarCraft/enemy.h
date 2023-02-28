@@ -3,7 +3,7 @@
 #include "object.h"
 #include "ebullet.h"
 
-class creep: public object{
+class enemy: public object{
 private:
     int x;
     int y;
@@ -11,8 +11,8 @@ private:
     bool alive;
     int blood;
 public:
-    creep(SDL_Renderer* renderer, int _x);
-    ~creep(){};
+    enemy(SDL_Renderer* renderer, int _x);
+    ~enemy(){};
     void move(int opt);
     void update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b);
     void autoshot();
@@ -20,7 +20,10 @@ public:
     ebullet& getShotback() { return shotback; };
     void kill(){
         blood--;
-        if (blood == 0) alive = false;
+        if (blood == 0) {
+            alive = false;
+            SDL_DestroyTexture(body);
+        }
     }; 
     bool is_killed() { return !alive; };
     void setBoss(SDL_Renderer * renderer);
