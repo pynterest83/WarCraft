@@ -9,7 +9,7 @@ player::player(SDL_Renderer* renderer, int level){
     shot.setImg(renderer,"resources/playerBullet.png");
 	setImg(renderer, "resources/newplayer.png");
 	speed = 5 + level;
-	blood=40;
+	blood=50;
 	alive=true;
 }
 

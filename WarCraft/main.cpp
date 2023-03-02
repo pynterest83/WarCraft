@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
 	// initialize text
 	Text Score(5,5,50,100,1);
 	Score.initText(font_text, "font/Koulen-Regular.ttf");
-	Text Round(SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50, 80, 350, 1);
+	Text Round(SCREEN_WIDTH/2-175, SCREEN_HEIGHT/2-40, 80, 350, 1);
 	Round.initText(font_text, "font/Koulen-Regular.ttf");
 
 	//load background
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
 		//render and update astro by time
 		astro.update(renderer);
 		if (astro.isKilled()){
-			//quit=true;
+			quit=true;
 		}
 
 
@@ -160,11 +160,15 @@ int main(int argc, char* argv[]){
 
 				// update level
 				level++;
+				SDL_SetTextureAlphaMod(bgr, 150);
+				SDL_RenderCopy(renderer, bgr, NULL, NULL);
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
 				Score.setText("Score: " + to_string(score));
 				Score.createaText(font_text, renderer);
 				SDL_RenderPresent(renderer);
+
+				// reset
 				SDL_Delay(3000);
 				for (int i = 0; i < 5; i++) {
 					list_creep.at(i).kill();
@@ -178,6 +182,7 @@ int main(int argc, char* argv[]){
 		Score.setText("Score: " + to_string(score));
 		Score.createaText(font_text, renderer);
 
+		SDL_SetTextureAlphaMod(bgr, 255);
 		SDL_RenderPresent(renderer);
     }
 	
