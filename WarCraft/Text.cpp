@@ -1,26 +1,26 @@
 #include "Text.h"
 
-Text::Text()
+Text::Text(int _x, int _y, int _h, int _w, int color)
 {
-	rect.w = 100;
-	rect.h = 50;
-	rect.x = 5;
-	rect.y = 5;
-	setColor(1);
+	rect.w = _w;
+	rect.h = _h;
+	rect.x = _x;
+	rect.y = _y;
+	setColor(color);
 }
 
 Text::~Text()
 {
 }
 
-void Text::initText(TTF_Font*& fontText)
+void Text::initText(TTF_Font*& fontText, string path)
 {
 	if (TTF_Init() == -10) {
-		cout << "Loi Text" << endl;
+		cout << "Error load Text" << endl;
 	}
-	fontText = TTF_OpenFont("E:/personal/Code/C++/LTNC/GameSDL2/WarCraft/WarCraft//Koulen-Regular.ttf", 20);
+	fontText = TTF_OpenFont(path.c_str(), 100);
 	if (fontText == NULL) {
-		cout << "Loi font" << endl;
+		cout << "Error load Font" << endl;
 	}
 }
 

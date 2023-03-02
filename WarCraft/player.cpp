@@ -1,14 +1,14 @@
 #include "player.h"
 
-player::player(SDL_Renderer* renderer){
+player::player(SDL_Renderer* renderer, int level){
     x = rect.w;
 	y = SCREEN_HEIGHT/2;
-	rect.w = 50;
-	rect.h = 50;
+	rect.w = 60;
+	rect.h = 60;
     setPos(x,y);
-    shot.setImg(renderer,"playerBullet.png");
-	setImg(renderer, "player.png");
-    speed=10;
+    shot.setImg(renderer,"resources/playerBullet.png");
+	setImg(renderer, "resources/newplayer.png");
+	speed = 5 + level;
 	blood=40;
 	alive=true;
 }
@@ -49,8 +49,8 @@ void player::kill(){
 
 void player::update(SDL_Renderer* renderer)
 {
-	if (alive) 
-	{	
+	if (alive)
+	{
 		show(renderer);
 
 		if (shot.is_Move()) {
@@ -58,6 +58,7 @@ void player::update(SDL_Renderer* renderer)
 			shot.show(renderer);
 		}
 	}
+	else SDL_DestroyTexture(body);
 }
 
 SDL_Rect player::getRectBullet()

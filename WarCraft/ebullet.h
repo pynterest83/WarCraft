@@ -23,4 +23,8 @@ public:
 		speed = _speed;
 		return speed; 
 	}
+	void getsize(int w, int h) {
+		rect.w = w;
+		rect.h = h;
+	}
 };

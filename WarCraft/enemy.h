@@ -11,7 +11,7 @@ private:
     bool alive;
     int blood;
 public:
-    enemy(SDL_Renderer* renderer, int _x);
+    enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
     void move(int opt);
     void update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b);
@@ -26,5 +26,5 @@ public:
         }
     }; 
     bool is_killed() { return !alive; };
-    void setBoss(SDL_Renderer * renderer);
+    void setBoss(SDL_Renderer * renderer, int level);
 };

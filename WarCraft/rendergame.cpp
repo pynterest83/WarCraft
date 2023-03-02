@@ -15,7 +15,7 @@ void RD::initSDL(SDL_Window*& window, SDL_Renderer*& renderer)
 		logSDLError("SDL_ Init", true);
 	}
 
-	window = SDL_CreateWindow("CRAFT SHOOTING", SDL_WINDOWPOS_CENTERED,
+	window = SDL_CreateWindow("WARCRAFT", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 	if (window == nullptr) {

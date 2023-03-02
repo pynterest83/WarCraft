@@ -31,33 +31,34 @@ int main(int argc, char* argv[]){
 	//init SDL
 	initSDL(window, renderer);
 
-	// initializ text for score
-	Text t;
-	t.initText(font_text);
-	t.setText("Score: ");
+	// initialize text
+	Text Score(5,5,50,100,1);
+	Score.initText(font_text, "font/Koulen-Regular.ttf");
+	Text Round(SCREEN_WIDTH/2-200, SCREEN_HEIGHT/2-50, 80, 350, 1);
+	Round.initText(font_text, "font/Koulen-Regular.ttf");
 
 	//load background
-	SDL_Texture* bgr = IMG_LoadTexture(renderer, "bgr.png");
-	SDL_Texture *scorebar = IMG_LoadTexture(renderer, "scorebar.png");
+	SDL_Texture* bgr = IMG_LoadTexture(renderer, "resources/bgr.png");
+	SDL_Texture *scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 
+	//default feature
+	int score = 0;
+	int level = 1;
+	bool check = true;
+	int cnt = 0;
+
 	//initialize player and enemy
-	player astro(renderer);
+	player astro(renderer, level);
 	vector<enemy> list_creep;
 	for (int i = 0; i < 5; i++) {
-		enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
+		enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 		list_creep.push_back(sEnemy);
 	}
 	// Set Boss
-	enemy Boss(renderer, SCREEN_WIDTH - 100);
-	Boss.setBoss(renderer);
+	enemy Boss(renderer, SCREEN_WIDTH + 200, level);
+	Boss.setBoss(renderer, level);
 	Boss.autoshot();
-
-	//default feature
-	int score=0;
-	int level=1;
-	bool check = true;
-	int cnt = 0;
 
 	//main loop
 	while (!quit){
@@ -81,7 +82,7 @@ int main(int argc, char* argv[]){
 				if (list_creep.at(i).getRect().x<SCREEN_WIDTH){
 					if (checkCollision(astro.getRectBullet(),list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
 						list_creep.at(i).kill();
-						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
+						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 						list_creep.at(i) = sEnemy;
 						astro.getBullet().setStatus(false);
 						score+=10;
@@ -100,7 +101,7 @@ int main(int argc, char* argv[]){
 					SDL_Delay(500);
 					astro.kill();
 					list_creep.at(i).kill();
-					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200);
+					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 					list_creep.at(i) = sEnemy;
 					score += 10;
 					cnt++;
@@ -113,13 +114,20 @@ int main(int argc, char* argv[]){
 				if (astro.getRect().x + astro.getRect().w < list_creep.at(i).getRect().x) list_creep.at(i).autoshot();
 			}
 		}
-		
+
+		//render and update astro by time
+		astro.update(renderer);
+		if (astro.isKilled()){
+			//quit=true;
+		}
+
+
 		// generate boss
 		if (cnt == 15) check = true;
 		if (score >= 150 && check) {
 			Boss.update(renderer, astro.getRect(), Boss.getRect());
 			if (astro.getRect().x + astro.getRect().w < Boss.getRect().x) Boss.autoshot();
-			int opt = rand()%10000;
+			int opt = rand() % 10000;
 			Boss.move(opt);
 
 			if (checkCollision(astro.getRectBullet(), Boss.getRect()) && astro.getBullet().is_Move()) {
@@ -128,35 +136,47 @@ int main(int argc, char* argv[]){
 			}
 
 			if (checkCollision(astro.getRect(), Boss.getRectShotback())) {
-				astro.kill();
+				for (int i = 0; i < level; i++) {
+					astro.kill();
+				}
 				Boss.getShotback().setStatus(false);
 			}
 
 			if (checkCrash(astro.getRect(), Boss.getRect())) {
 				SDL_Delay(500);
-				astro.kill();
+				for (int i = 0; i < level; i++) {
+					astro.kill();
+				}
 				Boss.kill();
 			}
-				
+
 			if (Boss.is_killed() && check) {
-				enemy Boss1(renderer, SCREEN_WIDTH - 100);
-				Boss1.setBoss(renderer);
+				enemy Boss1(renderer, SCREEN_WIDTH - 100, level);
+				Boss1.setBoss(renderer, level);
 				check = false;
 				score += 50;
 				cnt = 0;
 				Boss = Boss1;
+
+				// update level
+				level++;
+				Round.setText("ROUND " + to_string(level));
+				Round.createaText(font_text, renderer);
+				Score.setText("Score: " + to_string(score));
+				Score.createaText(font_text, renderer);
+				SDL_RenderPresent(renderer);
+				SDL_Delay(3000);
+				for (int i = 0; i < 5; i++) {
+					list_creep.at(i).kill();
+					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+					list_creep.at(i) = sEnemy;
+				}
 			}
 		}
 
-		//render and update astro by time
-		astro.update(renderer);
-		if (astro.isKilled()){
-			quit=true;
-		}
-
 		// render score text
-		t.setText("Score: " + to_string(score));
-		t.createaText(font_text, renderer);
+		Score.setText("Score: " + to_string(score));
+		Score.createaText(font_text, renderer);
 
 		SDL_RenderPresent(renderer);
     }

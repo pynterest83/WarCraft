@@ -5,7 +5,6 @@ ebullet::ebullet()
 	x;
 	y;
 	isMove = false;
-	speed = 5;
 	rect.w = 20;
 	rect.h = 20;
 }

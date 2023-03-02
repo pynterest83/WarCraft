@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include "rendergame.h"
 
 class object {

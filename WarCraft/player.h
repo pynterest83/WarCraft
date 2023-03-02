@@ -14,7 +14,7 @@ private:
 	int speed;
 	bool alive;
 public:
-	player(SDL_Renderer* renderer);
+	player(SDL_Renderer* renderer, int level);
 	void move();
 	~player();
 	void update(SDL_Renderer* renderer);
