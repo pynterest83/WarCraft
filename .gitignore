@@ -362,7 +362,15 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-SDL_Lib
-.sln
-.vcxproj
-.vcxproj.filters
+# VS Code files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# VS files
+SDL_Lib/*
+.vcxproj/
+.vcxproj.filters/
