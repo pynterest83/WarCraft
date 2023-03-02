@@ -7,20 +7,24 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WarCraft", "WarCraft\WarCra
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Win32 = Release|Win32
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|Win32.Build.0 = Debug|Win32
 		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|x64.ActiveCfg = Debug|x64
 		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|x64.Build.0 = Debug|x64
-		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|x86.ActiveCfg = Debug|Win32
-		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|x86.Build.0 = Debug|Win32
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Debug|x86.ActiveCfg = Debug|x64
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|Win32.ActiveCfg = Release|Win32
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|Win32.Build.0 = Release|Win32
 		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|x64.ActiveCfg = Release|x64
 		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|x64.Build.0 = Release|x64
-		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|x86.ActiveCfg = Release|Win32
-		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|x86.Build.0 = Release|Win32
+		{5ABFF8C4-D7DD-49C2-9FEA-AD5EC4619BC3}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
