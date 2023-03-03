@@ -9,11 +9,10 @@ protected:
 public:
     object();
     ~object();
-    void show (SDL_Renderer* renderer);
+    void show (SDL_Renderer* renderer, SDL_Rect* Clip);
     void setImg (SDL_Renderer* renderer, string path);
     void setPos (int x, int y);
     SDL_Rect getRect() const {
 		return rect;
 	}
-    void Animation();
 };

@@ -6,8 +6,8 @@ bullet::bullet()
 	y;
 	isMove = false;
 	speed = 30;
-	rect.w = 40;
-	rect.h = 20;
+	rect.w = 25;
+	rect.h = 15;
 }
 
 bullet::~bullet()

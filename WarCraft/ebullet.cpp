@@ -18,7 +18,8 @@ void ebullet::fire(SDL_Rect a, SDL_Rect b)
 	if (rect.x < 0 || rect.y <0 || rect.y > SCREEN_HEIGHT) {
 		isMove = false;
 	}
-	float direct = (float)(b.y - a.y) / (float)(b.x - a.x);
+	double direct = (double)(b.y - a.y) / (double)(b.x - a.x);
+	if (b.x - a.x < 0) direct = -direct;
 	rect.x -= speed;
 	rect.y -= direct * speed;
 }

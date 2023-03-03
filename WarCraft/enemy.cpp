@@ -34,10 +34,10 @@ void enemy::autoshot(){
 
 void enemy::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
     if (alive) {
-        show(renderer);
+        show(renderer, NULL);
         if (shotback.is_Move()) {
             shotback.fire(a, b);
-            shotback.show(renderer);
+            shotback.show(renderer, NULL);
         }
     }
     else SDL_DestroyTexture(body);

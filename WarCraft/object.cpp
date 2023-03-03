@@ -12,8 +12,8 @@ object::~object(){
 
 }
 
-void object::show(SDL_Renderer* renderer){
-    SDL_RenderCopy(renderer, body, NULL, &rect);
+void object::show(SDL_Renderer* renderer, SDL_Rect* clip) {
+    SDL_RenderCopy(renderer, body, clip, &rect);
     if (renderer == NULL) {
         cout << "show failed" << endl;
     }
