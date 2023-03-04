@@ -1,4 +1,5 @@
 .vs
+SDL_Lib
 SDL_Lib/include
 SDL_Lib/lib
 WarCraft/WarCraft.vcxproj

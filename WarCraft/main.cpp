@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
 						score += 10;
 						cnt++;
 					}
-				}
+				}  
 
 				//check astro - enemy bullet
 				if (checkCollision(astro.getRect(), list_creep.at(i).getRectShotback())) {
