@@ -9,6 +9,10 @@
 #include <SDL_ttf.h>
 #include <string>
 #include <cmath>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 
 using namespace std;
 
