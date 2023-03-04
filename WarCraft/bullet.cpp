@@ -6,8 +6,8 @@ bullet::bullet()
 	y;
 	isMove = false;
 	speed = 30;
-	rect.w = 25;
-	rect.h = 15;
+	rect.w = 20;
+	rect.h = 10;
 }
 
 bullet::~bullet()
@@ -18,9 +18,10 @@ void bullet::fire()
 {
 	if (isMove) {
 		if (rect.x > SCREEN_WIDTH) {
-				isMove = false;
+			isMove = false;
 		}
 		rect.x += speed;
 	}
+	else SDL_DestroyTexture(body);
 	
 }

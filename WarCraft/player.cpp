@@ -14,7 +14,6 @@ player::player(SDL_Renderer* renderer, int level){
 }
 
 void player::move(){
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (alive) {
 		if (rect.x < SCREEN_WIDTH - rect.w && (state[SDL_SCANCODE_D] || state[SDL_SCANCODE_RIGHT])) {
 			rect.x += speed;
@@ -30,9 +29,12 @@ void player::move(){
 		}
 
 		if (state[SDL_SCANCODE_SPACE]) {
-			if (!shot.is_Move()) {
-				shot.setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot.getRect().h / 2);
-				shot.setStatus(true);
+			range.push_back(shot);
+			for (int i = 0; i < range.size(); i++) {
+				if (!range.at(i).is_Move()) {
+					range.at(i).setPos(rect.x + rect.w - 8*i, rect.y + rect.h / 2 - range.at(i).getRect().h / 2);
+					range.at(i).setStatus(true);
+				}
 			}
 		}
 	}
@@ -54,10 +56,11 @@ void player::update(SDL_Renderer* renderer)
 	if (alive)
 	{
 		show(renderer, NULL);
-
-		if (shot.is_Move()) {
-			shot.fire();
-			shot.show(renderer, NULL);
+		for (int i = 0; i < range.size(); i++) {
+			if (range.at(i).is_Move()) {
+				range.at(i).fire();
+				if (range.at(i).getRect().x >= rect.x + rect.w) range.at(i).show(renderer, NULL);
+			}
 		}
 	}
 	else SDL_DestroyTexture(body);
