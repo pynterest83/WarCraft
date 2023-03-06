@@ -1,0 +1,40 @@
+﻿  bullet.cpp
+  enemy.cpp
+  ebullet.cpp
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\WarCraft\ebullet.cpp(22,19): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+  main.cpp
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\WarCraft\main.cpp(25,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\WarCraft\main.cpp(107,24): warning C4018: '<': signed/unsigned mismatch
+  object.cpp
+  player.cpp
+  rendergame.cpp
+  Text.cpp
+  Timer.cpp
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\WarCraft\Timer.cpp(33,36): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\WarCraft\Timer.cpp(50,28): warning C4244: 'return': conversion from 'float' to 'Uint32', possible loss of data
+bullet.obj : error LNK2001: unresolved external symbol _SDL_DestroyTexture
+main.obj : error LNK2001: unresolved external symbol _SDL_RenderCopy
+main.obj : error LNK2001: unresolved external symbol _SDL_RenderClear
+main.obj : error LNK2001: unresolved external symbol _SDL_Delay
+main.obj : error LNK2001: unresolved external symbol _SDL_PollEvent
+main.obj : error LNK2001: unresolved external symbol _IMG_LoadTexture
+main.obj : error LNK2001: unresolved external symbol _SDL_RenderPresent
+main.obj : error LNK2001: unresolved external symbol _SDL_SetTextureAlphaMod
+player.obj : error LNK2001: unresolved external symbol _SDL_GetKeyboardState
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_DestroyRenderer
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_Init
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_DestroyWindow
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_GetError
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_SetHint
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_Quit
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_RenderSetLogicalSize
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_CreateRenderer
+rendergame.obj : error LNK2001: unresolved external symbol _SDL_CreateWindow
+Text.obj : error LNK2001: unresolved external symbol _TTF_Init
+Text.obj : error LNK2001: unresolved external symbol _TTF_RenderText_Solid
+Text.obj : error LNK2001: unresolved external symbol _TTF_OpenFont
+Text.obj : error LNK2001: unresolved external symbol _SDL_FreeSurface
+Text.obj : error LNK2001: unresolved external symbol _SDL_CreateTextureFromSurface
+Timer.obj : error LNK2001: unresolved external symbol _SDL_GetTicks
+MSVCRT.lib(exe_winmain.obj) : error LNK2001: unresolved external symbol _WinMain@16
+E:\personal\Code\C++\LTNC\GameSDL2\WarCraft\Release\WarCraft.exe : fatal error LNK1120: 25 unresolved externals

@@ -11,7 +11,7 @@ private:
 public:
 	ebullet();
 	~ebullet();
-	void fire(SDL_Rect a, SDL_Rect b);
+	void fire(double direct);
 	void setStatus(bool _isMove) {
 		isMove = _isMove;
 		if (_isMove == false) {

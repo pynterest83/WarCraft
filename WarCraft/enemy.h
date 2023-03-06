@@ -14,7 +14,7 @@ public:
     enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
     void move(int opt);
-    void update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b);
+    void update(SDL_Renderer* renderer, double direct);
     void autoshot();
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };

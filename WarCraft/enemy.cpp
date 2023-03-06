@@ -32,11 +32,11 @@ void enemy::autoshot(){
     }
 }
 
-void enemy::update(SDL_Renderer* renderer, SDL_Rect a, SDL_Rect b){
+void enemy::update(SDL_Renderer* renderer, double direct){
     if (alive) {
         show(renderer, NULL);
         if (shotback.is_Move()) {
-            shotback.fire(a, b);
+            shotback.fire(direct);
             shotback.show(renderer, NULL);
         }
     }
