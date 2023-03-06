@@ -29,12 +29,9 @@ void player::move(){
 		}
 
 		if (state[SDL_SCANCODE_SPACE]) {
-			range.push_back(shot);
-			for (int i = 0; i < range.size(); i++) {
-				if (!range.at(i).is_Move()) {
-					range.at(i).setPos(rect.x + rect.w - 8*i, rect.y + rect.h / 2 - range.at(i).getRect().h / 2);
-					range.at(i).setStatus(true);
-				}
+			if (!shot.is_Move()) {
+				shot.setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot.getRect().h / 2);
+				shot.setStatus(true);
 			}
 		}
 	}
@@ -56,11 +53,9 @@ void player::update(SDL_Renderer* renderer)
 	if (alive)
 	{
 		show(renderer, NULL);
-		for (int i = 0; i < range.size(); i++) {
-			if (range.at(i).is_Move()) {
-				range.at(i).fire();
-				if (range.at(i).getRect().x >= rect.x + rect.w) range.at(i).show(renderer, NULL);
-			}
+		if (shot.is_Move()) {
+			shot.fire();
+			shot.show(renderer, NULL);
 		}
 	}
 	else SDL_DestroyTexture(body);

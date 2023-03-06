@@ -126,8 +126,8 @@ int main(int argc, char* argv[]) {
 				// enemy move and update enemy
 				int opt = rand() % 10000;
 				list_creep.at(i).move(opt);
-				list_creep.at(i).update(renderer, astro.getRect(), list_creep.at(i).getRect());
 				double direct = (double)(astro.getRect().y - list_creep.at(i).getRect().y) / (astro.getRect().x - list_creep.at(i).getRect().x);
+				list_creep.at(i).update(renderer, direct);
 				if (-sqrt(3)<=direct && direct<=sqrt(3)) list_creep.at(i).autoshot();
 			}
 		}
@@ -151,22 +151,22 @@ int main(int argc, char* argv[]) {
 			SDL_RenderCopy(renderer, gameover, NULL, NULL);
 			SDL_RenderPresent(renderer);
 
-			SDL_Delay(100);
+			SDL_Delay(1000);
 		}
 
 
 		// generate boss
 		if (cnt == 15) check = true;
 		if (score >= 150 && check) {
-			Boss.update(renderer, astro.getRect(), Boss.getRect());
 			double direct = (double)(astro.getRect().y - Boss.getRect().y) / (astro.getRect().x - Boss.getRect().x);
+			Boss.update(renderer, direct);
 			if (-1 <= direct && direct <= 1) Boss.autoshot();
 			int opt = rand() % 10000;
 			Boss.move(opt);
 
 			if (checkCollision(astro.getRectBullet(), Boss.getRect()) && astro.getBullet().is_Move()) {
 				curframe = 0;
-				explo_rect = { astro.getRectBullet().x + 10, astro.getRectBullet().y + 10, 100, 100 };
+				explo_rect = { astro.getRectBullet().x - 10, astro.getRectBullet().y - 10, 100, 100 };
 
 				Boss.kill();
 				astro.getBullet().setStatus(false);

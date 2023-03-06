@@ -10,7 +10,6 @@ private:
 	int w;
 	int h;
 	bullet shot;
-	vector<bullet> range;
 	int blood;
 	int speed;
 	bool alive;
@@ -20,8 +19,8 @@ public:
 	void move();
 	~player();
 	void update(SDL_Renderer* renderer);
+	bullet& getBullet() { return shot; }
 	SDL_Rect getRectBullet();
-	vector<bullet>& getBullet() { return range; }
 	void kill();
 	bool isKilled(){ return !alive;};
 };
