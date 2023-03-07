@@ -15,6 +15,7 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <fstream>
+#include "Timer.h"
 
 //using namespace rendergame
 using namespace RD;
@@ -38,13 +39,17 @@ int main(int argc, char* argv[]) {
 	Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
 	Round.initText(font_text, "font/Koulen-Regular.ttf");
 
-	//load background
+	//load and setup some feature
 	SDL_Texture* bgr = IMG_LoadTexture(renderer, "resources/bgr.png");
 	SDL_Texture* scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
 	SDL_Texture* explo = IMG_LoadTexture(renderer, "resources/explosion2.png");
 	SDL_Texture* gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
+	SDL_Texture* shield_pickup = IMG_LoadTexture(renderer, "resources/shield_pickup.png");
+	SDL_Texture* shield = IMG_LoadTexture (renderer, "resources/Shield.png");
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 	SDL_Rect explo_rect;
+	SDL_Rect shield_rect;
+	SDL_Rect shieldpickup_rect;
 	
 	//default feature
 	int score = 0;
@@ -52,9 +57,16 @@ int main(int argc, char* argv[]) {
 	bool check = true;
 	int cnt = 0;
 	ifstream f;
-	const int frame = 70;
-	int curframe=0;
+	int curframe_ex = 0;
+	int curframe_shield = 0;
 
+	bool isShield = false;
+	Timer shield_wait;
+	shield_wait.Start();
+	Timer shield_time;
+	Timer Shield;
+	int x_pos, y_pos;
+	
 	//initialize player and enemy
 	player astro(renderer, level);
 	vector<enemy> list_creep;
@@ -81,7 +93,44 @@ int main(int argc, char* argv[]) {
 		SDL_RenderCopy(renderer, bgr, NULL, NULL);
 		SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 
+		// astro move
 		astro.move();
+		
+		// set up shield
+		if (!isShield) {
+			if (shield_wait.GetTime() > (Uint32)10000) {
+				shield_wait.Pause();
+				shield_time.Start();
+				shieldpickup_rect = { x_pos, y_pos, 50, 50 };
+				if (checkCollision(shieldpickup_rect, astro.getRect())) {
+					shield_wait.Reset();
+					isShield = true;
+					Shield.Start();
+				}
+				if (shield_time.GetTime() > (Uint32)10000) {
+					shield_wait.Unpause();
+					shield_wait.Reset();
+					shield_wait.Start();
+					shield_time.Reset();
+				}
+			}
+			else {
+				x_pos = rand() % 600;
+				y_pos = rand() % 600;
+				if (y_pos <= 60) y_pos += 100;
+			}
+		}
+
+		if (isShield)
+		{
+			SDL_RenderCopy(renderer, shield, NULL, &shield_rect);
+			shield_rect = { astro.getRect().x - 20, astro.getRect().y - 20, 100, 100 };
+			if (Shield.GetTime() > (Uint32)(12000)) {
+				isShield = false;
+				shield_wait.Unpause();
+				shield_wait.Start();
+			}
+		}
 
 		//check shooting
 		for (int i = 0; i < 5; i++) {
@@ -89,37 +138,39 @@ int main(int argc, char* argv[]) {
 				//check astro bullet - enemy
 				if (list_creep.at(i).getRect().x < SCREEN_WIDTH) {
 					if (checkCollision(astro.getRectBullet(), list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
-						curframe = 0;
+						curframe_ex = 0;
 						explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
 						list_creep.at(i).kill();    
 						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 						list_creep.at(i) = sEnemy;
 						astro.getBullet().setStatus(false);
-						score += 10;
+						score += 10 + (level-1)*2;
 						cnt++;
 					}
 				}  
 
 				//check astro - enemy bullet
 				if (checkCollision(astro.getRect(), list_creep.at(i).getRectShotback())) {
-					curframe = 0;
-					explo_rect = { astro.getRect().x + 10, astro.getRect().y + 10, 50, 50};
+					if (!isShield) {
+						curframe_ex = 0;
+						explo_rect = { astro.getRect().x + 10, astro.getRect().y + 10, 50, 50 };
 
-					astro.kill();
+						astro.kill();
+					}
 					list_creep.at(i).getShotback().setStatus(false);
 				}
 
 				//check astro - enemy 
 				if (checkCrash(astro.getRect(), list_creep.at(i).getRect())) {
-					curframe = 0;
+					curframe_ex = 0;
 					explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
-					astro.kill();
+					if (!isShield) astro.kill();
 					list_creep.at(i).kill();
 					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 					list_creep.at(i) = sEnemy;
-					score += 10;
+					score += 10 + (level - 1) * 2;
 					cnt++;
 				}
 
@@ -134,11 +185,11 @@ int main(int argc, char* argv[]) {
 
 		//render and update astro by time
 		astro.update(renderer);
-		if (astro.isKilled() && check) {	
-			curframe = 0;
+		if (astro.isKilled()) {	
+			curframe_ex = 0;
 			explo_rect = { astro.getRect().x - astro.getRect().w, astro.getRect().y - astro.getRect().h, 200, 200 };
-			while (curframe < 70) {
-				SDL_Rect source_rect = { curframe * 100, 0, 100, 100 };
+			while (curframe_ex < 70) {
+				SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 				SDL_RenderClear(renderer);
 				SDL_RenderCopy(renderer, bgr, NULL, NULL);
 				SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
@@ -146,8 +197,9 @@ int main(int argc, char* argv[]) {
 				Score.setText("Score: " + to_string(score));
 				Score.createaText(font_text, renderer);
 				SDL_RenderPresent(renderer);
-				curframe++;
+				curframe_ex++;
 			}
+			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, gameover, NULL, NULL);
 			SDL_RenderPresent(renderer);
 
@@ -165,7 +217,7 @@ int main(int argc, char* argv[]) {
 			Boss.move(opt);
 
 			if (checkCollision(astro.getRectBullet(), Boss.getRect()) && astro.getBullet().is_Move()) {
-				curframe = 0;
+				curframe_ex = 0;
 				explo_rect = { astro.getRectBullet().x - 10, astro.getRectBullet().y - 10, 100, 100 };
 
 				Boss.kill();
@@ -173,30 +225,33 @@ int main(int argc, char* argv[]) {
 			}
 
 			if (checkCollision(astro.getRect(), Boss.getRectShotback())) {
-				curframe = 0;
-				explo_rect = { astro.getRect().x - 25, astro.getRect().y -25, 100, 100 };
+				if (!isShield) {
+					curframe_ex = 0;
+					explo_rect = { astro.getRect().x - 25, astro.getRect().y - 25, 100, 100 };
 
-				for (int i = 0; i < level; i++) {
-					astro.kill();
+					for (int i = 0; i < level; i++) {
+						astro.kill();
+					}
 				}
 				Boss.getShotback().setStatus(false);
 			}
 
 			if (checkCrash(astro.getRect(), Boss.getRect())) {
-				curframe = 0;
+				curframe_ex = 0;
 				explo_rect = { Boss.getRect().x, Boss.getRect().y, 100, 100 };
-
-				for (int i = 0; i < level; i++) {
-					astro.kill();
+				if (!isShield) {
+					for (int i = 0; i < level; i++) {
+						astro.kill();
+					}
 				}
 				Boss.kill();
 			}
 
 			if (Boss.is_killed() && check) {
-				curframe = 0;
+				curframe_ex = 0;
 				explo_rect = { Boss.getRect().x - Boss.getRect().w, Boss.getRect().y-Boss.getRect().h, 300, 300};
-				while (curframe < 70) {
-					SDL_Rect source_rect = { curframe * 100, 0, 100, 100 };
+				while (curframe_ex < 70) {
+					SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 					SDL_RenderClear(renderer);
 					SDL_RenderCopy(renderer, bgr, NULL, NULL);
 					SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
@@ -204,14 +259,14 @@ int main(int argc, char* argv[]) {
 					Score.setText("Score: " + to_string(score));
 					Score.createaText(font_text, renderer);
 					SDL_RenderPresent(renderer);
-					curframe++;
+					curframe_ex++;
 				}
 
 				// regenBoss and Enemy
 				enemy Boss1(renderer, SCREEN_WIDTH - 100, level);
 				Boss1.setBoss(renderer, level);
 				check = false;
-				score += 50;
+				score += 50*level;
 				cnt = 0;
 				Boss = Boss1;
 
@@ -240,10 +295,18 @@ int main(int argc, char* argv[]) {
 		Score.createaText(font_text, renderer);
 
 		// render explosion
-		if (curframe< 70) {
-			SDL_Rect source_rect = { curframe * 100, 0, 100, 100 };
+		if (curframe_ex < 70) {
+			SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 			SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
-			curframe++;
+			curframe_ex++;
+		}
+
+		// render shield pick up
+		if (!isShield && shield_wait.Paused) {
+			SDL_Rect source_shield = { curframe_shield * 32, 0, 32, 32 };
+			SDL_RenderCopy(renderer, shield_pickup, &source_shield, &shieldpickup_rect);
+			curframe_shield++;
+			curframe_shield %= 15;
 		}
 
 		SDL_SetTextureAlphaMod(bgr, 255);
