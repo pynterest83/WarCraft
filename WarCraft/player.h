@@ -10,10 +10,10 @@ private:
 	int w;
 	int h;
 	bullet shot;
-	int blood;
 	int speed;
 	bool alive;
 public:
+	int blood;
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	player(SDL_Renderer* renderer, int level);
 	void move();

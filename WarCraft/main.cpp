@@ -46,7 +46,9 @@ int main(int argc, char* argv[]) {
 	SDL_Texture* gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
 	SDL_Texture* shield_pickup = IMG_LoadTexture(renderer, "resources/shield_pickup.png");
 	SDL_Texture* shield = IMG_LoadTexture (renderer, "resources/Shield.png");
+	SDL_Texture* life_bar = IMG_LoadTexture(renderer, "resources/lifebar.png");
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
+	SDL_Rect lifebar_rect = { 150, 5, 100, 50 };
 	SDL_Rect explo_rect;
 	SDL_Rect shield_rect;
 	SDL_Rect shieldpickup_rect;
@@ -59,7 +61,9 @@ int main(int argc, char* argv[]) {
 	ifstream f;
 	int curframe_ex = 0;
 	int curframe_shield = 0;
+	int curframe_blood = -1;
 
+	// set Shield
 	bool isShield = false;
 	Timer shield_wait;
 	shield_wait.Start();
@@ -309,6 +313,12 @@ int main(int argc, char* argv[]) {
 			curframe_shield %= 15;
 		}
 
+		// render life_bar
+		if (curframe_blood < 11) {
+			SDL_Rect source_blood = { 0, curframe_blood * 64, 96, 64 };
+			SDL_RenderCopy(renderer, life_bar, &source_blood, &lifebar_rect);
+			curframe_blood = (50 - astro.blood) / 5;
+		}
 		SDL_SetTextureAlphaMod(bgr, 255);
 		SDL_RenderPresent(renderer);
 	}
