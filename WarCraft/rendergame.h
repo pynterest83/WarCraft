@@ -14,6 +14,7 @@
 #include <ctime>
 #include <fstream>
 #include <Windows.h>
+#include <SDL_mixer.h>
 
 using namespace std;
 

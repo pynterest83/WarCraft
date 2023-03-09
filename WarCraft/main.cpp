@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
 	SDL_Texture* shield_pickup = IMG_LoadTexture(renderer, "resources/shield_pickup.png");
 	SDL_Texture* shield = IMG_LoadTexture (renderer, "resources/Shield.png");
 	SDL_Texture* life_bar = IMG_LoadTexture(renderer, "resources/lifebar.png");
+	
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 	SDL_Rect lifebar_rect = { 150, 5, 100, 50 };
 	SDL_Rect explo_rect;
@@ -127,8 +128,8 @@ int main(int argc, char* argv[]) {
 
 		if (isShield)
 		{
-			SDL_RenderCopy(renderer, shield, NULL, &shield_rect);
 			shield_rect = { astro.getRect().x - 20, astro.getRect().y - 20, 100, 100 };
+			SDL_RenderCopy(renderer, shield, NULL, &shield_rect);
 			if (Shield.GetTime() > (Uint32)(12000)) {
 				isShield = false;
 				shield_wait.Unpause();
