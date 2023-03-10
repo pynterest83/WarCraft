@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
 
 		if (isShield)
 		{
-			shield_rect = { astro.getRect().x - 20, astro.getRect().y - 20, 100, 100 };
+			shield_rect = { astro.getRect().x - 30, astro.getRect().y - 20, 100, 100 };
 			SDL_RenderCopy(renderer, shield, NULL, &shield_rect);
 			if (Shield.GetTime() > (Uint32)(12000)) {
 				isShield = false;
@@ -218,7 +218,10 @@ int main(int argc, char* argv[]) {
 
 
 		// generate boss
-		if (cnt == 15) check = true;
+		if (cnt == 15) {
+			check = true;
+			Boss.isBoss = true;
+		}
 		if (score >= 150 && check) {
 			double direct = (double)(astro.getRect().y - Boss.getRect().y) / (astro.getRect().x - Boss.getRect().x);
 			Boss.update(renderer, direct);
@@ -276,6 +279,7 @@ int main(int argc, char* argv[]) {
 				enemy Boss1(renderer, SCREEN_WIDTH - 100, level);
 				Boss1.setBoss(renderer, level);
 				check = false;
+				Boss.isBoss = false;
 				score += 50*level;
 				cnt = 0;
 				Boss = Boss1;

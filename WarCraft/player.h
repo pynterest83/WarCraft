@@ -15,6 +15,7 @@ private:
 	
 	int en_frame;
 	SDL_Texture* engine;
+	SDL_Texture* engine_boost;
 
 	SDL_Texture* p_status[3];
 public:

@@ -11,6 +11,9 @@ enemy::enemy(SDL_Renderer *renderer, int _x, int level){
     shotback.setImg(renderer, "resources/creepbul.png");
     shotback.getSpeed(5 * level);
     blood = 1 * level;
+
+    engine = IMG_LoadTexture(renderer, "resources/e_engine.png");
+    e_frame = 0;
 }
 
 void enemy::move(int opt){
@@ -35,6 +38,15 @@ void enemy::autoshot(){
 void enemy::update(SDL_Renderer* renderer, double direct){
     if (alive) {
         show(renderer, NULL);
+        SDL_Rect e_source = { 0, e_frame * 128, 128, 128 };
+        if (isBoss) {
+            e_des = {rect.x - 85, rect.y - 25, 250, 150};
+        }
+        else e_des = { rect.x - 120, rect.y - 25, 200 ,100 };
+        SDL_RenderCopy(renderer, engine, &e_source, &e_des);
+        e_frame++;
+        e_frame = e_frame % 8;
+
         if (shotback.is_Move()) {
             shotback.fire(direct);
             shotback.show(renderer, NULL);

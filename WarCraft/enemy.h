@@ -10,7 +10,12 @@ private:
     ebullet shotback;
     bool alive;
     int blood;
+    
+    int e_frame;
+    SDL_Texture* engine;
+    SDL_Rect e_des;
 public:
+    bool isBoss = false;
     enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
     void move(int opt);
