@@ -9,9 +9,10 @@ private:
 	int y;
 	int w;
 	int h;
-	bullet shot;
 	int speed;
 	bool alive;
+
+	bullet shot;
 	
 	int en_frame;
 	SDL_Texture* engine;
