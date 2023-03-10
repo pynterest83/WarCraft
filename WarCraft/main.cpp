@@ -104,17 +104,18 @@ int main(int argc, char* argv[]) {
 		// set up shield
 		if (!isShield) {
 			if (shield_wait.GetTime() > (Uint32)10000) {
+				if (!shield_wait.Paused) shield_time.Start();
 				shield_wait.Pause();
-				shield_time.Start();
 				shieldpickup_rect = { x_pos, y_pos, 50, 50 };
 				if (checkCollision(shieldpickup_rect, astro.getRect())) {
 					shield_wait.Reset();
 					isShield = true;
 					Shield.Start();
 				}
+				cout << shield_time.GetTime() << endl;
 				if (shield_time.GetTime() > (Uint32)10000) {
-					shield_wait.Unpause();
 					shield_wait.Reset();
+					shield_wait.Unpause();
 					shield_wait.Start();
 					shield_time.Reset();
 				}
@@ -144,7 +145,7 @@ int main(int argc, char* argv[]) {
 				if (list_creep.at(i).getRect().x < SCREEN_WIDTH) {
 					if (checkCollision(astro.getRectBullet(), list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
 						curframe_ex = 0;
-						explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
+						 explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
 						list_creep.at(i).kill();    
 						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
