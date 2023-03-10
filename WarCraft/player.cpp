@@ -11,6 +11,9 @@ player::player(SDL_Renderer* renderer, int level){
 	speed = 5 + level;
 	blood=50;
 	alive=true;
+
+	engine = IMG_LoadTexture(renderer, "resources/engine.png");
+	en_frame = 0;
 }
 
 void player::move(){
@@ -53,6 +56,12 @@ void player::update(SDL_Renderer* renderer)
 	if (alive)
 	{
 		show(renderer, NULL);
+		SDL_Rect e_source = { 0, en_frame*48, 48, 48 };
+		SDL_Rect e_des = { rect.x - 55, rect.y - 22, 200 ,100 };
+		SDL_RenderCopy(renderer, engine, &e_source, &e_des);
+		en_frame++;
+		en_frame = en_frame % 7;
+
 		if (shot.is_Move()) {
 			shot.fire();
 			shot.show(renderer, NULL);

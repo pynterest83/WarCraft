@@ -12,6 +12,11 @@ private:
 	bullet shot;
 	int speed;
 	bool alive;
+	
+	int en_frame;
+	SDL_Texture* engine;
+
+	SDL_Texture* p_status[3];
 public:
 	int blood;
 	const Uint8* state = SDL_GetKeyboardState(NULL);

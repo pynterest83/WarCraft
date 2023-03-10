@@ -39,6 +39,11 @@ int main(int argc, char* argv[]) {
 	Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
 	Round.initText(font_text, "font/Koulen-Regular.ttf");
 
+	//initSound
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+	Mix_Music* cover = Mix_LoadMUS("resources/Levels-Avicii.mp3");
+	Mix_PlayMusic(cover, -1);
+
 	//load and setup some feature
 	SDL_Texture* bgr = IMG_LoadTexture(renderer, "resources/bgr.png");
 	SDL_Texture* scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
@@ -112,7 +117,6 @@ int main(int argc, char* argv[]) {
 					isShield = true;
 					Shield.Start();
 				}
-				cout << shield_time.GetTime() << endl;
 				if (shield_time.GetTime() > (Uint32)10000) {
 					shield_wait.Reset();
 					shield_wait.Unpause();
