@@ -288,7 +288,9 @@ int main(int argc, char* argv[]) {
 				score += 50 * level;
 				cnt = 0;
 				Boss = Boss1;
-
+				for (int i = 0; i < astro.num_bullet; i++) {
+					astro.getBullet(i).setStatus(false);
+				}
 				for (int i = 0; i < 5; i++) {
 					list_creep.at(i).kill();
 					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
