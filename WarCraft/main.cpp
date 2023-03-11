@@ -50,15 +50,15 @@ int main(int argc, char* argv[]) {
 	SDL_Texture* explo = IMG_LoadTexture(renderer, "resources/explosion2.png");
 	SDL_Texture* gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
 	SDL_Texture* shield_pickup = IMG_LoadTexture(renderer, "resources/shield_pickup.png");
-	SDL_Texture* shield = IMG_LoadTexture (renderer, "resources/Shield.png");
+	SDL_Texture* shield = IMG_LoadTexture(renderer, "resources/Shield.png");
 	SDL_Texture* life_bar = IMG_LoadTexture(renderer, "resources/lifebar.png");
-	
+
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 	SDL_Rect lifebar_rect = { 150, 5, 100, 50 };
 	SDL_Rect explo_rect;
 	SDL_Rect shield_rect;
 	SDL_Rect shieldpickup_rect;
-	
+
 	//default feature
 	int score = 0;
 	int level = 1;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 	Timer shield_time;
 	Timer Shield;
 	int x_pos, y_pos;
-	
+
 	//initialize player and enemy
 	player astro(renderer, level);
 	vector<enemy> list_creep;
@@ -97,6 +97,7 @@ int main(int argc, char* argv[]) {
 			if (event.type == SDL_QUIT) {
 				quit = true;
 			}
+			astro.handleBullet(event);
 		}
 		//render background
 		SDL_RenderClear(renderer);
@@ -105,7 +106,7 @@ int main(int argc, char* argv[]) {
 
 		// astro move
 		astro.move();
-		
+
 		// set up shield
 		if (!isShield) {
 			if (shield_wait.GetTime() > (Uint32)10000) {
@@ -147,18 +148,20 @@ int main(int argc, char* argv[]) {
 			if (!list_creep.at(i).is_killed()) {
 				//check astro bullet - enemy
 				if (list_creep.at(i).getRect().x < SCREEN_WIDTH) {
-					if (checkCollision(astro.getRectBullet(), list_creep.at(i).getRect()) && astro.getBullet().is_Move()) {
-						curframe_ex = 0;
-						 explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
+					for (int j = 0; j < astro.num_bullet; j++) {
+						if (checkCollision(astro.getRectBullet(j), list_creep.at(i).getRect()) && astro.getBullet(j).is_Move()) {
+							curframe_ex = 0;
+							explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
-						list_creep.at(i).kill();    
-						enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
-						list_creep.at(i) = sEnemy;
-						astro.getBullet().setStatus(false);
-						score += 10 + (level-1)*2;
-						cnt++;
+							list_creep.at(i).kill();
+							enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+							list_creep.at(i) = sEnemy;
+							astro.getBullet(j).setStatus(false);
+							score += 10 + (level - 1) * 2;
+							cnt++;
+						}
 					}
-				}  
+				}
 
 				//check astro - enemy bullet
 				if (checkCollision(astro.getRect(), list_creep.at(i).getRectShotback())) {
@@ -189,13 +192,13 @@ int main(int argc, char* argv[]) {
 				list_creep.at(i).move(opt);
 				double direct = (double)(astro.getRect().y - list_creep.at(i).getRect().y) / (astro.getRect().x - list_creep.at(i).getRect().x);
 				list_creep.at(i).update(renderer, direct);
-				if (-sqrt(3)<=direct && direct<=sqrt(3)) list_creep.at(i).autoshot();
+				if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
 			}
 		}
 
 		//render and update astro by time
 		astro.update(renderer);
-		if (astro.isKilled()) {	
+		if (astro.isKilled()) {
 			curframe_ex = 0;
 			explo_rect = { astro.getRect().x - astro.getRect().w, astro.getRect().y - astro.getRect().h, 200, 200 };
 			while (curframe_ex < 70) {
@@ -229,12 +232,14 @@ int main(int argc, char* argv[]) {
 			int opt = rand() % 10000;
 			Boss.move(opt);
 
-			if (checkCollision(astro.getRectBullet(), Boss.getRect()) && astro.getBullet().is_Move()) {
-				curframe_ex = 0;
-				explo_rect = { astro.getRectBullet().x - 10, astro.getRectBullet().y - 10, 100, 100 };
+			for (int j = 0; j < astro.num_bullet; j++) {
+				if (checkCollision(astro.getRectBullet(j), Boss.getRect()) && astro.getBullet(j).is_Move()) {
+					curframe_ex = 0;
+					explo_rect = { astro.getRectBullet(j).x - 10, astro.getRectBullet(j).y - 10, 100, 100 };
 
-				Boss.kill();
-				astro.getBullet().setStatus(false);
+					Boss.kill();
+					astro.getBullet(j).setStatus(false);
+				}
 			}
 
 			if (checkCollision(astro.getRect(), Boss.getRectShotback())) {
@@ -262,7 +267,7 @@ int main(int argc, char* argv[]) {
 
 			if (Boss.is_killed() && check) {
 				curframe_ex = 0;
-				explo_rect = { Boss.getRect().x - Boss.getRect().w, Boss.getRect().y-Boss.getRect().h, 300, 300};
+				explo_rect = { Boss.getRect().x - Boss.getRect().w, Boss.getRect().y - Boss.getRect().h, 300, 300 };
 				while (curframe_ex < 70) {
 					SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 					SDL_RenderClear(renderer);
@@ -280,7 +285,7 @@ int main(int argc, char* argv[]) {
 				Boss1.setBoss(renderer, level);
 				check = false;
 				Boss.isBoss = false;
-				score += 50*level;
+				score += 50 * level;
 				cnt = 0;
 				Boss = Boss1;
 
