@@ -2,6 +2,7 @@
 
 #include "object.h"
 #include "bullet.h"
+#include "Timer.h"
 
 class player : public object {
 private:
@@ -15,6 +16,8 @@ private:
 	bullet shot[40];
 	bullet shottype[2];
 	int turn;
+	Timer skill_time;
+	Timer skill_wait;
 
 	int en_frame;
 	SDL_Texture* engine;
@@ -38,4 +41,5 @@ public:
 	void kill();
 	bool isKilled() { return !alive; };
 	void handleBullet(SDL_Event event);
+	Uint32 getSkillTime() { return skill_wait.GetTime(); }
 };

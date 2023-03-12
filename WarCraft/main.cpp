@@ -52,9 +52,11 @@ int main(int argc, char* argv[]) {
 	SDL_Texture* shield_pickup = IMG_LoadTexture(renderer, "resources/shield_pickup.png");
 	SDL_Texture* shield = IMG_LoadTexture(renderer, "resources/Shield.png");
 	SDL_Texture* life_bar = IMG_LoadTexture(renderer, "resources/lifebar.png");
+	SDL_Texture* energy = IMG_LoadTexture(renderer, "resources/energy.png");
 
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
-	SDL_Rect lifebar_rect = { 150, 5, 100, 50 };
+	SDL_Rect lifebar_rect = { 200, 0, 140, 60 };
+	SDL_Rect energy_rect = { 160, 0, 40, 60 };
 	SDL_Rect explo_rect;
 	SDL_Rect shield_rect;
 	SDL_Rect shieldpickup_rect;
@@ -67,7 +69,8 @@ int main(int argc, char* argv[]) {
 	ifstream f;
 	int curframe_ex = 0;
 	int curframe_shield = 0;
-	int curframe_blood = -1;
+	int curframe_blood = 0;
+	int curframe_energy = 10;
 
 	// set Shield
 	bool isShield = false;
@@ -340,9 +343,16 @@ int main(int argc, char* argv[]) {
 
 		// render life_bar
 		if (curframe_blood < 11) {
-			SDL_Rect source_blood = { 0, curframe_blood * 64, 96, 64 };
+			SDL_Rect source_blood = { curframe_blood*192, 0, 192, 64 };
 			SDL_RenderCopy(renderer, life_bar, &source_blood, &lifebar_rect);
 			curframe_blood = (50 - astro.blood) / 5;
+		}
+
+		// render energy_bar
+		if (curframe_energy >= 0) {
+			SDL_Rect source_energy = { curframe_energy*64, 0, 64, 96 };
+			SDL_RenderCopy(renderer, energy, &source_energy, &energy_rect);
+			curframe_energy = 10 - (astro.getSkillTime() / (Uint32)1500);
 		}
 		SDL_SetTextureAlphaMod(bgr, 255);
 		SDL_RenderPresent(renderer);

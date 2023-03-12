@@ -19,6 +19,7 @@ player::player(SDL_Renderer* renderer, int level) {
 	}
 	backSpace = true;
 	isSkilled = false;
+	skill_wait.Start();
 	
 	speed = 5 + level;
 	blood = 50;
@@ -71,14 +72,35 @@ void player::handleBullet(SDL_Event event) {
 		}
 	}
 	if (state[SDL_SCANCODE_SPACE] && backSpace) {
-		for (int i = 0; i < num_bullet; i++) {
-			if (!shot[i].is_Move()) {
-				shot[i].setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot[i].getRect().h / 2);
-				shot[i].setStatus(true);
-				backSpace = false;
-				break;
+		if (!isSkilled) {
+			for (int i = 0; i < num_bullet; i++) {
+				if (!shot[i].is_Move()) {
+					shot[i].setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot[i].getRect().h / 2);
+					shot[i].setStatus(true);
+					backSpace = false;
+					break;
+				}
 			}
-
+		}
+		else {
+			if (skill_time.GetTime() < (Uint32)15000) {
+				for (int i = 0; i < num_bullet; i += 2) {
+					if (!shot[i].is_Move()) {
+						shot[i].setPos(rect.x + rect.w, rect.y + rect.h / 3 - shot[i].getRect().h / 2);
+						shot[i + 1].setPos(rect.x + rect.w, rect.y + 2 * rect.h / 3 - shot[i + 1].getRect().h / 2);
+						shot[i].setStatus(true);
+						shot[i + 1].setStatus(true);
+						backSpace = false;
+						break;
+					}
+				}
+			}
+			else {
+				isSkilled = false;
+				skill_time.Pause();
+				skill_time.Reset();
+				skill_wait.Start();
+			}
 		}
 	}
 	if (state[SDL_SCANCODE_E]) {
@@ -87,6 +109,14 @@ void player::handleBullet(SDL_Event event) {
 		}
 		damage = 4 - damage;
 		turn = 1 - turn;
+	}
+	if (skill_wait.GetTime() >= (Uint32)15000) {
+		skill_wait.Pause();
+	}
+	if (state[SDL_SCANCODE_Q] && skill_wait.GetTime() >= (Uint32)15000) {
+		skill_wait.Reset();
+		skill_time.Start();
+		isSkilled = true;
 	}
 }
 
