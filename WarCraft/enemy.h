@@ -23,9 +23,9 @@ public:
     void autoshot();
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };
-    void kill(){
-        blood--;
-        if (blood == 0) {
+    void kill(int dmg){
+        blood-=dmg;
+        if (blood <= 0) {
             alive = false;
             SDL_DestroyTexture(body);
         }

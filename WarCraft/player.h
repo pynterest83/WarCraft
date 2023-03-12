@@ -13,6 +13,8 @@ private:
 	bool alive;
 
 	bullet shot[40];
+	bullet shottype[2];
+	int turn;
 
 	int en_frame;
 	SDL_Texture* engine;
@@ -23,6 +25,9 @@ private:
 public:
 	int blood;
 	int num_bullet;
+	int damage;
+	bool isSkilled;
+
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	player(SDL_Renderer* renderer, int level);
 	void move();

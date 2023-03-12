@@ -7,11 +7,18 @@ player::player(SDL_Renderer* renderer, int level) {
 	rect.h = 60;
 	setPos(x, y);
 
+	shottype[1].setImg(renderer, "resources/playerBullet.png");
+	shottype[1].setSpeed(10);
+	shottype[0].setImg(renderer, "resources/skillBullet.png");
+	shottype[0].setSpeed(25);
 	num_bullet = 40;
+	turn = 0;
+	damage = 1;
 	for (int i = 0; i < num_bullet; i++) {
-		shot[i].setImg(renderer, "resources/playerBullet.png");
+		shot[i] = shottype[0];
 	}
 	backSpace = true;
+	isSkilled = false;
 	
 	speed = 5 + level;
 	blood = 50;
@@ -57,9 +64,9 @@ void player::kill() {
 void player::handleBullet(SDL_Event event) {
 	if (event.type == SDL_KEYUP) {
 		switch (event.key.keysym.sym) {
-		case SDLK_SPACE: {
-			backSpace = true;
-		}
+			case SDLK_SPACE: {
+				backSpace = true;
+			}
 			break;
 		}
 	}
@@ -73,6 +80,13 @@ void player::handleBullet(SDL_Event event) {
 			}
 
 		}
+	}
+	if (state[SDL_SCANCODE_E]) {
+		for (int i = 0; i < num_bullet; i++) {
+			shot[i] = shottype[1 - turn];
+		}
+		damage = 4 - damage;
+		turn = 1 - turn;
 	}
 }
 
