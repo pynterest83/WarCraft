@@ -6,11 +6,13 @@ player::player(SDL_Renderer* renderer, int level) {
 	rect.w = 60;
 	rect.h = 60;
 	setPos(x, y);
+
 	num_bullet = 40;
 	for (int i = 0; i < num_bullet; i++) {
 		shot[i].setImg(renderer, "resources/playerBullet.png");
 	}
 	backSpace = true;
+	
 	speed = 5 + level;
 	blood = 50;
 	alive = true;
@@ -69,6 +71,7 @@ void player::handleBullet(SDL_Event event) {
 				backSpace = false;
 				break;
 			}
+
 		}
 	}
 }
@@ -89,6 +92,7 @@ void player::update(SDL_Renderer* renderer)
 		SDL_RenderCopy(renderer, engine, &e_source, &e_des);
 		en_frame++;
 		en_frame = en_frame % 7;
+		
 		for (int i = 0; i < num_bullet; i++) {
 			if (shot[i].is_Move()) {
 				shot[i].fire();

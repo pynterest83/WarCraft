@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
 		for (int i = 0; i < 5; i++) {
 			if (!list_creep.at(i).is_killed()) {
 				//check astro bullet - enemy
-				if (list_creep.at(i).getRect().x < SCREEN_WIDTH) {
+				if (list_creep.at(i).getRect().x + list_creep.at(i).getRect().w < SCREEN_WIDTH) {
 					for (int j = 0; j < astro.num_bullet; j++) {
 						if (checkCollision(astro.getRectBullet(j), list_creep.at(i).getRect()) && astro.getBullet(j).is_Move()) {
 							curframe_ex = 0;
@@ -233,7 +233,7 @@ int main(int argc, char* argv[]) {
 			Boss.move(opt);
 
 			for (int j = 0; j < astro.num_bullet; j++) {
-				if (checkCollision(astro.getRectBullet(j), Boss.getRect()) && astro.getBullet(j).is_Move()) {
+				if (checkCollision(astro.getRectBullet(j), Boss.getRect()) && astro.getBullet(j).is_Move() && Boss.getRect().x + Boss.getRect().w < SCREEN_WIDTH) {
 					curframe_ex = 0;
 					explo_rect = { astro.getRectBullet(j).x - 10, astro.getRectBullet(j).y - 10, 100, 100 };
 
@@ -288,6 +288,7 @@ int main(int argc, char* argv[]) {
 				score += 50 * level;
 				cnt = 0;
 				Boss = Boss1;
+				
 				for (int i = 0; i < astro.num_bullet; i++) {
 					astro.getBullet(i).setStatus(false);
 				}

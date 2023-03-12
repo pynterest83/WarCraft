@@ -5,8 +5,8 @@ bullet::bullet()
 	x;
 	y;
 	isMove = false;
-	speed = 10;
-	rect.w = 20;
+	speed = 15;
+	rect.w = 20; 
 	rect.h = 10;
 }
 
