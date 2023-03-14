@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 	// Set Boss
 	enemy Boss(renderer, SCREEN_WIDTH + 200, level);
 	Boss.setBoss(renderer, level);
-	Boss.autoshot();
+	Boss.bossautoshot();
 
 	//main loop
 	while (!quit && !astro.isKilled()) {
@@ -199,7 +199,7 @@ int main(int argc, char* argv[]) {
 
 				// enemy move and update enemy
 				int opt = rand() % 10000;
-				list_creep.at(i).move(opt);
+				list_creep.at(i).move(opt, astro.getRect().y);
 				double direct = (double)(astro.getRect().y - list_creep.at(i).getRect().y) / (astro.getRect().x - list_creep.at(i).getRect().x);
 				list_creep.at(i).update(renderer, direct);
 				if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
@@ -238,9 +238,10 @@ int main(int argc, char* argv[]) {
 		if (score >= 150 && check) {
 			double direct = (double)(astro.getRect().y - Boss.getRect().y) / (astro.getRect().x - Boss.getRect().x);
 			Boss.update(renderer, direct);
-			if (-1 <= direct && direct <= 1) Boss.autoshot();
+			//if (-1 <= direct && direct <= 1) 
+			Boss.bossautoshot();
 			int opt = rand() % 10000;
-			Boss.move(opt);
+			Boss.move(opt, astro.getRect().y);
 
 			for (int j = 0; j < astro.num_bullet; j++) {
 				if (checkCollision(astro.getRectBullet(j), Boss.getRect()) && astro.getBullet(j).is_Move() && Boss.getRect().x + Boss.getRect().w < SCREEN_WIDTH) {

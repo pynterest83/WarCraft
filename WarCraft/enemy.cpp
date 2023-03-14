@@ -16,16 +16,34 @@ enemy::enemy(SDL_Renderer *renderer, int _x, int level){
     e_frame = 0;
 }
 
-void enemy::move(int opt){
-    if (rect.y == 0 || rect.y==SCREEN_HEIGHT-rect.h) opt-=1; 
-    rect.x-=2;
-    if (rect.y < SCREEN_HEIGHT - 3/2*rect.h && opt % 2 == 0) {
-        rect.y += 2;
+void enemy::move(int opt, int y_pos) {
+    if (!isBoss) {
+        if (rect.y == 0 || rect.y == SCREEN_HEIGHT - rect.h) opt -= 1;
+        rect.x -= 2;
+        if (rect.y < SCREEN_HEIGHT - 3 / 2 * rect.h && opt % 2 == 0) {
+            rect.y += 2;
+        }
+        if (rect.y > 60 + rect.h / 2 && opt % 2 != 0) {
+            rect.y -= 2;
+        }
+        if (rect.x < -rect.w) rect.x = SCREEN_WIDTH;
     }
-    if (rect.y > 60 + rect.h/2 && opt % 2 != 0) {
-        rect.y -= 2;
+
+    else {
+        if (rect.x > SCREEN_WIDTH - rect.h - 50) rect.x -= 2;
+        else {
+            if (rect.y >= y_pos - 15 && rect.y <= y_pos + 15) bossMove = true;
+            if (bossMove) {
+                if (rect.y < y_pos) rect.y -= 2;
+				if (rect.y > y_pos) rect.y += 2;
+                if (rect.y == SCREEN_HEIGHT/4 || rect.y == SCREEN_HEIGHT * 3 /4) bossMove = false;
+            }
+            if (!bossMove) {
+                if (rect.y < y_pos) rect.y += 2;
+                if (rect.y > y_pos) rect.y -= 2;
+            }
+        }
     }
-    if (rect.x<-rect.w) rect.x=SCREEN_WIDTH;
 }
 
 void enemy::autoshot(){
@@ -33,6 +51,15 @@ void enemy::autoshot(){
         shotback.setPos(rect.x, rect.y + rect.h/2 - shotback.getRect().h/2);
         shotback.setStatus(true);
     }
+}
+
+void enemy::bossautoshot() {
+    for (int i = 0; i < 20; i++) {
+        if (!bossshot[i].is_Move() && rect.x < SCREEN_WIDTH) {
+			bossshot[i].setPos(rect.x, rect.y + rect.h / 2 - bossshot[i].getRect().h / 2);
+			bossshot[i].setStatus(true);
+		}
+	}
 }
 
 void enemy::update(SDL_Renderer* renderer, double direct){
@@ -46,10 +73,19 @@ void enemy::update(SDL_Renderer* renderer, double direct){
         SDL_RenderCopy(renderer, engine, &e_source, &e_des);
         e_frame++;
         e_frame = e_frame % 8;
-
-        if (shotback.is_Move()) {
-            shotback.fire(direct);
-            shotback.show(renderer, NULL);
+        if (!isBoss) {
+            if (shotback.is_Move()) {
+                shotback.fire(direct);
+                shotback.show(renderer, NULL);
+            }
+        }
+        else {
+            for (int i = 0; i < 20; i++) {
+                if (bossshot[i].is_Move()) {
+                    bossshot[i].bossfire(i);
+                    bossshot[i].show(renderer, NULL);
+                }
+            }
         }
     }
     else SDL_DestroyTexture(body);
@@ -63,9 +99,13 @@ void enemy::setBoss(SDL_Renderer *renderer, int level) {
     blood = 5*level;
     rect.w = 125;
     rect.h = 100;
-    shotback.getsize(50, 50);
     setImg(renderer, "resources/boss.png");
-    shotback.setImg(renderer, "resources/bossbul.png");
-    shotback.getSpeed(10*level);
     setPos(SCREEN_WIDTH + 200, SCREEN_HEIGHT / 2);
+
+    shotback.getsize(25, 25);
+    shotback.setImg(renderer, "resources/bossbul.png");
+    shotback.getSpeed(10+level);
+    for (int i = 0; i < 20; i++) {
+        bossshot[i] = shotback;
+    }
 }

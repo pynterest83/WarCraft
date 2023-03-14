@@ -8,6 +8,8 @@ private:
     int x;
     int y;
     ebullet shotback;
+    ebullet bossshot[20];
+
     bool alive;
     int blood;
     
@@ -16,13 +18,21 @@ private:
     SDL_Rect e_des;
 public:
     bool isBoss = false;
+    bool bossMove = false;
+
     enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
-    void move(int opt);
+
+    void move(int opt, int y_pos);
+
     void update(SDL_Renderer* renderer, double direct);
+
     void autoshot();
+    void bossautoshot();
+
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };
+
     void kill(int dmg){
         blood-=dmg;
         if (blood <= 0) {
@@ -31,5 +41,6 @@ public:
         }
     }; 
     bool is_killed() { return !alive; };
+
     void setBoss(SDL_Renderer * renderer, int level);
 };

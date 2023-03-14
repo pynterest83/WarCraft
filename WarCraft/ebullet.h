@@ -12,6 +12,7 @@ public:
 	ebullet();
 	~ebullet();
 	void fire(double direct);
+	void bossfire(int i);
 	void setStatus(bool _isMove) {
 		isMove = _isMove;
 		if (_isMove == false) {
