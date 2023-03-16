@@ -82,7 +82,7 @@ void enemy::update(SDL_Renderer* renderer, double direct){
         else {
             for (int i = 0; i < 20; i++) {
                 if (bossshot[i].is_Move()) {
-                    bossshot[i].bossfire(i);
+                    bossshot[i].bossfire(i, direct, typeshot);
                     bossshot[i].show(renderer, NULL);
                 }
             }
@@ -102,10 +102,11 @@ void enemy::setBoss(SDL_Renderer *renderer, int level) {
     setImg(renderer, "resources/boss.png");
     setPos(SCREEN_WIDTH + 200, SCREEN_HEIGHT / 2);
 
-    shotback.getsize(25, 25);
+    shotback.getsize(35, 35);
     shotback.setImg(renderer, "resources/bossbul.png");
     shotback.getSpeed(10+level);
     for (int i = 0; i < 20; i++) {
         bossshot[i] = shotback;
     }
+    typeshot = rand() % 2 + 1;
 }

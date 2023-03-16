@@ -19,6 +19,7 @@ private:
 public:
     bool isBoss = false;
     bool bossMove = false;
+    int typeshot;
 
     enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
@@ -32,6 +33,7 @@ public:
 
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };
+    ebullet& getbossShot(int i) { return bossshot[i]; };
 
     void kill(int dmg){
         blood-=dmg;

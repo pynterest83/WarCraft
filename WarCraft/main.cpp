@@ -22,7 +22,8 @@ using namespace RD;
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	srand(time(NULL));
+	//init random
+	srand((unsigned int)time(NULL));
 
 	//default feature
 	SDL_Window* window = NULL;
@@ -53,6 +54,9 @@ int main(int argc, char* argv[]) {
 	SDL_Texture* shield = IMG_LoadTexture(renderer, "resources/Shield.png");
 	SDL_Texture* life_bar = IMG_LoadTexture(renderer, "resources/lifebar.png");
 	SDL_Texture* energy = IMG_LoadTexture(renderer, "resources/energy.png");
+	SDL_Texture* f_asteroid = IMG_LoadTexture(renderer, "resources/asteroid_fly.png");
+	SDL_Texture* d_astoroid = IMG_LoadTexture(renderer, "resources/asteroid_destroy.png");
+	SDL_Texture* heal_pickup = IMG_LoadTexture(renderer, "resources/heal_pickup.png");
 
 	SDL_Rect scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 	SDL_Rect lifebar_rect = { 200, 0, 140, 60 };
@@ -60,6 +64,9 @@ int main(int argc, char* argv[]) {
 	SDL_Rect explo_rect;
 	SDL_Rect shield_rect;
 	SDL_Rect shieldpickup_rect;
+	SDL_Rect f_asteroid_rect;
+	SDL_Rect d_asteroid_rect;
+	SDL_Rect heal_rect;
 
 	//default feature
 	int score = 0;
@@ -71,6 +78,8 @@ int main(int argc, char* argv[]) {
 	int curframe_shield = 0;
 	int curframe_blood = 0;
 	int curframe_energy = 10;
+	int curframe_asteroid = 7;
+	int curframe_heal = 0;
 
 	// set Shield
 	bool isShield = false;
@@ -79,6 +88,23 @@ int main(int argc, char* argv[]) {
 	Timer shield_time;
 	Timer Shield;
 	int x_pos, y_pos;
+
+	// set Asteroid
+	bool isDes = false;
+	Timer asteroid_wait;
+	asteroid_wait.Start();
+	int x_start = SCREEN_WIDTH - 300;
+	int y_start;
+	double directA;
+	double angle = 0;
+	int wait_time = rand() % 10000 + 5000;
+
+	// set Heal
+	bool isHeal = false;
+	Timer heal_wait;
+	heal_wait.Start();
+	Timer heal_time;
+	int x_heal, y_heal;
 
 	//initialize player and enemy
 	player astro(renderer, level);
@@ -147,6 +173,75 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
+		// set up heal
+		if (!isHeal) {
+			if (heal_wait.GetTime() > (Uint32)10000 && astro.blood < 20) {
+				if (!heal_wait.Paused) heal_time.Start();
+				heal_wait.Pause();
+				heal_rect = { x_heal, y_heal, 50, 50 };
+				if (checkCollision(heal_rect, astro.getRect())) {
+					heal_wait.Reset();
+					isHeal = true;
+				}
+				if (heal_time.GetTime() > (Uint32)10000) {
+					heal_wait.Reset();
+					heal_wait.Unpause();
+					heal_wait.Start();
+					heal_time.Reset();
+				}
+			}
+			else {
+				x_heal = rand() % 600;
+				y_heal = rand() % 600;
+				if (y_heal <= 60) y_heal += 100;
+			}
+		}
+
+		if (isHeal) {
+			astro.blood += 10;
+			isHeal = false;
+			heal_wait.Unpause();
+			heal_wait.Start();
+		}
+
+		// setup asteroid
+		if (!isDes) {
+			if (asteroid_wait.GetTime() > (Uint32)wait_time) {
+				asteroid_wait.Pause();
+				f_asteroid_rect.x -= 15;
+				f_asteroid_rect.y -= directA * 15;
+				angle -= 30;
+				SDL_RenderCopyEx(renderer, f_asteroid, NULL, &f_asteroid_rect, angle, NULL, SDL_FLIP_NONE);
+				if (checkCollision(f_asteroid_rect, astro.getRect())) {
+					isDes = true;
+					if (!isShield) {
+						curframe_ex = 0;
+						explo_rect = { astro.getRect().x + 10, astro.getRect().y + 10, 75, 75 };
+
+						astro.kill();
+					}
+				}
+				if (f_asteroid_rect.x <= 0 || f_asteroid_rect.y >= SCREEN_HEIGHT || f_asteroid_rect.y <= 0) {
+					isDes = true;
+				}
+			}
+			else {
+				y_start = rand() % 600 + 60;
+				f_asteroid_rect = { x_start, y_start, 96, 96 };
+				directA = (double)(astro.getRect().y - f_asteroid_rect.y) / (astro.getRect().x - f_asteroid_rect.x);
+			}
+		}
+
+		else {
+			d_asteroid_rect = { f_asteroid_rect.x - 20, f_asteroid_rect.y - 20 , 150, 150 };
+			curframe_asteroid = 7;
+
+			isDes = false;
+			asteroid_wait.Reset();
+			asteroid_wait.Start();
+			wait_time = rand() % 10000 + 5000;
+		}
+
 		//check shooting
 		for (int i = 0; i < 5; i++) {
 			if (!list_creep.at(i).is_killed()) {
@@ -190,7 +285,7 @@ int main(int argc, char* argv[]) {
 					explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
 					if (!isShield) astro.kill();
-					list_creep.at(i).kill(level+1);
+					list_creep.at(i).kill(level + 1);
 					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 					list_creep.at(i) = sEnemy;
 					score += 10 + (level - 1) * 2;
@@ -205,30 +300,6 @@ int main(int argc, char* argv[]) {
 				if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
 			}
 		}
-
-		//render and update astro by time
-		astro.update(renderer);
-		if (astro.isKilled()) {
-			curframe_ex = 0;
-			explo_rect = { astro.getRect().x - astro.getRect().w, astro.getRect().y - astro.getRect().h, 200, 200 };
-			while (curframe_ex < 70) {
-				SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
-				SDL_RenderClear(renderer);
-				SDL_RenderCopy(renderer, bgr, NULL, NULL);
-				SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
-				SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
-				Score.setText("Score: " + to_string(score));
-				Score.createaText(font_text, renderer);
-				SDL_RenderPresent(renderer);
-				curframe_ex++;
-			}
-			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, gameover, NULL, NULL);
-			SDL_RenderPresent(renderer);
-
-			SDL_Delay(1000);
-		}
-
 
 		// generate boss
 		if (cnt == 15) {
@@ -253,16 +324,18 @@ int main(int argc, char* argv[]) {
 				}
 			}
 
-			if (checkCollision(astro.getRect(), Boss.getRectShotback())) {
-				if (!isShield) {
-					curframe_ex = 0;
-					explo_rect = { astro.getRect().x - 25, astro.getRect().y - 25, 100, 100 };
+			for (int i = 0; i < 20; i++) {
+				if (checkCollision(astro.getRect(), Boss.getbossShot(i).getRect())) {
+					if (!isShield) {
+						curframe_ex = 0;
+						explo_rect = { astro.getRect().x - 25, astro.getRect().y - 25, 100, 100 };
 
-					for (int i = 0; i < level; i++) {
-						astro.kill();
+						for (int i = 0; i < level; i++) {
+							astro.kill();
+						}
 					}
+					Boss.getShotback().setStatus(false);
 				}
-				Boss.getShotback().setStatus(false);
 			}
 
 			if (checkCrash(astro.getRect(), Boss.getRect())) {
@@ -273,7 +346,7 @@ int main(int argc, char* argv[]) {
 						astro.kill();
 					}
 				}
-				Boss.kill(level+1);
+				Boss.kill(level + 1);
 			}
 
 			if (Boss.is_killed() && check) {
@@ -299,12 +372,12 @@ int main(int argc, char* argv[]) {
 				score += 50 * level;
 				cnt = 0;
 				Boss = Boss1;
-				
+
 				for (int i = 0; i < astro.num_bullet; i++) {
 					astro.getBullet(i).setStatus(false);
 				}
 				for (int i = 0; i < 5; i++) {
-					list_creep.at(i).kill(level+1);
+					list_creep.at(i).kill(level + 1);
 					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 					list_creep.at(i) = sEnemy;
 				}
@@ -321,6 +394,29 @@ int main(int argc, char* argv[]) {
 				SDL_RenderPresent(renderer);
 				SDL_Delay(3000);
 			}
+		}
+
+		//render and update astro by time
+		astro.update(renderer);
+		if (astro.isKilled()) {
+			curframe_ex = 0;
+			explo_rect = { astro.getRect().x - astro.getRect().w, astro.getRect().y - astro.getRect().h, 200, 200 };
+			while (curframe_ex < 70) {
+				SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
+				SDL_RenderClear(renderer);
+				SDL_RenderCopy(renderer, bgr, NULL, NULL);
+				SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
+				SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
+				Score.setText("Score: " + to_string(score));
+				Score.createaText(font_text, renderer);
+				SDL_RenderPresent(renderer);
+				curframe_ex++;
+			}
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, gameover, NULL, NULL);
+			SDL_RenderPresent(renderer);
+
+			SDL_Delay(5000);
 		}
 
 		// render score text
@@ -344,17 +440,33 @@ int main(int argc, char* argv[]) {
 
 		// render life_bar
 		if (curframe_blood < 11) {
-			SDL_Rect source_blood = { curframe_blood*192, 0, 192, 64 };
+			SDL_Rect source_blood = { curframe_blood * 192, 0, 192, 64 };
 			SDL_RenderCopy(renderer, life_bar, &source_blood, &lifebar_rect);
 			curframe_blood = (50 - astro.blood) / 5;
 		}
 
 		// render energy_bar
 		if (curframe_energy >= 0) {
-			SDL_Rect source_energy = { curframe_energy*64, 0, 64, 96 };
+			SDL_Rect source_energy = { curframe_energy * 64, 0, 64, 96 };
 			SDL_RenderCopy(renderer, energy, &source_energy, &energy_rect);
 			curframe_energy = 10 - (astro.getSkillTime() / (Uint32)1500);
 		}
+
+		// render asteroid
+		if (curframe_asteroid >= 0) {
+			SDL_Rect source_asteroid = { curframe_asteroid * 96, 0, 96, 96 };
+			SDL_RenderCopy(renderer, d_astoroid, &source_asteroid, &d_asteroid_rect);
+			curframe_asteroid--;
+		}
+
+		// render heal
+		if (heal_wait.Paused && !isHeal) {
+			SDL_Rect source_heal = { curframe_heal * 204, 0, 204, 204 };
+			SDL_RenderCopy(renderer, heal_pickup, &source_heal, &heal_rect);
+			curframe_heal++;
+			curframe_heal %= 10;
+		}
+
 		SDL_SetTextureAlphaMod(bgr, 255);
 		SDL_RenderPresent(renderer);
 	}
