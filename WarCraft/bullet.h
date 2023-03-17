@@ -11,6 +11,7 @@ public:
 	bullet();
 	~bullet();
 	void fire();
+	void p2fire();
 	void setStatus(bool _isMove) {
 		isMove = _isMove;
 		if (_isMove == false) {

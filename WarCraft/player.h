@@ -10,7 +10,6 @@ private:
 	int y;
 	int w;
 	int h;
-	int speed;
 	bool alive;
 
 	bullet shot[40];
@@ -30,16 +29,22 @@ public:
 	int num_bullet;
 	int damage;
 	bool isSkilled;
+	int speed;
+	bool isP2;
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
-	player(SDL_Renderer* renderer, int level);
+	player(SDL_Renderer* renderer);
 	void move();
 	~player();
 	void update(SDL_Renderer* renderer);
 	bullet& getBullet(int i) { return shot[i]; }
 	SDL_Rect getRectBullet(int i);
-	void kill();
+	void kill(int dmg);
 	bool isKilled() { return !alive; };
 	void handleBullet(SDL_Event event);
 	Uint32 getSkillTime() { return skill_wait.GetTime(); }
+
+	void setP2(SDL_Renderer* renderer);
+	void P2update(SDL_Renderer* renderer);
+	void P2HandleBullet(SDL_Event event);
 };

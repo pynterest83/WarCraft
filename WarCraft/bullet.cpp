@@ -24,3 +24,13 @@ void bullet::fire()
 	else SDL_DestroyTexture(body);
 	
 }
+
+void bullet::p2fire() {
+	if (isMove) {
+		if (rect.x < 0) {
+			isMove = false;
+		}
+		rect.x -= speed;
+	}
+	else SDL_DestroyTexture(body);
+}
