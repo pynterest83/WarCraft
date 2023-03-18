@@ -207,7 +207,7 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 						astro1.kill(1);
 					}
 				}
-				Boss.getShotback().setStatus(false);
+				Boss.getbossShot(i).setStatus(false);
 			}
 		}
 

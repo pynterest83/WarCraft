@@ -15,12 +15,29 @@ int main(int argc, char* argv[]) {
 	Game.loadShield();
 	Game.loadAsteroid();
 	Game.loadHeal();
-	ifstream highscore;
-	int gametype = 1;
+	Game.loadMenu();
+
+	while (!quit && !isChoose) {
+		while (!Start) {
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_QUIT) {
+					quit = true;
+				}
+			}
+			renderMenu();
+		}
+		while (Start) {
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_QUIT) {
+					quit = true;
+				}
+			}
+			renderMenu2();
+		}
+	}
 
 	//initialize player and enemy
 	player astro1(renderer);
-
 	if (gametype == 1) {
 		vector<enemy> list_creep;
 		for (int i = 0; i < 5; i++) {

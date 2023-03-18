@@ -2,11 +2,13 @@
 
 #include "global.h"
 #include "gamelogic.h"
+#include "menu.h"
 
 class game {
 public:
 	game() {};
 	~game() {};
+	void loadMenu();
 	void loadText() {
 		Score.initText(font_text, "font/Koulen-Regular.ttf");
 		Round.initText(font_text, "font/Koulen-Regular.ttf");
@@ -16,8 +18,12 @@ public:
 	void loadShield();
 	void loadAsteroid();
 	void loadHeal();
+
 	void loadSingleGame(player& astro1, vector<enemy>& list_creep, enemy& Boss) {
-		while (!quit) {
+		shield_wait.Start();
+		heal_wait.Start();
+		asteroid_wait.Start();
+		while (!quit && !Pause && isChoose) {
 			//event loop
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -76,7 +82,7 @@ public:
 				}
 				// update level
 				level++;
-				astro1.speed += level;
+				astro1.speed ++;
 				SDL_RenderCopy(renderer, bgr, NULL, NULL);
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
@@ -127,7 +133,7 @@ public:
 	void load2Playergame(player& astro1, player& astro2) {
 		SDL_Rect p2_life_bar_rect = { SCREEN_WIDTH - 250, 0, 140, 60 };
 		SDL_Rect p2_energy_rect = { SCREEN_WIDTH - 300, 0, 40, 60 };
-		while (!quit) {
+		while (!quit && !Pause && isChoose) {
 			//event loop
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {

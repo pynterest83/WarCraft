@@ -80,10 +80,22 @@ void enemy::update(SDL_Renderer* renderer, double direct){
             }
         }
         else {
-            for (int i = 0; i < 20; i++) {
-                if (bossshot[i].is_Move()) {
-                    bossshot[i].bossfire(i, direct, typeshot);
-                    bossshot[i].show(renderer, NULL);
+            if (typeshot == 1) {
+                for (int i = 0; i < 20; i++) {
+                    if (bossshot[i].is_Move()) {
+                        bossshot[i].bossfire(i, direct, typeshot);
+                        bossshot[i].show(renderer, NULL);
+                    }
+                }
+            }
+            else if (typeshot == 2) {
+                bossshot[0].bossfire(0, direct, typeshot);
+                bossshot[0].show(renderer, NULL);
+                for (int i = 0; i < 20; i++) {
+                    if (bossshot[i].is_Move() && !bossshot[i-1].is_Move()) {
+                        bossshot[i].bossfire(i, direct, typeshot);
+                        bossshot[i].show(renderer, NULL);
+                    }
                 }
             }
         }

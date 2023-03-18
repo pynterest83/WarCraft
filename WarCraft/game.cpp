@@ -1,5 +1,17 @@
 #include "game.h"
-
+void game::loadMenu() {
+	menu = IMG_LoadTexture(renderer, "resources/menubgr.png");
+	start = IMG_LoadTexture(renderer, "resources/start.png");
+	game_exit = IMG_LoadTexture(renderer, "resources/exit.png");
+	mode1P = IMG_LoadTexture(renderer, "resources/pve.png");
+	mode2P = IMG_LoadTexture(renderer, "resources/pvp.png");
+	back = IMG_LoadTexture(renderer, "resources/back.png");
+	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
+	exit_rect = { SCREEN_WIDTH/2 - 125, 350, 250, 80 };
+	mode1P_rect = { SCREEN_WIDTH / 2 - 250 - 50, SCREEN_HEIGHT / 2 - 40, 250, 80 };
+	mode2P_rect = { SCREEN_WIDTH / 2 + 50, SCREEN_HEIGHT / 2 - 40, 250, 80 };
+	back_rect = { 10, 10 , 50, 50 };
+}
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
 	cover = Mix_LoadMUS("resources/Levels-Avicii.mp3");
@@ -24,7 +36,6 @@ void game::loadShield (){
 		shield = IMG_LoadTexture(renderer, "resources/Shield.png");
 		shield_rect;
 		shieldpickup_rect;
-		shield_wait.Start();
 }
 
 void game::loadAsteroid() {
@@ -32,12 +43,10 @@ void game::loadAsteroid() {
 	d_astoroid = IMG_LoadTexture(renderer, "resources/asteroid_destroy.png");
 	f_asteroid_rect;
 	d_asteroid_rect;
-	asteroid_wait.Start();
 }
 
 void game::loadHeal() {
 	heal_pickup = IMG_LoadTexture(renderer, "resources/heal_pickup.png");
 	heal_rect;
-	heal_wait.Start();
 }
 

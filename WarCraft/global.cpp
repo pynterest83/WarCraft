@@ -3,14 +3,30 @@
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 SDL_Event event;
+SDL_Point mouse;
+int gametype;
 bool quit = false;
 bool Pause = false;
-bool Start = true;
+bool Start = false;
+bool isChoose = false;
+fstream highscore ("resources/highscore.txt");
 
 Text Score(5, 5, 50, 100, 1);
 Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
 
 Mix_Music* cover = NULL;
+
+SDL_Texture* menu = NULL;
+SDL_Texture* game_exit = NULL;
+SDL_Texture* start = NULL;
+SDL_Texture* mode1P = NULL;
+SDL_Texture* mode2P = NULL;
+SDL_Texture* back = NULL;
+SDL_Rect exit_rect;
+SDL_Rect start_rect;
+SDL_Rect mode1P_rect;
+SDL_Rect mode2P_rect;
+SDL_Rect back_rect;
 
 SDL_Texture* bgr = NULL;
 SDL_Texture* scorebar = NULL;

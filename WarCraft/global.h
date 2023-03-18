@@ -26,14 +26,30 @@ using namespace std;
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern SDL_Event event;
+extern SDL_Point mouse;
 extern bool quit;
 extern bool Pause;
 extern bool Start;
+extern bool isChoose;
+extern int gametype;
+extern fstream highscore;
 
 extern Text Score;
 extern Text Round;
 
 extern Mix_Music* cover;
+
+extern SDL_Texture* menu;
+extern SDL_Texture* game_exit;
+extern SDL_Texture* start;
+extern SDL_Texture* mode1P;
+extern SDL_Texture* mode2P;
+extern SDL_Texture* back;
+extern SDL_Rect exit_rect;
+extern SDL_Rect start_rect;
+extern SDL_Rect mode1P_rect;
+extern SDL_Rect mode2P_rect;
+extern SDL_Rect back_rect;
 
 extern SDL_Texture* bgr;
 extern SDL_Texture* scorebar;
