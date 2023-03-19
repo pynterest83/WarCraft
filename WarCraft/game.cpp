@@ -34,6 +34,10 @@ void game :: loadSound() {
 	skillE = Mix_LoadWAV("sound/skillE.wav");
 	skillQ = Mix_LoadWAV("sound/skillQ.wav");
 	Mix_PlayMusic(cover, -1);
+	Mix_VolumeMusic(30);
+	Mix_VolumeChunk(explo_sound, 30);
+	Mix_VolumeChunk(p_shot1, 50);
+	Mix_VolumeChunk(p_shot2, 50);
 }
 
 void game :: loadDefault() {
