@@ -7,6 +7,7 @@ void setupShield(player& astro1) {
 			shield_wait.Pause();
 			shieldpickup_rect = { x_pos, y_pos, 50, 50 };
 			if (checkCollision(shieldpickup_rect, astro1.getRect())) {
+				Mix_PlayChannel(-1, picked, 0);
 				shield_wait.Reset();
 				isShield = true;
 				Shield.Start();
@@ -44,6 +45,7 @@ void setupHeal(player& astro1) {
 			heal_wait.Pause();
 			heal_rect = { x_heal, y_heal, 50, 50 };
 			if (checkCollision(heal_rect, astro1.getRect())) {
+				Mix_PlayChannel(-1, picked, 0);
 				heal_wait.Reset();
 				isHeal = true;
 			}
@@ -72,6 +74,7 @@ void setupHeal(player& astro1) {
 void setupAsteroid(player& astro1) {
 	if (!isDes) {
 		if (asteroid_wait.GetTime() > (Uint32)wait_time) {
+			Mix_PlayChannel(-1, asteroid, 0);
 			asteroid_wait.Pause();
 			f_asteroid_rect.x -= 15;
 			f_asteroid_rect.y -= directA * 15;
@@ -85,6 +88,7 @@ void setupAsteroid(player& astro1) {
 
 					astro1.kill(1);
 				}
+				else Mix_PlayChannel(-1, shield_hit, 0);
 			}
 			if (f_asteroid_rect.x <= 0 || f_asteroid_rect.y >= SCREEN_HEIGHT || f_asteroid_rect.y <= 0) {
 				isDes = true;
@@ -123,6 +127,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 					if (checkCollision(astro1.getRectBullet(j), list_creep.at(i).getRect()) && astro1.getBullet(j).is_Move()) {
 						list_creep.at(i).kill(dmg);
 						if (list_creep.at(i).is_killed()) {
+							Mix_PlayChannel(-1, explo_sound, 0);
 							curframe_ex = 0;
 							explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 							enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
@@ -148,6 +153,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 
 					astro1.kill(1);
 				}
+				else Mix_PlayChannel(-1, shield_hit, 0);
 				list_creep.at(i).getShotback().setStatus(false);
 			}
 
@@ -157,7 +163,9 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 				explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 
 				if (!isShield) astro1.kill(1);
+				else Mix_PlayChannel(-1, shield_hit, 0);
 				list_creep.at(i).kill(level + 1);
+				Mix_PlayChannel(-1, explo_sound, 0);
 				enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
 				list_creep.at(i) = sEnemy;
 				score += 10 + (level - 1) * 2;
@@ -207,6 +215,7 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 						astro1.kill(1);
 					}
 				}
+				else Mix_PlayChannel(-1, shield_hit, 0);
 				Boss.getbossShot(i).setStatus(false);
 			}
 		}
@@ -219,6 +228,7 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 					astro1.kill(1);
 				}
 			}
+			else Mix_PlayChannel(-1, shield_hit, 0);
 			Boss.kill(level + 1);
 		}
 	}
@@ -242,7 +252,10 @@ void updatePlayer(player& astro1){
 }
 
 void gameOver() {
-	quit = true;
+	isChoose = false;
+	Start = true;
+	Mix_PlayChannel(-1, explo_sound, 0);
+
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, gameover, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -300,5 +313,38 @@ void check2P(player& astro1, player& astro2, int& dmg1, int& dmg2) {
 
 		astro1.kill(5);
 		astro2.kill(5);
+	}
+}
+
+void handlePause() {
+	if (event.type == SDL_KEYDOWN) {
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+			Pause = true;
+			shield_wait.Pause();
+			heal_wait.Pause();
+			asteroid_wait.Pause();
+			Shield.Pause();
+			shield_time.Pause();
+			heal_time.Pause();
+			while (Pause) {
+				renderMenuPause();
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+					if (quit) break;
+					if (!isChoose) break;
+					if (!Pause) {
+						shield_wait.Unpause();
+						heal_wait.Unpause();
+						asteroid_wait.Unpause();
+						Shield.Unpause();
+						shield_time.Unpause();
+						heal_time.Unpause();
+					}
+				}
+				SDL_RenderPresent(renderer);
+			}
+		}
 	}
 }

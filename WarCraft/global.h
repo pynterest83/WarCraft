@@ -1,12 +1,6 @@
 #pragma once
 
-#include "rendergame.h"
-#include "player.h"
-#include "bullet.h"
-#include "object.h"
-#include "enemy.h"
 #include "Text.h"
-#include "ebullet.h"
 #include <vector>
 #include <string>
 #include <random>
@@ -38,6 +32,14 @@ extern Text Score;
 extern Text Round;
 
 extern Mix_Music* cover;
+extern Mix_Chunk* p_shot1;
+extern Mix_Chunk* skillE;
+extern Mix_Chunk* skillQ;
+extern Mix_Chunk* p_shot2;
+extern Mix_Chunk* explo_sound;
+extern Mix_Chunk* shield_hit;
+extern Mix_Chunk* picked;
+extern Mix_Chunk* asteroid;
 
 extern SDL_Texture* menu;
 extern SDL_Texture* game_exit;
@@ -45,11 +47,21 @@ extern SDL_Texture* start;
 extern SDL_Texture* mode1P;
 extern SDL_Texture* mode2P;
 extern SDL_Texture* back;
+extern SDL_Texture* pauseheader;
+extern SDL_Texture* pausewindow;
+extern SDL_Texture* replay;
+extern SDL_Texture* game_quit;
+extern SDL_Texture* game_continue;
 extern SDL_Rect exit_rect;
 extern SDL_Rect start_rect;
 extern SDL_Rect mode1P_rect;
 extern SDL_Rect mode2P_rect;
 extern SDL_Rect back_rect;
+extern SDL_Rect pauseheader_rect;
+extern SDL_Rect pausewindow_rect;
+extern SDL_Rect replay_rect;
+extern SDL_Rect game_quit_rect;
+extern SDL_Rect game_continue_rect;
 
 extern SDL_Texture* bgr;
 extern SDL_Texture* scorebar;

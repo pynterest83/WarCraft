@@ -65,3 +65,40 @@ void renderMenu2() {
 
 	SDL_RenderPresent(renderer);
 }
+
+void renderMenuPause() {
+	SDL_RenderCopy(renderer, pausewindow, NULL, &pausewindow_rect);
+	SDL_RenderCopy(renderer, pauseheader, NULL, &pauseheader_rect);
+	SDL_RenderCopy(renderer, replay, NULL, &replay_rect);
+	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
+	SDL_RenderCopy(renderer, game_continue, NULL, &game_continue_rect);
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	if (SDL_PointInRect(&mouse, &replay_rect)) {
+		SDL_SetTextureColorMod(replay, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			isChoose = false;
+			Start = true;
+		}
+	}
+	else SDL_SetTextureColorMod(replay, 150, 150, 150);
+
+	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
+		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			quit = true;
+		}
+	}
+	else SDL_SetTextureColorMod(game_quit, 150, 150, 150);
+
+	if (SDL_PointInRect(&mouse, &game_continue_rect)) {
+		SDL_SetTextureColorMod(game_continue, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			Pause = false;
+		}
+	}
+	else SDL_SetTextureColorMod(game_continue, 150, 150, 150);
+
+	SDL_RenderPresent(renderer);
+}

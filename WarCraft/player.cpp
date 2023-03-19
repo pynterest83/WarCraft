@@ -88,6 +88,8 @@ void player::handleBullet(SDL_Event event) {
 		}
 	}
 	if (state[SDL_SCANCODE_SPACE] && backSpace) {
+		if (turn == 0) Mix_PlayChannel(-1, p_shot1, 0);
+		else Mix_PlayChannel(-1, p_shot2, 0);
 		if (!isSkilled) {
 			for (int i = 0; i < num_bullet; i++) {
 				if (!shot[i].is_Move()) {
@@ -120,6 +122,7 @@ void player::handleBullet(SDL_Event event) {
 		}
 	}
 	if (state[SDL_SCANCODE_E]) {
+		Mix_PlayChannel(-1, skillE, 0);
 		for (int i = 0; i < num_bullet; i++) {
 			shot[i] = shottype[1 - turn];
 		}
@@ -130,6 +133,7 @@ void player::handleBullet(SDL_Event event) {
 		skill_wait.Pause();
 	}
 	if (state[SDL_SCANCODE_Q] && skill_wait.GetTime() >= (Uint32)15000) {
+		Mix_PlayChannel(-1, skillQ, 0);
 		skill_wait.Reset();
 		skill_time.Start();
 		isSkilled = true;
@@ -190,6 +194,8 @@ void player::P2HandleBullet(SDL_Event event) {
 		}
 	}
 	if (state[SDL_SCANCODE_P] && backSpace) {
+		if (turn == 0) Mix_PlayChannel(-1, p_shot1, 0);
+		else Mix_PlayChannel(-1, p_shot2, 0);
 		if (!isSkilled) {
 			for (int i = 0; i < num_bullet; i++) {
 				if (!shot[i].is_Move()) {
@@ -222,6 +228,7 @@ void player::P2HandleBullet(SDL_Event event) {
 		}
 	}
 	if (state[SDL_SCANCODE_O]) {
+		Mix_PlayChannel(-1, skillE, 0);
 		for (int i = 0; i < num_bullet; i++) {
 			shot[i] = shottype[1 - turn];
 		}
@@ -232,6 +239,7 @@ void player::P2HandleBullet(SDL_Event event) {
 		skill_wait.Pause();
 	}
 	if (state[SDL_SCANCODE_U] && skill_wait.GetTime() >= (Uint32)15000) {
+		Mix_PlayChannel(-1, skillQ, 0);
 		skill_wait.Reset();
 		skill_time.Start();
 		isSkilled = true;

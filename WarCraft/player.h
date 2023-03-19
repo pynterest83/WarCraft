@@ -3,6 +3,7 @@
 #include "object.h"
 #include "bullet.h"
 #include "Timer.h"
+#include "global.h"
 
 class player : public object {
 private:

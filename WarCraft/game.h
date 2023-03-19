@@ -3,6 +3,12 @@
 #include "global.h"
 #include "gamelogic.h"
 #include "menu.h"
+#include "rendergame.h"
+#include "player.h"
+#include "bullet.h"
+#include "object.h"
+#include "enemy.h"
+#include "ebullet.h"
 
 class game {
 public:
@@ -18,17 +24,19 @@ public:
 	void loadShield();
 	void loadAsteroid();
 	void loadHeal();
+	void Resetgame();
 
 	void loadSingleGame(player& astro1, vector<enemy>& list_creep, enemy& Boss) {
 		shield_wait.Start();
 		heal_wait.Start();
 		asteroid_wait.Start();
-		while (!quit && !Pause && isChoose) {
+		while (!quit && !Pause) {
 			//event loop
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
+				handlePause();
 				astro1.handleBullet(event);
 			}
 			//render background
@@ -52,6 +60,7 @@ public:
 			// generate boss
 			check_boss(astro1, Boss, list_creep, dmg);
 			if (Boss.is_killed() && check) {
+				Mix_PlayChannel(-1, explo_sound, 0);
 				Boss.isBoss = false;
 				curframe_ex = 0;
 				explo_rect = { Boss.getRect().x - Boss.getRect().w, Boss.getRect().y - Boss.getRect().h, 300, 300 };
@@ -81,8 +90,10 @@ public:
 					list_creep.at(i) = sEnemy;
 				}
 				// update level
+				SDL_RenderClear(renderer);
 				level++;
 				astro1.speed ++;
+				SDL_SetTextureColorMod(bgr, 150, 150, 150);
 				SDL_RenderCopy(renderer, bgr, NULL, NULL);
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
@@ -125,20 +136,23 @@ public:
 
 			if (astro1.isKilled()) {
 				gameOver();
+				if (!isChoose) break;
 			}
 			
+			SDL_SetTextureColorMod(bgr, 255, 255, 255);
 			SDL_RenderPresent(renderer);
 		}
 	}
 	void load2Playergame(player& astro1, player& astro2) {
 		SDL_Rect p2_life_bar_rect = { SCREEN_WIDTH - 250, 0, 140, 60 };
 		SDL_Rect p2_energy_rect = { SCREEN_WIDTH - 300, 0, 40, 60 };
-		while (!quit && !Pause && isChoose) {
+		while (!quit && !Pause) {
 			//event loop
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
+				handlePause();
 				astro1.handleBullet(event);
 				astro2.P2HandleBullet(event);
 			}

@@ -9,12 +9,20 @@ bool quit = false;
 bool Pause = false;
 bool Start = false;
 bool isChoose = false;
-fstream highscore ("resources/highscore.txt");
+fstream highscore ("highscore.txt");
 
 Text Score(5, 5, 50, 100, 1);
 Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
 
 Mix_Music* cover = NULL;
+Mix_Chunk* p_shot1 = NULL;
+Mix_Chunk* skillE = NULL;
+Mix_Chunk* skillQ = NULL;
+Mix_Chunk* p_shot2 = NULL;
+Mix_Chunk* explo_sound = NULL;
+Mix_Chunk* shield_hit = NULL;
+Mix_Chunk* picked = NULL;
+Mix_Chunk* asteroid = NULL;
 
 SDL_Texture* menu = NULL;
 SDL_Texture* game_exit = NULL;
@@ -22,11 +30,21 @@ SDL_Texture* start = NULL;
 SDL_Texture* mode1P = NULL;
 SDL_Texture* mode2P = NULL;
 SDL_Texture* back = NULL;
+SDL_Texture* pauseheader = NULL;
+SDL_Texture* pausewindow = NULL;
+SDL_Texture* replay = NULL;
+SDL_Texture* game_quit = NULL;
+SDL_Texture* game_continue = NULL;
 SDL_Rect exit_rect;
 SDL_Rect start_rect;
 SDL_Rect mode1P_rect;
 SDL_Rect mode2P_rect;
 SDL_Rect back_rect;
+SDL_Rect pauseheader_rect;
+SDL_Rect pausewindow_rect;
+SDL_Rect replay_rect;
+SDL_Rect game_quit_rect;
+SDL_Rect game_continue_rect;
 
 SDL_Texture* bgr = NULL;
 SDL_Texture* scorebar = NULL;

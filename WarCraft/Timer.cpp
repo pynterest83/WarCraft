@@ -29,8 +29,7 @@ void Timer::Pause()
     if (Started && !Paused)
     {
         Paused = true;
-        PauseTime = SDL_GetTicks();
-        TimeWhenPaused = PauseTime - StartTime;
+        TimeWhenPaused = SDL_GetTicks() - StartTime;
         StartTime = 0;
     }
 }
