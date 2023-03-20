@@ -18,6 +18,8 @@ public:
 	void loadText() {
 		Score.initText(font_text, "font/Koulen-Regular.ttf");
 		Round.initText(font_text, "font/Koulen-Regular.ttf");
+		GameOver1.initText(font_text, "font/Koulen-Regular.ttf");
+		GameOver2.initText(font_text, "font/Koulen-Regular.ttf");
 	}
 	void loadSound();
 	void loadDefault();
@@ -136,6 +138,19 @@ public:
 
 			if (astro1.isKilled()) {
 				gameOver();
+				GameOver1.setText("YOUR SCORE: " + to_string(score));
+				GameOver1.createaText(font_text, renderer);
+				while (isChoose) {
+					renderMenuGameOver();
+					if (SDL_PollEvent(&event) != 0) {
+						if (event.type == SDL_QUIT) {
+							quit = true;
+						}
+						if (quit) break;
+						if (!isChoose) break;
+					}
+				}
+				if (quit) break;
 				if (!isChoose) break;
 			}
 			
@@ -175,6 +190,26 @@ public:
 			
 			if (astro1.isKilled() || astro2.isKilled()) {
 				gameOver();
+				if (astro1.isKilled()) {
+					GameOver2.setText("PLAYER 2 WIN !!!");
+					GameOver2.createaText(font_text, renderer);
+				}
+				else {
+					GameOver2.setText("PLAYER 1 WIN !!!");
+					GameOver2.createaText(font_text, renderer);
+				}
+				while (isChoose) {
+					renderMenuGameOver();
+					if (SDL_PollEvent(&event) != 0) {
+						if (event.type == SDL_QUIT) {
+							quit = true;
+						}
+						if (quit) break;
+						if (!isChoose) break;
+					}
+				}
+				if (quit) break;
+				if (!isChoose) break;
 			}
 
 			SDL_RenderPresent(renderer);

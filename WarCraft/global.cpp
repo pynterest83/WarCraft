@@ -13,6 +13,8 @@ fstream highscore ("highscore.txt");
 
 Text Score(5, 5, 50, 100, 1);
 Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
+Text GameOver1(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
+Text GameOver2(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
 
 Mix_Music* cover = NULL;
 Mix_Chunk* p_shot1 = NULL;

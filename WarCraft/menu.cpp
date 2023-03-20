@@ -102,3 +102,30 @@ void renderMenuPause() {
 
 	SDL_RenderPresent(renderer);
 }
+
+void renderMenuGameOver() {
+	replay_rect = { SCREEN_WIDTH / 2 - 110, SCREEN_HEIGHT / 2, 100, 100 };
+	game_quit_rect = { SCREEN_WIDTH / 2 + 10, SCREEN_HEIGHT / 2, 100, 100 };
+	SDL_RenderCopy(renderer, replay, NULL, &replay_rect);
+	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	if (SDL_PointInRect(&mouse, &replay_rect)) {
+		SDL_SetTextureColorMod(replay, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			isChoose = false;
+			Start = true;
+		}
+	}
+	else SDL_SetTextureColorMod(replay, 150, 150, 150);
+
+	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
+		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			quit = true;
+		}
+	}
+	else SDL_SetTextureColorMod(game_quit, 150, 150, 150);
+
+	SDL_RenderPresent(renderer);
+}

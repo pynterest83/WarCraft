@@ -5,3 +5,4 @@
 void renderMenu();
 void renderMenu2();
 void renderMenuPause();
+void renderMenuGameOver();

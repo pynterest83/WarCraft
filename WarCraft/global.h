@@ -30,6 +30,8 @@ extern fstream highscore;
 
 extern Text Score;
 extern Text Round;
+extern Text GameOver1;
+extern Text GameOver2;
 
 extern Mix_Music* cover;
 extern Mix_Chunk* p_shot1;

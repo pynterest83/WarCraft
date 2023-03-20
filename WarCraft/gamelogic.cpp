@@ -252,15 +252,10 @@ void updatePlayer(player& astro1){
 }
 
 void gameOver() {
-	isChoose = false;
-	Start = true;
 	Mix_PlayChannel(-1, explo_sound, 0);
 
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, gameover, NULL, NULL);
-	SDL_RenderPresent(renderer);
-
-	SDL_Delay(5000);
 }
 
 void g_Animation(player& astro1, SDL_Rect &lifebar_rect, SDL_Rect& energy_rect) {
