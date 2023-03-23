@@ -253,9 +253,13 @@ void updatePlayer(player& astro1){
 
 void gameOver() {
 	Mix_PlayChannel(-1, explo_sound, 0);
+	highscore.open("highscore.txt", ios::app);
+	highscore << score << " ";
 
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, gameover, NULL, NULL);
+
+	highscore.close();
 }
 
 void g_Animation(player& astro1, SDL_Rect &lifebar_rect, SDL_Rect& energy_rect) {

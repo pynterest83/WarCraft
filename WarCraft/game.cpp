@@ -11,8 +11,13 @@ void game::loadMenu() {
 	replay = IMG_LoadTexture(renderer, "resources/replay.png");
 	game_quit = IMG_LoadTexture(renderer, "resources/gamequit.png");
 	game_continue = IMG_LoadTexture(renderer, "resources/continue.png");
+	record = IMG_LoadTexture(renderer, "resources/highscore.png");
+	rec_but = IMG_LoadTexture(renderer, "resources/window.png");
+	rec_header = IMG_LoadTexture(renderer, "resources/recordheader.png");
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
-	exit_rect = { SCREEN_WIDTH/2 - 125, 350, 250, 80 };
+	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
+	rec_header_rect = { SCREEN_WIDTH / 2 - 100, 370, 200, 40 };
+	exit_rect = { SCREEN_WIDTH/2 - 125, 450, 250, 80 };
 	mode1P_rect = { SCREEN_WIDTH / 2 - 250 - 50, SCREEN_HEIGHT / 2 - 40, 250, 80 };
 	mode2P_rect = { SCREEN_WIDTH / 2 + 50, SCREEN_HEIGHT / 2 - 40, 250, 80 };
 	back_rect = { 10, 10 , 50, 50 };

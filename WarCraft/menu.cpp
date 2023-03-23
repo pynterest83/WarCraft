@@ -5,6 +5,8 @@ void renderMenu() {
 	SDL_RenderCopy(renderer, menu, NULL, NULL);
 	SDL_RenderCopy(renderer, start, NULL, &start_rect);
 	SDL_RenderCopy(renderer, game_exit, NULL, &exit_rect);
+	SDL_RenderCopy(renderer, rec_but, NULL, &rec_but_rect);
+	SDL_RenderCopy(renderer, rec_header, NULL, &rec_header_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
@@ -23,6 +25,19 @@ void renderMenu() {
 		}
 	}
 	else SDL_SetTextureColorMod(game_exit, 150, 150, 150);
+
+	if (SDL_PointInRect(&mouse, &rec_but_rect)) {
+		SDL_SetTextureColorMod(rec_but, 255, 255, 255);
+		SDL_SetTextureColorMod(rec_header, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isHi = true;
+		}
+	}
+	else {
+		SDL_SetTextureColorMod(rec_but, 150, 150, 150);
+		SDL_SetTextureColorMod(rec_header, 150, 150, 150);
+	}
 
 	SDL_RenderPresent(renderer);
 }
@@ -128,4 +143,33 @@ void renderMenuGameOver() {
 	else SDL_SetTextureColorMod(game_quit, 150, 150, 150);
 
 	SDL_RenderPresent(renderer);
+}
+
+void renderMenuHighScore() {
+	highscore.open("highscore.txt", ios::in);
+	while (highscore) {
+		if (highscore) {
+			int a;
+			highscore >> a;
+			rating.push_back(a);
+		}
+	}
+	for (int i = rating.size() - 1; i < 10; i++) {
+		rating.push_back(0);
+	}
+	sort(rating.begin(), rating.end(), greater<int>());
+
+	SDL_RenderCopy(renderer, record, NULL, NULL);
+	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	
+	if (SDL_PointInRect(&mouse, &back_rect)) {
+		SDL_SetTextureColorMod(back, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isHi = false;
+			//highscore.close();
+		}
+	}
+	else SDL_SetTextureColorMod(back, 150, 150, 150);
 }
