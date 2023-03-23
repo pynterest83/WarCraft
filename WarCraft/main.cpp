@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
 	initSDL(window, renderer);
 
 	//load and setup some feature
+	Game.loadCharacter();
 	Game.loadText();
 	Game.loadSound();
 	Game.loadDefault();

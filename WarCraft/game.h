@@ -21,6 +21,7 @@ public:
 		GameOver1.initText(font_text, "font/Koulen-Regular.ttf");
 		GameOver2.initText(font_text, "font/Koulen-Regular.ttf");
 	}
+	void loadCharacter();
 	void loadSound();
 	void loadDefault();
 	void loadShield();
@@ -69,12 +70,13 @@ public:
 				while (curframe_ex < 70) {
 					SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 					SDL_RenderClear(renderer);
-					SDL_RenderCopy(renderer, bgr, NULL, NULL);
+					SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 					SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
 					SDL_RenderPresent(renderer);
 					curframe_ex++;
 				}
 
+				type = rand() % 2 + 1 ;
 				// regenBoss and Enemy
 				enemy Boss1(renderer, SCREEN_WIDTH - 100, level);
 				Boss1.setBoss(renderer, level);
@@ -95,8 +97,8 @@ public:
 				SDL_RenderClear(renderer);
 				level++;
 				astro1.speed ++;
-				SDL_SetTextureColorMod(bgr, 150, 150, 150);
-				SDL_RenderCopy(renderer, bgr, NULL, NULL);
+				SDL_SetTextureColorMod(bgr[type-1], 150, 150, 150);
+				SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
 				SDL_RenderPresent(renderer);
@@ -154,7 +156,7 @@ public:
 				if (!isChoose) break;
 			}
 			
-			SDL_SetTextureColorMod(bgr, 255, 255, 255);
+			SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
 			SDL_RenderPresent(renderer);
 		}
 	}

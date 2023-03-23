@@ -19,11 +19,8 @@ void object::show(SDL_Renderer* renderer, SDL_Rect* clip) {
     }
 }
 
-void object::setImg(SDL_Renderer* renderer, string path){
-    body=IMG_LoadTexture(renderer, path.c_str());
-    if (body==NULL){
-        cout << "fail to load image";
-    }
+void object::setImg(SDL_Texture* p_tex){
+    body = p_tex;
 }
 
 void object::setPos(int x, int y){

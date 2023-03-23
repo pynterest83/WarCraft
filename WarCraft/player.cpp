@@ -7,9 +7,9 @@ player::player(SDL_Renderer* renderer) {
 	rect.h = 60;
 	setPos(x, y);
 
-	shottype[1].setImg(renderer, "resources/playerBullet.png");
+	shottype[1].setImg(p_shot[0]);
 	shottype[1].setSpeed(10);
-	shottype[0].setImg(renderer, "resources/skillBullet.png");
+	shottype[0].setImg(p_shot[1]);
 	shottype[0].setSpeed(25);
 	num_bullet = 40;
 	turn = 0;
@@ -25,13 +25,9 @@ player::player(SDL_Renderer* renderer) {
 	blood = 50;
 	alive = true;
 
-	engine = IMG_LoadTexture(renderer, "resources/engine.png");
-	engine_boost = IMG_LoadTexture(renderer, "resources/engine_boost.png");
+	engine = e_flame[1];
+	engine_boost = p_engine;
 	en_frame = 0;
-
-	p_status[0] = IMG_LoadTexture(renderer, "resources/player1.png");
-	p_status[1] = IMG_LoadTexture(renderer, "resources/player2.png");
-	p_status[2] = IMG_LoadTexture(renderer, "resources/player3.png");
 }
 
 void player::move() {
@@ -144,9 +140,9 @@ void player::update(SDL_Renderer* renderer)
 {
 	if (alive)
 	{
-		if (blood >= 35) body = p_status[0];
-		else if (blood >= 10) body = p_status[1];
-		else body = p_status[2];
+		if (blood >= 35) body = p_img[0];
+		else if (blood >= 10) body = p_img[1];
+		else body = p_img[2];
 		show(renderer, NULL);
 
 		SDL_Rect e_boost = { rect.x - 30, rect.y - 20, 100, 100 };
@@ -173,7 +169,7 @@ SDL_Rect player::getRectBullet(int i)
 }
 
 void player::setP2(SDL_Renderer* renderer) {
-	setImg(renderer, "resources/creep.png");
+	setImg(creep[1]);
 
 	x = SCREEN_WIDTH - rect.w;
 	y = SCREEN_HEIGHT / 2;
@@ -181,7 +177,7 @@ void player::setP2(SDL_Renderer* renderer) {
 	rect.h = 60;
 	setPos(x, y);
 
-	engine = IMG_LoadTexture(renderer, "resources/e_engine.png");
+	engine = e_flame[0];
 }
 
 void player::P2HandleBullet(SDL_Event event) {

@@ -114,7 +114,7 @@ void setupAsteroid(player& astro1) {
 
 void renderbackground() {
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, bgr, NULL, NULL);
+	SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 }
 
@@ -243,7 +243,7 @@ void updatePlayer(player& astro1){
 		while (curframe_ex < 70) {
 			SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, bgr, NULL, NULL);
+			SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 			SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
 			SDL_RenderPresent(renderer);
 			curframe_ex++;

@@ -91,3 +91,10 @@ bool RD::checkCrash(SDL_Rect a, SDL_Rect b) {
     if (checkCollision(a, b) && a.x + a.w <= b.x + 5 && checkSeen(a,b)) return true;
     return false;
 }
+
+SDL_Texture* RD::loadTexture(SDL_Renderer* renderer, string path) {
+    SDL_Texture* new_tex;
+    new_tex = IMG_LoadTexture(renderer, path.c_str());
+
+    return new_tex;
+}

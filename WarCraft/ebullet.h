@@ -11,7 +11,7 @@ private:
 public:
 	ebullet();
 	~ebullet();
-	void fire(double direct);
+	void fire(double direct, int type);
 	void bossfire(int i, double direct, int typeshot);
 	void setStatus(bool _isMove) {
 		isMove = _isMove;

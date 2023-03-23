@@ -46,7 +46,10 @@ void game :: loadSound() {
 }
 
 void game :: loadDefault() {
-	bgr = IMG_LoadTexture(renderer, "resources/bgr.png");
+	type = rand() % 2 + 1;
+	for (int i = 0; i < 2; i++) {
+		bgr[i] = loadTexture(renderer, "resources/bgr" + to_string(i + 1) + ".png");
+	}
 	scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
 	explo = IMG_LoadTexture(renderer, "resources/explosion2.png");
 	gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
@@ -111,5 +114,21 @@ void game::Resetgame() {
 	heal_rect = { 0, 0, 0, 0 };
 	
 	SDL_RenderClear(renderer);
+}
+
+void game::loadCharacter() {
+	for (int i = 0; i < 2; i++) {
+		creep[i] = loadTexture(renderer, "resources/creep" + to_string(i+1) + ".png");
+		boss[i] = loadTexture(renderer, "resources/boss" + to_string(i+1) + ".png");
+		creep_bul[i] = loadTexture(renderer, "resources/creepbul" + to_string(i+1) + ".png");
+		boss_bul[i] = loadTexture(renderer, "resources/bossbul" + to_string(i+1) + ".png");
+		p_shot[i] = loadTexture(renderer, "resources/playerbullet" + to_string(i + 1) + ".png");
+		e_flame[i] = loadTexture(renderer, "resources/e_flame" + to_string(i + 1) + ".png");
+	}
+
+	for (int i = 0; i < 3; i++) {
+		p_img[i] = loadTexture(renderer, "resources/player" + to_string(i + 1) + ".png");
+	}
+	p_engine = loadTexture(renderer, "resources/engine_boost.png");
 }
 

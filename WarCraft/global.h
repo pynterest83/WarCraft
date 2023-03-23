@@ -27,6 +27,7 @@ extern bool Start;
 extern bool isChoose;
 extern bool isHi;
 extern int gametype;
+extern int type;
 extern fstream highscore;
 extern vector<int> rating;
 
@@ -72,7 +73,7 @@ extern SDL_Rect replay_rect;
 extern SDL_Rect game_quit_rect;
 extern SDL_Rect game_continue_rect;
 
-extern SDL_Texture* bgr;
+extern SDL_Texture* bgr[];
 extern SDL_Texture* scorebar;
 extern SDL_Texture* explo;
 extern SDL_Texture* gameover;
@@ -121,3 +122,12 @@ extern bool isHeal;
 extern Timer heal_wait;
 extern Timer heal_time;
 extern int x_heal, y_heal;
+
+extern SDL_Texture* creep[];
+extern SDL_Texture* boss[];
+extern SDL_Texture* creep_bul[];
+extern SDL_Texture* boss_bul[];
+extern SDL_Texture* p_img[];
+extern SDL_Texture* p_shot[];
+extern SDL_Texture* e_flame[];
+extern SDL_Texture* p_engine;

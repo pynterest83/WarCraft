@@ -29,6 +29,7 @@ namespace RD {
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 	bool checkSeen(SDL_Rect a, SDL_Rect b);
 	bool checkCrash(SDL_Rect a, SDL_Rect b);
+	SDL_Texture* loadTexture(SDL_Renderer* renderer, string path);
 }
 
 #endif

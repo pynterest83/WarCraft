@@ -13,13 +13,19 @@ ebullet::~ebullet()
 {
 }
 
-void ebullet::fire(double direct)
+void ebullet::fire(double direct, int type)
 {
+
 	if (rect.x < 0 || rect.y <0 || rect.y > SCREEN_HEIGHT || rect.x > SCREEN_WIDTH) {
 		isMove = false;
 	}
-	rect.x -= speed;
-	rect.y -= direct * speed;
+	if (type == 2) {
+		rect.x -= speed;
+		rect.y -= direct * speed;
+	}
+	else if (type == 1) {
+		rect.x -= speed;
+	}
 }
 
 void ebullet::bossfire(int i, double direct, int type)

@@ -1,18 +1,22 @@
 #include "enemy.h"
 
 enemy::enemy(SDL_Renderer *renderer, int _x, int level){
+    SDL_Texture* new_body = NULL;
+    body = new_body;
+    SDL_DestroyTexture(new_body);
+
     alive = true;
     x= _x;
     y= rand()%(SCREEN_HEIGHT-60);
     rect.w = 50;
 	rect.h = 50;
     setPos(x,y);
-    setImg(renderer, "resources/creep.png");
-    shotback.setImg(renderer, "resources/creepbul.png");
+    setImg(creep[type-1]);
+    shotback.setImg(creep_bul[type-1]);
     shotback.getSpeed(5 * level);
     blood = 1 * level;
 
-    engine = IMG_LoadTexture(renderer, "resources/e_engine.png");
+    engine = e_flame[0];
     e_frame = 0;
 }
 
@@ -75,25 +79,25 @@ void enemy::update(SDL_Renderer* renderer, double direct){
         e_frame = e_frame % 8;
         if (!isBoss) {
             if (shotback.is_Move()) {
-                shotback.fire(direct);
+                shotback.fire(direct, type);
                 shotback.show(renderer, NULL);
             }
         }
         else {
-            if (typeshot == 1) {
+            if (type == 1) {
                 for (int i = 0; i < 20; i++) {
                     if (bossshot[i].is_Move()) {
-                        bossshot[i].bossfire(i, direct, typeshot);
+                        bossshot[i].bossfire(i, direct, type);
                         bossshot[i].show(renderer, NULL);
                     }
                 }
             }
-            else if (typeshot == 2) {
-                bossshot[0].bossfire(0, direct, typeshot);
+            else if (type == 2) {
+                bossshot[0].bossfire(0, direct, type);
                 bossshot[0].show(renderer, NULL);
                 for (int i = 0; i < 20; i++) {
                     if (bossshot[i].is_Move() && !bossshot[i-1].is_Move()) {
-                        bossshot[i].bossfire(i, direct, typeshot);
+                        bossshot[i].bossfire(i, direct, type);
                         bossshot[i].show(renderer, NULL);
                     }
                 }
@@ -111,14 +115,13 @@ void enemy::setBoss(SDL_Renderer *renderer, int level) {
     blood = 5*level;
     rect.w = 125;
     rect.h = 100;
-    setImg(renderer, "resources/boss.png");
+    setImg(boss[type - 1]);
     setPos(SCREEN_WIDTH + 200, SCREEN_HEIGHT / 2);
 
     shotback.getsize(35, 35);
-    shotback.setImg(renderer, "resources/bossbul.png");
+    shotback.setImg(boss_bul[type-1]);
     shotback.getSpeed(10+level);
     for (int i = 0; i < 20; i++) {
         bossshot[i] = shotback;
     }
-    typeshot = rand() % 2 + 1;
 }

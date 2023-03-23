@@ -2,6 +2,7 @@
 
 #include "object.h"
 #include "ebullet.h"
+#include "global.h"
 
 class enemy: public object{
 private:
@@ -19,7 +20,6 @@ private:
 public:
     bool isBoss = false;
     bool bossMove = false;
-    int typeshot;
 
     enemy(SDL_Renderer* renderer, int _x, int level);
     ~enemy(){};
@@ -39,7 +39,6 @@ public:
         blood-=dmg;
         if (blood <= 0) {
             alive = false;
-            SDL_DestroyTexture(body);
         }
     }; 
     bool is_killed() { return !alive; };
