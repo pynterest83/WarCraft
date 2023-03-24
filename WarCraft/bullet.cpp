@@ -21,7 +21,7 @@ void bullet::fire()
 		}
 		rect.x += speed;
 	}
-	else SDL_DestroyTexture(body);
+	else setPos(0, 0);
 	
 }
 
@@ -32,5 +32,5 @@ void bullet::p2fire() {
 		}
 		rect.x -= speed;
 	}
-	else SDL_DestroyTexture(body);
+	else setPos(0, 0);
 }

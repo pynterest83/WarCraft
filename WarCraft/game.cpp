@@ -118,6 +118,8 @@ void game::Resetgame() {
 	heal_wait.Reset();
 	heal_time.Reset();
 	heal_rect = { 0, 0, 0, 0 };
+
+	highscore.close();
 	
 	SDL_RenderClear(renderer);
 }
