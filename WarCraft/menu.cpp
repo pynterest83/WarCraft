@@ -7,7 +7,10 @@ void renderMenu() {
 	SDL_RenderCopy(renderer, game_exit, NULL, &exit_rect);
 	SDL_RenderCopy(renderer, rec_but, NULL, &rec_but_rect);
 	SDL_RenderCopy(renderer, rec_header, NULL, &rec_header_rect);
+	SDL_RenderCopy(renderer, inf_but, NULL, &inf_but_rect);
+	SDL_RenderCopy(renderer, info_header, NULL, &inf_header_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
@@ -37,6 +40,19 @@ void renderMenu() {
 	else {
 		SDL_SetTextureColorMod(rec_but, 150, 150, 150);
 		SDL_SetTextureColorMod(rec_header, 150, 150, 150);
+	}
+
+	if (SDL_PointInRect(&mouse, &inf_but_rect)) {
+		SDL_SetTextureColorMod(inf_but, 255, 255, 255);
+		SDL_SetTextureColorMod(info_header, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isInf = true;
+		}
+	}
+	else {
+		SDL_SetTextureColorMod(inf_but, 150, 150, 150);
+		SDL_SetTextureColorMod(info_header, 150, 150, 150);
 	}
 
 	SDL_RenderPresent(renderer);
@@ -175,4 +191,21 @@ void renderMenuHighScore() {
 		}
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
+}
+
+void renderMenuInfo() {
+	SDL_RenderCopy(renderer, info, NULL, NULL);
+	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	if (SDL_PointInRect(&mouse, &back_rect)) {
+		SDL_SetTextureColorMod(back, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isInf = false;
+		}
+	}
+	else SDL_SetTextureColorMod(back, 150, 150, 150);
+
+	SDL_RenderPresent(renderer);
 }
