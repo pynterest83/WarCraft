@@ -177,7 +177,12 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 			list_creep.at(i).move(opt, astro1.getRect().y);
 			double direct = (double)(astro1.getRect().y - list_creep.at(i).getRect().y) / (astro1.getRect().x - list_creep.at(i).getRect().x);
 			list_creep.at(i).update(renderer, direct);
-			if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
+			if (type == 2) {
+				if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
+			}
+			else {
+				if (checkSeen(astro1.getRect(), list_creep.at(i).getRect())) list_creep.at(i).autoshot();
+			}
 		}
 	}
 }

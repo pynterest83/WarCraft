@@ -82,6 +82,9 @@ void renderMenu2() {
 }
 
 void renderMenuPause() {
+	replay_rect = { SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, 100, 100 };
+	game_quit_rect = { SCREEN_WIDTH / 2 - 50 + 110, SCREEN_HEIGHT / 2 - 50, 100, 100 };
+	game_continue_rect = { SCREEN_WIDTH / 2 - 50 - 110, SCREEN_HEIGHT / 2 - 50, 100, 100 };
 	SDL_RenderCopy(renderer, pausewindow, NULL, &pausewindow_rect);
 	SDL_RenderCopy(renderer, pauseheader, NULL, &pauseheader_rect);
 	SDL_RenderCopy(renderer, replay, NULL, &replay_rect);
