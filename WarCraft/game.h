@@ -87,6 +87,7 @@ public:
 
 				for (int i = 0; i < astro1.num_bullet; i++) {
 					astro1.getBullet(i).setStatus(false);
+					if (astro1.getBullet(i).is_Move()) astro1.getBullet(i).setPos(0, 0);
 				}
 				for (int i = 0; i < 5; i++) {
 					list_creep.at(i).kill(level + 1);
