@@ -304,7 +304,7 @@ void check2P(player& astro1, player& astro2, int& dmg1, int& dmg2) {
 	for (int j = 0; j < astro2.num_bullet; j++) {
 		if (checkCollision(astro2.getRectBullet(j), astro1.getRect()) && astro2.getBullet(j).is_Move()) {
 			curframe_ex = 0;
-			explo_rect = { astro2.getRectBullet(j).x - 10, astro2.getRectBullet(j).y - 10, 100, 100 };
+			explo_rect = { astro2.getRectBullet(j).x - 30, astro2.getRectBullet(j).y - 30, 100, 100 };
 
 			astro1.kill(dmg2);
 			astro2.getBullet(j).setStatus(false);
