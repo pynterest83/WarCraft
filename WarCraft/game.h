@@ -78,8 +78,8 @@ public:
 
 				type = rand() % 2 + 1 ;
 				// regenBoss and Enemy
-				enemy Boss1(renderer, SCREEN_WIDTH - 100, level);
-				Boss1.setBoss(renderer, level);
+				enemy Boss1(SCREEN_WIDTH - 100, level);
+				Boss1.setBoss(level);
 				check = false;
 				score += 50 * level;
 				cnt = 0;
@@ -91,7 +91,7 @@ public:
 				}
 				for (int i = 0; i < 5; i++) {
 					list_creep.at(i).kill(level + 1);
-					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+					enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 					list_creep.at(i) = sEnemy;
 				}
 				// update level
@@ -107,7 +107,7 @@ public:
 			}
 
 			//render and update astro by time
-			updatePlayer(astro1);
+			updatePlayer(astro1, list_creep);
 
 			// render score text
 			Score.setText("Score: " + to_string(score));
@@ -185,8 +185,8 @@ public:
 			// checkShooting
 			check2P(astro1, astro2, dmg1, dmg2);
 
-			updatePlayer(astro1);
-			updatePlayer(astro2);
+			updatePlayer2(astro1);
+			updatePlayer2(astro2);
 
 			g_Animation(astro2, lifebar_rect, energy_rect);
 			g_Animation(astro1, p2_life_bar_rect, p2_energy_rect);

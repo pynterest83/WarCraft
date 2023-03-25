@@ -138,5 +138,8 @@ void game::loadCharacter() {
 		p_img[i] = loadTexture(renderer, "resources/player" + to_string(i + 1) + ".png");
 	}
 	p_engine = loadTexture(renderer, "resources/engine_boost.png");
+	p_sup = loadTexture(renderer, "resources/support1.png");
+	p_sup_bul = loadTexture(renderer, "resources/supportbul1.png");
+	mouse_img = loadTexture(renderer, "resources/setCursor.png");
 }
 

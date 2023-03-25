@@ -44,3 +44,12 @@ void ebullet::bossfire(int i, double direct, int type)
 		rect.y -= direct * speed;
 	}
 }
+
+void ebullet::spfire(double direct)
+{
+	if (rect.x < 0 || rect.y <0 || rect.y > SCREEN_HEIGHT || rect.x > SCREEN_WIDTH) {
+		isMove = false;
+	}
+	rect.x += speed;
+	rect.y += direct * speed;
+}

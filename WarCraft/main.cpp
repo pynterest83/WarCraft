@@ -69,22 +69,22 @@ int main(int argc, char* argv[]) {
 					quit = true;
 				}
 			}
-			player astro1(renderer);
+			player astro1;
 			//initialize player and enemy
 			if (gametype == 1) {
 				vector<enemy> list_creep;
 				for (int i = 0; i < 5; i++) {
-					enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+					enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 					list_creep.push_back(sEnemy);
 				}
-				enemy Boss(renderer, SCREEN_WIDTH + 200, level);
-				Boss.setBoss(renderer, level);
+				enemy Boss(SCREEN_WIDTH + 200, level);
+				Boss.setBoss(level);
 				Boss.bossautoshot();
 				Game.loadSingleGame(astro1, list_creep, Boss);
 			}
 			else if (gametype == 2) {
-				player astro2(renderer);
-				astro2.setP2(renderer);
+				player astro2;
+				astro2.setP2();
 				astro2.isP2 = true;
 				Game.load2Playergame(astro1, astro2);
 			}

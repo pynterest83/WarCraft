@@ -13,6 +13,7 @@ public:
 	~ebullet();
 	void fire(double direct, int type);
 	void bossfire(int i, double direct, int typeshot);
+	void spfire(double direct);
 	void setStatus(bool _isMove) {
 		isMove = _isMove;
 		if (_isMove == false) {

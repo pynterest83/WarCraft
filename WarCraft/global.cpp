@@ -119,4 +119,7 @@ SDL_Texture* boss_bul[2];
 SDL_Texture* p_img[3];
 SDL_Texture* p_shot[2];
 SDL_Texture* e_flame[2];
+SDL_Texture* p_sup;
+SDL_Texture* p_sup_bul;
 SDL_Texture* p_engine;
+SDL_Texture* mouse_img;

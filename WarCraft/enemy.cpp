@@ -1,6 +1,6 @@
 #include "enemy.h"
 
-enemy::enemy(SDL_Renderer *renderer, int _x, int level){
+enemy::enemy(int _x, int level){
     SDL_Texture* new_body = NULL;
     body = new_body;
     SDL_DestroyTexture(new_body);
@@ -79,9 +79,17 @@ void enemy::update(SDL_Renderer* renderer, double direct){
         e_frame++;
         e_frame = e_frame % 8;
         if (!isBoss) {
-            if (shotback.is_Move()) {
-                shotback.fire(direct, type);
-                shotback.show(renderer, NULL);
+            if (!isSp) {
+                if (shotback.is_Move()) {
+                    shotback.fire(direct, type);
+                    shotback.show(renderer, NULL);
+                }
+            }
+            else {
+                if (shotback.is_Move()) {
+					shotback.spfire(direct);
+					shotback.show(renderer, NULL);
+				}
             }
         }
         else {
@@ -112,7 +120,7 @@ SDL_Rect enemy::getRectShotback(){
     return shotback.getRect();
 }
 
-void enemy::setBoss(SDL_Renderer *renderer, int level) {
+void enemy::setBoss(int level) {
     blood = 5*level;
     rect.w = 125;
     rect.h = 100;
@@ -125,4 +133,17 @@ void enemy::setBoss(SDL_Renderer *renderer, int level) {
     for (int i = 0; i < 20; i++) {
         bossshot[i] = shotback;
     }
+}
+
+void enemy::setSp() {
+    rect.w = 40;
+    rect.h = 40;
+    setImg(p_sup);
+
+    alive = true;
+    isSp = true;
+
+    shotback.getsize(20, 20);
+    shotback.setImg(p_sup_bul);
+    shotback.getSpeed(10);
 }

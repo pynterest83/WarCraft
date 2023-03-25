@@ -2,6 +2,7 @@
 
 bullet::bullet()
 {
+	angle = 0;
 	x;
 	y;
 	isMove = false;
@@ -16,7 +17,7 @@ bullet::~bullet()
 void bullet::fire()
 {
 	if (isMove) {
-		if (rect.x > SCREEN_WIDTH) {
+		if (rect.x >= SCREEN_WIDTH - rect.w || rect.y >= SCREEN_HEIGHT - rect.h || rect.x <= 0 || rect.y <= 0) {
 			isMove = false;
 		}
 		rect.x += speed;

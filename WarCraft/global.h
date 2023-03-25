@@ -136,4 +136,7 @@ extern SDL_Texture* boss_bul[];
 extern SDL_Texture* p_img[];
 extern SDL_Texture* p_shot[];
 extern SDL_Texture* e_flame[];
+extern SDL_Texture* p_sup;
+extern SDL_Texture* p_sup_bul;
 extern SDL_Texture* p_engine;
+extern SDL_Texture* mouse_img;

@@ -20,8 +20,10 @@ private:
 public:
     bool isBoss = false;
     bool bossMove = false;
+    bool isSp = false;
 
-    enemy(SDL_Renderer* renderer, int _x, int level);
+    enemy(int _x, int level);
+    enemy() {};
     ~enemy(){};
 
     void move(int opt, int y_pos);
@@ -43,5 +45,6 @@ public:
     }; 
     bool is_killed() { return !alive; };
 
-    void setBoss(SDL_Renderer * renderer, int level);
+    void setBoss(int level);
+    void setSp();
 };

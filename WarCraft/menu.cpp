@@ -13,7 +13,7 @@ void renderMenu() {
 
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			Start = true;
 		}
@@ -22,7 +22,7 @@ void renderMenu() {
 
 	if (SDL_PointInRect(&mouse, &exit_rect)) {
 		SDL_SetTextureColorMod(game_exit, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			quit = true;
 		}
@@ -32,7 +32,7 @@ void renderMenu() {
 	if (SDL_PointInRect(&mouse, &rec_but_rect)) {
 		SDL_SetTextureColorMod(rec_but, 255, 255, 255);
 		SDL_SetTextureColorMod(rec_header, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isHi = true;
 		}
@@ -45,7 +45,7 @@ void renderMenu() {
 	if (SDL_PointInRect(&mouse, &inf_but_rect)) {
 		SDL_SetTextureColorMod(inf_but, 255, 255, 255);
 		SDL_SetTextureColorMod(info_header, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isInf = true;
 		}
@@ -67,7 +67,7 @@ void renderMenu2() {
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	if (SDL_PointInRect(&mouse, &mode1P_rect)) {
 		SDL_SetTextureColorMod(mode1P, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			isChoose = true;
 			Start = false;
 			gametype = 1;
@@ -77,7 +77,7 @@ void renderMenu2() {
 
 	if (SDL_PointInRect(&mouse, &mode2P_rect)) {
 		SDL_SetTextureColorMod(mode2P, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			isChoose = true;
 			Start = false;
 			gametype = 2;
@@ -87,7 +87,7 @@ void renderMenu2() {
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			Start = false;
 		}
@@ -110,7 +110,7 @@ void renderMenuPause() {
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			isChoose = false;
 			Start = true;
 		}
@@ -119,7 +119,7 @@ void renderMenuPause() {
 
 	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
 		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			quit = true;
 		}
 	}
@@ -127,7 +127,7 @@ void renderMenuPause() {
 
 	if (SDL_PointInRect(&mouse, &game_continue_rect)) {
 		SDL_SetTextureColorMod(game_continue, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			Pause = false;
 		}
@@ -146,7 +146,7 @@ void renderMenuGameOver() {
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			isChoose = false;
 			Start = true;
 		}
@@ -155,7 +155,7 @@ void renderMenuGameOver() {
 
 	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
 		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			quit = true;
 		}
 	}
@@ -184,7 +184,7 @@ void renderMenuHighScore() {
 	
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isHi = false;
 			//highscore.close();
@@ -200,7 +200,7 @@ void renderMenuInfo() {
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.y, &mouse.y) & SDL_BUTTON(1)) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isInf = false;
 		}

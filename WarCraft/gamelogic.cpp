@@ -130,7 +130,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 							Mix_PlayChannel(-1, explo_sound, 0);
 							curframe_ex = 0;
 							explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
-							enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+							enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 							list_creep.at(i) = sEnemy;
 							score += 10 + (level - 1) * 2;
 							cnt++;
@@ -142,6 +142,25 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 						}
 						astro1.getBullet(j).setStatus(false);
 					}
+				}
+
+				if (checkCollision(astro1.getSup().getRectShotback(), list_creep.at(i).getRect()) && astro1.getSup().getShotback().is_Move() && astro1.SupIsSet) {
+					list_creep.at(i).kill(dmg);
+					if (list_creep.at(i).is_killed()) {
+						Mix_PlayChannel(-1, explo_sound, 0);
+						curframe_ex = 0;
+						explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
+						enemy sEnemy(SCREEN_WIDTH + i * 200, level);
+						list_creep.at(i) = sEnemy;
+						score += 10 + (level - 1) * 2;
+						cnt++;
+					}
+
+					else {
+						curframe_ex = 0;
+						explo_rect = { list_creep.at(i).getRect().x, list_creep.at(i).getRect().y, 50, 50 };
+					}
+					astro1.getSup().getShotback().setStatus(false);
 				}
 			}
 
@@ -166,7 +185,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 				else Mix_PlayChannel(-1, shield_hit, 0);
 				list_creep.at(i).kill(level + 1);
 				Mix_PlayChannel(-1, explo_sound, 0);
-				enemy sEnemy(renderer, SCREEN_WIDTH + i * 200, level);
+				enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 				list_creep.at(i) = sEnemy;
 				score += 10 + (level - 1) * 2;
 				cnt++;
@@ -210,6 +229,14 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 			}
 		}
 
+		if (checkCollision(astro1.getSup().getRectShotback(), Boss.getRect()) && astro1.getSup().getShotback().is_Move() && astro1.SupIsSet) {
+			curframe_ex = 0;
+			explo_rect = { astro1.getSup().getRectShotback().x - 10, astro1.getSup().getRectShotback().y - 10, 100, 100};
+
+			Boss.kill(dmg);
+			astro1.getSup().getShotback().setStatus(false);
+		}
+
 		for (int i = 0; i < 20; i++) {
 			if (checkCollision(astro1.getRect(), Boss.getbossShot(i).getRect())) {
 				if (!isShield) {
@@ -239,8 +266,11 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 	}
 }
 
-void updatePlayer(player& astro1){
-	if (!astro1.isP2) astro1.update(renderer);
+void updatePlayer(player& astro1, vector<enemy>& list_creep){
+	if (!astro1.isP2) {
+		double direct = (double)(astro1.getSup().getRect().y - list_creep.at(0).getRect().y) / (astro1.getSup().getRect().x - list_creep.at(0).getRect().x);
+		astro1.update(renderer, direct);
+	}
 	else astro1.P2update(renderer);
 	if (astro1.isKilled()) {
 		curframe_ex = 0;
@@ -249,6 +279,25 @@ void updatePlayer(player& astro1){
 			SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 			SDL_RenderClear(renderer);
 			SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
+			SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
+			SDL_RenderPresent(renderer);
+			curframe_ex++;
+		}
+	}
+}
+
+void updatePlayer2(player& astro1) {
+	if (!astro1.isP2) {
+		astro1.update(renderer, 0);
+	}
+	else astro1.P2update(renderer);
+	if (astro1.isKilled()) {
+		curframe_ex = 0;
+		explo_rect = { astro1.getRect().x - astro1.getRect().w, astro1.getRect().y - astro1.getRect().h, 200, 200 };
+		while (curframe_ex < 70) {
+			SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, bgr[type - 1], NULL, NULL);
 			SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
 			SDL_RenderPresent(renderer);
 			curframe_ex++;

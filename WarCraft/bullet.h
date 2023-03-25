@@ -7,6 +7,7 @@ private:
 	int y;
 	bool isMove;
 	int speed;
+	double angle;
 public:
 	bullet();
 	~bullet();
