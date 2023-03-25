@@ -201,8 +201,10 @@ void player::update(SDL_Renderer* renderer, double direct)
 				SupIsSet = true;
 				SDL_ShowCursor(SDL_ENABLE);
 			}
-			supporter.autoshot();
-			supporter.update(renderer, direct);
+			if (SupIsSet) {
+				supporter.autoshot();
+				supporter.update(renderer, direct);
+			}
 		}
 	}
 	else SDL_DestroyTexture(body);
