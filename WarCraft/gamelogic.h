@@ -21,3 +21,4 @@ void gameOver();
 void g_Animation(player& astro1, SDL_Rect& lifebar_rect, SDL_Rect& energy_rect);
 void check2P(player& astro1, player& astro2, int& dmg1, int& dmg2);
 void handlePause();
+void handleMute();

@@ -12,6 +12,7 @@ bool Start = false;
 bool isChoose = false;
 bool isHi = false;
 bool isInf = false;
+bool isMute = false;
 fstream highscore;
 vector<int> rating;
 
@@ -29,6 +30,7 @@ Mix_Chunk* explo_sound = NULL;
 Mix_Chunk* shield_hit = NULL;
 Mix_Chunk* picked = NULL;
 Mix_Chunk* asteroid = NULL;
+Mix_Chunk* chunk[8];
 
 SDL_Texture* menu = NULL;
 SDL_Texture* game_exit = NULL;
@@ -36,6 +38,9 @@ SDL_Texture* start = NULL;
 SDL_Texture* mode1P = NULL;
 SDL_Texture* mode2P = NULL;
 SDL_Texture* back = NULL;
+SDL_Texture* pause = NULL;
+SDL_Texture* sound[2];
+SDL_Texture* SOUND;
 SDL_Texture* pauseheader = NULL;
 SDL_Texture* pausewindow = NULL;
 SDL_Texture* replay = NULL;
@@ -61,6 +66,8 @@ SDL_Rect pausewindow_rect;
 SDL_Rect replay_rect;
 SDL_Rect game_quit_rect;
 SDL_Rect game_continue_rect;
+SDL_Rect pause_rect;
+SDL_Rect sound_rect;
 
 SDL_Texture* bgr[2];
 SDL_Texture* scorebar = NULL;

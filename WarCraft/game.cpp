@@ -6,6 +6,7 @@ void game::loadMenu() {
 	mode1P = IMG_LoadTexture(renderer, "resources/pve.png");
 	mode2P = IMG_LoadTexture(renderer, "resources/pvp.png");
 	back = IMG_LoadTexture(renderer, "resources/back.png");
+	pause = IMG_LoadTexture(renderer, "resources/pause.png");
 	pauseheader = IMG_LoadTexture(renderer, "resources/pauseheader.png");
 	pausewindow = IMG_LoadTexture(renderer, "resources/pausewindow.png");
 	replay = IMG_LoadTexture(renderer, "resources/replay.png");
@@ -17,6 +18,9 @@ void game::loadMenu() {
 	inf_but = IMG_LoadTexture(renderer, "resources/window.png");
 	info_header = IMG_LoadTexture(renderer, "resources/infoheader.png");
 	info = IMG_LoadTexture(renderer, "resources/information.jpg");
+	sound[0] = IMG_LoadTexture(renderer, "resources/sound1.png");
+	sound[1] = IMG_LoadTexture(renderer, "resources/sound2.png");
+	SOUND = sound[0];
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -32,18 +36,28 @@ void game::loadMenu() {
 	replay_rect = { SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, 100, 100 };
 	game_quit_rect = { SCREEN_WIDTH / 2 - 50 + 110, SCREEN_HEIGHT / 2 - 50, 100, 100 };
 	game_continue_rect = { SCREEN_WIDTH / 2 - 50 - 110, SCREEN_HEIGHT / 2 - 50, 100, 100 };
+	pause_rect = { SCREEN_WIDTH - 120, 5, 50, 50 };
+	sound_rect = { SCREEN_WIDTH - 60, 5, 50, 50 };
 }
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
 	cover = Mix_LoadMUS("sound/Levels-Avicii.mp3");
 	p_shot1 = Mix_LoadWAV("sound/p_shot1.ogg");
+	chunk[0] = p_shot1;
 	p_shot2 = Mix_LoadWAV("sound/p_shot2.wav");
+	chunk[1] = p_shot2;
 	explo_sound = Mix_LoadWAV("sound/explo_sound.ogg");
+	chunk[2] = explo_sound;
 	asteroid = Mix_LoadWAV("sound/asteroid.wav");
+	chunk[3] = asteroid;
 	shield_hit = Mix_LoadWAV("sound/shield_hit.wav");
+	chunk[4] = shield_hit;
 	picked = Mix_LoadWAV("sound/picked.wav");
+	chunk[5] = picked;
 	skillE = Mix_LoadWAV("sound/skillE.wav");
+	chunk[6] = skillE;
 	skillQ = Mix_LoadWAV("sound/skillQ.wav");
+	chunk[7] = skillQ;
 	Mix_PlayMusic(cover, -1);
 	Mix_VolumeMusic(30);
 	Mix_VolumeChunk(explo_sound, 30);

@@ -3,7 +3,7 @@
 void setupShield(player& astro1) {
 	if (!isShield) {
 		if (shield_wait.GetTime() > (Uint32)10000) {
-			if (!shield_wait.Paused) shield_time.Start();
+			if (!shield_wait.Paused && !shield_time.Started) shield_time.Start();
 			shield_wait.Pause();
 			shieldpickup_rect = { x_pos, y_pos, 50, 50 };
 			if (checkCollision(shieldpickup_rect, astro1.getRect())) {
@@ -41,7 +41,7 @@ void setupShield(player& astro1) {
 void setupHeal(player& astro1) {
 	if (!isHeal) {
 		if (heal_wait.GetTime() > (Uint32)10000 && astro1.blood < 20) {
-			if (!heal_wait.Paused) heal_time.Start();
+			if (!heal_wait.Paused && !heal_time.Started) heal_time.Start();
 			heal_wait.Pause();
 			heal_rect = { x_heal, y_heal, 50, 50 };
 			if (checkCollision(heal_rect, astro1.getRect())) {
@@ -116,6 +116,8 @@ void renderbackground() {
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
+	SDL_RenderCopy(renderer, pause, NULL, &pause_rect);
+	SDL_RenderCopy(renderer, SOUND, NULL, &sound_rect);
 }
 
 void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
@@ -381,23 +383,51 @@ void handlePause() {
 			heal_time.Pause();
 			while (Pause) {
 				renderMenuPause();
+				if (!Pause) {
+					shield_wait.Unpause();
+					heal_wait.Unpause();
+					asteroid_wait.Unpause();
+					Shield.Unpause();
+					shield_time.Unpause();
+					heal_time.Unpause();
+				}
 				if (SDL_PollEvent(&event) != 0) {
 					if (event.type == SDL_QUIT) {
 						quit = true;
 					}
 					if (quit) break;
 					if (!isChoose) break;
-					if (!Pause) {
-						shield_wait.Unpause();
-						heal_wait.Unpause();
-						asteroid_wait.Unpause();
-						Shield.Unpause();
-						shield_time.Unpause();
-						heal_time.Unpause();
-					}
 				}
 				SDL_RenderPresent(renderer);
 			}
 		}
 	}
+}
+
+void handleMute() {
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (SDL_PointInRect(&mouse, &sound_rect)) {
+		SDL_SetTextureColorMod(SOUND, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			if (!isMute) {
+				Mix_VolumeMusic(0);
+				for (int i = 0; i < 8; i++) {
+					Mix_VolumeChunk(chunk[i], 0);
+				}
+				SOUND = sound[1];
+				isMute = true;
+			}
+			else {
+				Mix_VolumeMusic(30);
+				for (int i = 0; i < 8; i++) {
+					if (i == 2) Mix_VolumeChunk(chunk[i], 30);
+					else if (i == 0 || i == 1) Mix_VolumeChunk(chunk[i], 50);
+					else Mix_VolumeChunk(chunk[i], MIX_MAX_VOLUME);
+				}
+				SOUND = sound[0];
+				isMute = false;
+			}
+		}
+	}
+	else SDL_SetTextureColorMod(SOUND, 150, 150, 150);
 }
