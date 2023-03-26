@@ -338,7 +338,7 @@ void g_Animation(player& astro1, SDL_Rect &lifebar_rect, SDL_Rect& energy_rect) 
 	}
 
 	// render energy_bar
-	if (curframe_energy >= 0) {
+	if (curframe_energy >= -1) {
 		SDL_Rect source_energy = { curframe_energy * 64, 0, 64, 96 };
 		SDL_RenderCopy(renderer, energy, &source_energy, &energy_rect);
 		curframe_energy = 10 - (astro1.getSkillTime() / (Uint32)1500);
