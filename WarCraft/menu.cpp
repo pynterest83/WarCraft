@@ -225,6 +225,12 @@ void renderMenuInfo() {
 void renderMenuSettings() {
 	SDL_RenderCopy(renderer, settings, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_RenderCopy(renderer, rec_but, NULL, &setting_rect);
+	SDL_SetTextureColorMod(rec_but, 255, 255, 255);
+	SDL_RenderCopy(renderer, gfx, NULL, &gfx_rect);
+	SDL_RenderCopy(renderer, sfx, NULL, &sfx_rect);
+	SDL_RenderCopy(renderer, slider1, NULL, &gfx_control);
+	SDL_RenderCopy(renderer, slider2, NULL, &sfx_control);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
@@ -236,5 +242,25 @@ void renderMenuSettings() {
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
 
+	if (mouse.x >= SCREEN_WIDTH / 2 - 300 && mouse.x <= SCREEN_WIDTH / 2 + 300 && mouse.y >= SCREEN_HEIGHT / 2 + 30 && mouse.y <= SCREEN_HEIGHT + 80) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			sfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
+			for (int i = 0; i < 8; i++) {
+				if (i == 2) Mix_VolumeChunk(chunk[i], (sfx_control.w) * 30 * 1.0 / 600);
+				else if (i == 0 || i == 1) Mix_VolumeChunk(chunk[i], (sfx_control.w) * 50 * 1.0 / 600);
+				else Mix_VolumeChunk(chunk[i], (sfx_control.w) * 128 * 1.0 / 600);
+			}
+		}
+	}
+
+	else if (mouse.x >= SCREEN_WIDTH / 2 - 300 && mouse.x <= SCREEN_WIDTH / 2 + 300 && mouse.y >= SCREEN_HEIGHT / 2 - 80 && mouse.y <= SCREEN_HEIGHT - 30) {
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			gfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
+			Mix_VolumeMusic((gfx_control.w) * 30 * 1.0 / 600);
+		}
+	}
+
+	SDL_RenderCopy(renderer, slider1, NULL, &gfx_control);
+	SDL_RenderCopy(renderer, slider2, NULL, &sfx_control);
 	SDL_RenderPresent(renderer);
 }

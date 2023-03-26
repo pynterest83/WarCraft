@@ -114,10 +114,9 @@ void setupAsteroid(player& astro1) {
 
 void renderbackground() {
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
-	SDL_RenderCopy(renderer, stars, NULL, &bgr_rect);
+	SDL_RenderCopy(renderer, bgr[type-1], NULL, &bgr_rect);
 	SDL_Rect next_bgr = { bgr_rect.x + SCREEN_WIDTH, bgr_rect.y, SCREEN_WIDTH, SCREEN_HEIGHT };
-	SDL_RenderCopy(renderer, stars, NULL, &next_bgr);
+	SDL_RenderCopy(renderer, bgr[type-1], NULL, &next_bgr);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 	SDL_RenderCopy(renderer, pause, NULL, &pause_rect);
 
@@ -461,11 +460,11 @@ void handleMute() {
 				isMute = true;
 			}
 			else {
-				Mix_VolumeMusic(30);
+				Mix_VolumeMusic((gfx_control.w) * 30 * 1.0 / 600);
 				for (int i = 0; i < 8; i++) {
-					if (i == 2) Mix_VolumeChunk(chunk[i], 30);
-					else if (i == 0 || i == 1) Mix_VolumeChunk(chunk[i], 50);
-					else Mix_VolumeChunk(chunk[i], MIX_MAX_VOLUME);
+					if (i == 2) Mix_VolumeChunk(chunk[i], (sfx_control.w) * 30 * 1.0 / 600);
+					else if (i == 0 || i == 1) Mix_VolumeChunk(chunk[i], (sfx_control.w) * 50 * 1.0 / 600);
+					else Mix_VolumeChunk(chunk[i], (sfx_control.w) * 128 * 1.0 / 600);
 				}
 				SOUND = sound[0];
 				isMute = false;

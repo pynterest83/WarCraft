@@ -23,6 +23,10 @@ void game::loadMenu() {
 	SOUND = sound[0];
 	settings = IMG_LoadTexture(renderer, "resources/settings.png");
 	set_but = IMG_LoadTexture(renderer, "resources/set_but.png");
+	slider1 = IMG_LoadTexture(renderer, "resources/slider.png");
+	slider2 = IMG_LoadTexture(renderer, "resources/slider.png");
+	gfx = IMG_LoadTexture(renderer, "resources/Music.png");
+	sfx = IMG_LoadTexture(renderer, "resources/Sound.png");
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -41,6 +45,11 @@ void game::loadMenu() {
 	pause_rect = { SCREEN_WIDTH - 120, 5, 50, 50 };
 	sound_rect = { SCREEN_WIDTH - 60, 5, 50, 50 };
 	set_but_rect = { 10, SCREEN_HEIGHT - 70, 50, 50 };
+	setting_rect = { SCREEN_WIDTH/2 - 400, SCREEN_HEIGHT/2 - 150, 800, 300 };
+	gfx_rect = { SCREEN_WIDTH / 2 - 350, SCREEN_HEIGHT / 2 - 120, 150, 30 };
+	gfx_control = { SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 - 80, 600, 50 };
+	sfx_rect = { SCREEN_WIDTH / 2 - 350, SCREEN_HEIGHT / 2 - 10, 150, 30 };
+	sfx_control = { SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 + 30, 600, 50 };
 }
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
@@ -73,7 +82,6 @@ void game :: loadDefault() {
 	for (int i = 0; i < 2; i++) {
 		bgr[i] = loadTexture(renderer, "resources/bgr" + to_string(i + 1) + ".png");
 	}
-	stars = IMG_LoadTexture(renderer, "resources/stars.png");
 	scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
 	explo = IMG_LoadTexture(renderer, "resources/explosion2.png");
 	gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
