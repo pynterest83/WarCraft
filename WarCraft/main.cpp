@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 	rate.initText(font_text, "font/Koulen-Regular.ttf");
 
 	while (!quit) {
-		while (!Start && !quit && !isChoose && !isHi && !isInf) {
+		while (!Start && !quit && !isChoose && !isHi && !isInf && !isSet) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
@@ -60,6 +60,14 @@ int main(int argc, char* argv[]) {
 				}
 			}
 			renderMenuInfo();
+		}
+		while (isSet && !quit) {
+			while (SDL_PollEvent(&event) != 0) {
+				if (event.type == SDL_QUIT) {
+					quit = true;
+				}
+			}
+			renderMenuSettings();
 		}
 		while (isChoose && !quit) {
 			Pause = false;

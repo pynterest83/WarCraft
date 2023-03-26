@@ -8,3 +8,4 @@ void renderMenuPause();
 void renderMenuGameOver();
 void renderMenuHighScore();
 void renderMenuInfo();
+void renderMenuSettings();

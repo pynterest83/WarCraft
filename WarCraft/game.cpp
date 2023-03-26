@@ -21,6 +21,8 @@ void game::loadMenu() {
 	sound[0] = IMG_LoadTexture(renderer, "resources/sound1.png");
 	sound[1] = IMG_LoadTexture(renderer, "resources/sound2.png");
 	SOUND = sound[0];
+	settings = IMG_LoadTexture(renderer, "resources/settings.png");
+	set_but = IMG_LoadTexture(renderer, "resources/set_but.png");
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -38,6 +40,7 @@ void game::loadMenu() {
 	game_continue_rect = { SCREEN_WIDTH / 2 - 50 - 110, SCREEN_HEIGHT / 2 - 50, 100, 100 };
 	pause_rect = { SCREEN_WIDTH - 120, 5, 50, 50 };
 	sound_rect = { SCREEN_WIDTH - 60, 5, 50, 50 };
+	set_but_rect = { 10, SCREEN_HEIGHT - 70, 50, 50 };
 }
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
@@ -70,6 +73,7 @@ void game :: loadDefault() {
 	for (int i = 0; i < 2; i++) {
 		bgr[i] = loadTexture(renderer, "resources/bgr" + to_string(i + 1) + ".png");
 	}
+	stars = IMG_LoadTexture(renderer, "resources/stars.png");
 	scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
 	explo = IMG_LoadTexture(renderer, "resources/explosion2.png");
 	gameover = IMG_LoadTexture(renderer, "resources/gameover.png");
@@ -78,6 +82,7 @@ void game :: loadDefault() {
 	scorebar_rect = { 0, 0, SCREEN_WIDTH, 60 };
 	lifebar_rect = { 200, 0, 140, 60 };
 	energy_rect = { 160, 0, 40, 60 };
+	bgr_rect = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
 	explo_rect;
 }
 

@@ -115,8 +115,14 @@ void setupAsteroid(player& astro1) {
 void renderbackground() {
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
+	SDL_RenderCopy(renderer, stars, NULL, &bgr_rect);
+	SDL_Rect next_bgr = { bgr_rect.x + SCREEN_WIDTH, bgr_rect.y, SCREEN_WIDTH, SCREEN_HEIGHT };
+	SDL_RenderCopy(renderer, stars, NULL, &next_bgr);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 	SDL_RenderCopy(renderer, pause, NULL, &pause_rect);
+
+	bgr_rect.x--;
+	if (bgr_rect.x <= -SCREEN_WIDTH) bgr_rect.x = 0;
 }
 
 void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
