@@ -117,7 +117,6 @@ void renderbackground() {
 	SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
 	SDL_RenderCopy(renderer, pause, NULL, &pause_rect);
-	SDL_RenderCopy(renderer, SOUND, NULL, &sound_rect);
 }
 
 void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
@@ -371,7 +370,7 @@ void check2P(player& astro1, player& astro2, int& dmg1, int& dmg2) {
 	}
 }
 
-void handlePause() {
+void handlePause1() {
 	if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
 			Pause = true;
@@ -382,6 +381,7 @@ void handlePause() {
 			shield_time.Pause();
 			heal_time.Pause();
 			while (Pause) {
+				handleMute();
 				renderMenuPause();
 				if (!Pause) {
 					shield_wait.Unpause();
@@ -404,7 +404,44 @@ void handlePause() {
 	}
 }
 
+void handlePause2() {
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (SDL_PointInRect(&mouse, &pause_rect)) {
+		SDL_SetTextureColorMod(pause, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			Pause = true;
+			shield_wait.Pause();
+			heal_wait.Pause();
+			asteroid_wait.Pause();
+			Shield.Pause();
+			shield_time.Pause();
+			heal_time.Pause();
+			while (Pause) {
+				handleMute();
+				renderMenuPause();
+				if (!Pause) {
+					shield_wait.Unpause();
+					heal_wait.Unpause();
+					asteroid_wait.Unpause();
+					Shield.Unpause();
+					shield_time.Unpause();
+					heal_time.Unpause();
+				}
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+					if (quit) break;
+					if (!isChoose) break;
+				}
+				SDL_RenderPresent(renderer);
+			}
+		}
+	}
+	else SDL_SetTextureColorMod(pause, 150, 150, 150);
+}
 void handleMute() {
+	SDL_RenderCopy(renderer, SOUND, NULL, &sound_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	if (SDL_PointInRect(&mouse, &sound_rect)) {
 		SDL_SetTextureColorMod(SOUND, 255, 255, 255);

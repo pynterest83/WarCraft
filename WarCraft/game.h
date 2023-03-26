@@ -39,9 +39,11 @@ public:
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
-				handlePause();
+				handlePause1();
+				handlePause2();
 				astro1.handleBullet(event);
 			}
+
 			//render background
 			renderbackground();
 
@@ -170,7 +172,8 @@ public:
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
-				handlePause();
+				handlePause1();
+				handlePause2();
 				astro1.handleBullet(event);
 				astro2.P2HandleBullet(event);
 			}
@@ -215,6 +218,7 @@ public:
 				if (!isChoose) break;
 			}
 
+			handleMute();
 			SDL_RenderPresent(renderer);
 		}
 	}
