@@ -45,7 +45,7 @@ void enemy::move(int opt, int y_pos) {
             if (!bossMove) {
                 if (rect.y < y_pos) rect.y += 2;
                 if (rect.y > y_pos) rect.y -= 2;
-                if (rect.y == SCREEN_HEIGHT / 4 || rect.y == SCREEN_HEIGHT * 3 / 4) bossMove = false;
+                if (rect.y == SCREEN_HEIGHT / 4 || rect.y == SCREEN_HEIGHT * 3 / 4) bossMove = true;
             }
         }
     }

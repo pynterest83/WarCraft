@@ -171,7 +171,7 @@ void player::update(SDL_Renderer* renderer, double direct)
 	{
 		if (blood >= 35) body = p_img[0];
 		else if (blood >= 10) body = p_img[1];
-		else body = p_img[2];
+		else if (blood < 10) body = p_img[2];
 		show(renderer, NULL);
 
 		SDL_Rect e_boost = { rect.x - 30, rect.y - 20, 100, 100 };
@@ -207,7 +207,7 @@ void player::update(SDL_Renderer* renderer, double direct)
 			}
 		}
 	}
-	else SDL_DestroyTexture(body);
+	//else SDL_DestroyTexture(body);
 }
 
 SDL_Rect player::getRectBullet(int i)
