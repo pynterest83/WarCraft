@@ -66,6 +66,16 @@ int main(int argc, char* argv[]) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
+
+				if (event.type == SDL_DROPFILE) {
+					char* dropped_filedir = event.drop.file;
+					cout << dropped_filedir << endl;
+					const char* path = dropped_filedir;
+					cover = Mix_LoadMUS(path);
+					Mix_PlayMusic(cover, -1);
+					SDL_free(dropped_filedir);
+					//break;
+				}
 			}
 			renderMenuSettings();
 		}
