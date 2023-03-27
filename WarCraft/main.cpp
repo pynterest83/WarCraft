@@ -74,7 +74,6 @@ int main(int argc, char* argv[]) {
 					cover = Mix_LoadMUS(path);
 					Mix_PlayMusic(cover, -1);
 					SDL_free(dropped_filedir);
-					//break;
 				}
 			}
 			renderMenuSettings();
