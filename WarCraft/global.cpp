@@ -59,6 +59,7 @@ SDL_Texture* slider1 = NULL;
 SDL_Texture* slider2 = NULL;
 SDL_Texture* gfx = NULL;
 SDL_Texture* sfx = NULL;
+SDL_Texture* border = NULL;
 SDL_Rect rec_header_rect;
 SDL_Rect rec_but_rect;
 SDL_Rect inf_header_rect;
@@ -81,6 +82,8 @@ SDL_Rect sfx_control;
 SDL_Rect gfx_rect;
 SDL_Rect sfx_rect;
 SDL_Rect setting_rect;
+SDL_Rect border_rect1;
+SDL_Rect border_rect2;
 
 SDL_Texture* bgr[2];
 SDL_Texture* scorebar = NULL;

@@ -76,6 +76,7 @@ extern SDL_Texture* slider1;
 extern SDL_Texture* slider2;
 extern SDL_Texture* gfx;
 extern SDL_Texture* sfx;
+extern SDL_Texture* border;
 extern SDL_Rect rec_header_rect;
 extern SDL_Rect rec_but_rect;
 extern SDL_Rect inf_header_rect;
@@ -98,6 +99,8 @@ extern SDL_Rect sfx_control;
 extern SDL_Rect gfx_rect;
 extern SDL_Rect sfx_rect;
 extern SDL_Rect setting_rect;
+extern SDL_Rect border_rect1;
+extern SDL_Rect border_rect2;
 
 extern SDL_Texture* bgr[];
 extern SDL_Texture* scorebar;

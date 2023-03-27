@@ -27,6 +27,7 @@ void game::loadMenu() {
 	slider2 = IMG_LoadTexture(renderer, "resources/slider.png");
 	gfx = IMG_LoadTexture(renderer, "resources/Music.png");
 	sfx = IMG_LoadTexture(renderer, "resources/Sound.png");
+	border = IMG_LoadTexture(renderer, "resources/border.png");
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -50,6 +51,8 @@ void game::loadMenu() {
 	gfx_control = { SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 - 80, 600, 50 };
 	sfx_rect = { SCREEN_WIDTH / 2 - 350, SCREEN_HEIGHT / 2 - 10, 150, 30 };
 	sfx_control = { SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 + 30, 600, 50 };
+	border_rect1 = { SCREEN_WIDTH / 2 - 303, SCREEN_HEIGHT / 2 - 83, 606, 56 };
+	border_rect2 = { SCREEN_WIDTH / 2 - 303, SCREEN_HEIGHT / 2 + 27, 606, 56 };
 }
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);

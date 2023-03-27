@@ -72,7 +72,7 @@ public:
 				while (curframe_ex < 70) {
 					SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 					SDL_RenderClear(renderer);
-					SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
+					renderbackground();
 					SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
 					SDL_RenderPresent(renderer);
 					curframe_ex++;
@@ -97,11 +97,10 @@ public:
 					list_creep.at(i) = sEnemy;
 				}
 				// update level
-				SDL_RenderClear(renderer);
 				level++;
 				astro1.speed ++;
 				SDL_SetTextureColorMod(bgr[type-1], 150, 150, 150);
-				SDL_RenderCopy(renderer, bgr[type-1], NULL, NULL);
+				renderbackground();
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
 				SDL_RenderPresent(renderer);
@@ -159,7 +158,7 @@ public:
 				if (!isChoose) break;
 			}
 			handleMute();
-			SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
+			//SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
 			SDL_RenderPresent(renderer);
 		}
 	}

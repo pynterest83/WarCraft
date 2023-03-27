@@ -231,6 +231,8 @@ void renderMenuSettings() {
 	SDL_RenderCopy(renderer, sfx, NULL, &sfx_rect);
 	SDL_RenderCopy(renderer, slider1, NULL, &gfx_control);
 	SDL_RenderCopy(renderer, slider2, NULL, &sfx_control);
+	SDL_RenderCopy(renderer, border, NULL, &border_rect1);
+	SDL_RenderCopy(renderer, border, NULL, &border_rect2);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
