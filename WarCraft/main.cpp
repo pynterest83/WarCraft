@@ -69,7 +69,6 @@ int main(int argc, char* argv[]) {
 
 				if (event.type == SDL_DROPFILE) {
 					char* dropped_filedir = event.drop.file;
-					cout << dropped_filedir << endl;
 					const char* path = dropped_filedir;
 					cover = Mix_LoadMUS(path);
 					Mix_PlayMusic(cover, -1);
