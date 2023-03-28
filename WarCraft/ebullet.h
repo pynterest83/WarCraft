@@ -9,6 +9,8 @@ private:
 	bool isMove;
 	int speed;
 public:
+	int r = 0;
+	int start_x, start_y;
 	ebullet();
 	~ebullet();
 	void fire(double direct, int type);

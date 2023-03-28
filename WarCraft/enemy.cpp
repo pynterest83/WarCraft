@@ -63,6 +63,9 @@ void enemy::bossautoshot() {
         if (!bossshot[i].is_Move() && rect.x < SCREEN_WIDTH) {
 			bossshot[i].setPos(rect.x, rect.y + rect.h / 2 - bossshot[i].getRect().h / 2);
 			bossshot[i].setStatus(true);
+            bossshot[i].start_x = rect.x;
+            bossshot[i].start_y = rect.y + rect.h/2 - bossshot[i].getRect().h/2;
+            bossshot[i].r = 0;
 		}
 	}
 }

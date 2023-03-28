@@ -36,8 +36,9 @@ void ebullet::bossfire(int i, double direct, int type)
 	
 	
 	if (type == 1) {
-		rect.x = rect.x + cos(3.14 / 10 * i) * speed;
-		rect.y = rect.y + sin(3.14 / 10 * i) * speed;
+		r += 10;
+		rect.x = start_x + r*cos(3.14 / 10 * i);
+		rect.y = start_y + r*sin(3.14 / 10 * i);
 	}
 	else if (type == 2) {
 		rect.x -= speed;

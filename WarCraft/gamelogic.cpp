@@ -218,10 +218,21 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 		Boss.isBoss = true;
 	}
 	if (score >= 150 && check) {
+		bool num = true;
 		double direct = (double)((double)astro1.getRect().y - Boss.getRect().y) / ((double)astro1.getRect().x - Boss.getRect().x);
 		Boss.update(renderer, direct);
-		//if (-1 <= direct && direct <= 1) 
-		Boss.bossautoshot();
+		//if (-1 <= direct && direct <= 1)
+		if (type == 1) {
+			for (int i = 0; i < 20; i++) {
+				if (Boss.getbossShot(i).is_Move()) {
+					num = false;
+					break;
+				}
+			}
+			if (num) Boss.bossautoshot();
+		}
+		else Boss.bossautoshot();
+
 		int opt = rand() % 10000;
 		Boss.move(opt, astro1.getRect().y);
 

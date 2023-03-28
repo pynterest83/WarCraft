@@ -158,7 +158,7 @@ public:
 				if (!isChoose) break;
 			}
 			handleMute();
-			//SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
+			SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
 			SDL_RenderPresent(renderer);
 		}
 	}
