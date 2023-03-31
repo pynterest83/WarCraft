@@ -10,6 +10,7 @@ private:
     int y;
     ebullet shotback;
     ebullet bossshot[20];
+    ebullet spshot[20];
 
     bool alive;
     int blood;
@@ -32,10 +33,12 @@ public:
 
     void autoshot();
     void bossautoshot();
+    void spautoshot();
 
     SDL_Rect getRectShotback();
     ebullet& getShotback() { return shotback; };
     ebullet& getbossShot(int i) { return bossshot[i]; };
+    ebullet& getspShot(int i) { return spshot[i]; };
 
     void kill(int dmg){
         blood-=dmg;

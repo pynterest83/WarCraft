@@ -58,6 +58,21 @@ void enemy::autoshot(){
     }
 }
 
+void enemy::spautoshot() {
+    for (int i = 0; i < 20; i++) {
+        spshot[i].isBouncing1 = false;
+        spshot[i].isBouncing2 = false;
+        spshot[i].isBouncing3 = false;
+        spshot[i].isBouncing4 = false;
+    }
+    for (int i = 0; i < 20; i++) {
+        if (!spshot[i].is_Move()) {
+            spshot[i].setPos(rect.x + rect.w, rect.y + rect.h / 2 - bossshot[i].getRect().h / 2);
+            spshot[i].setStatus(true);
+        }
+    }
+}
+
 void enemy::bossautoshot() {
     for (int i = 0; i < 20; i++) {
         if (!bossshot[i].is_Move() && rect.x < SCREEN_WIDTH) {
@@ -89,10 +104,32 @@ void enemy::update(SDL_Renderer* renderer, double direct){
                 }
             }
             else {
-                if (shotback.is_Move()) {
-					shotback.spfire(direct);
-					shotback.show(renderer, NULL);
-				}
+                spshot[0].setStatus(false);
+                for (int i = 1; i < 20; i++) {
+                    if (spshot[i].is_Move() && !spshot[i - 1].is_Move()) {
+                        spshot[i].spfire(direct);
+                        spshot[i].show(renderer, NULL);
+                    }
+                    if (!spshot[i-1].is_Move()) {
+                        spshot[i-1].bouncefire(direct);
+                    }
+                    if (spshot[i - 1].isBouncing1) {
+                        spshot[i - 1].bounce1(direct);
+                        spshot[i - 1].show(renderer, NULL);
+                    }
+                    if (spshot[i - 1].isBouncing2) {
+                        spshot[i - 1].bounce2(direct);
+                        spshot[i - 1].show(renderer, NULL);
+					}
+                    if (spshot[i - 1].isBouncing3) {
+                        spshot[i - 1].bounce3(direct);
+                        spshot[i - 1].show(renderer, NULL);
+                    }
+                    if (spshot[i - 1].isBouncing4) {
+                        spshot[i - 1].bounce4(direct);
+                        spshot[i - 1].show(renderer, NULL);
+                    }
+                }
             }
         }
         else {
@@ -105,9 +142,8 @@ void enemy::update(SDL_Renderer* renderer, double direct){
                 }
             }
             else if (type == 2) {
-                bossshot[0].bossfire(0, direct, type);
-                bossshot[0].show(renderer, NULL);
-                for (int i = 0; i < 20; i++) {
+                bossshot[0].setStatus(false);
+                for (int i = 1; i < 20; i++) {
                     if (bossshot[i].is_Move() && !bossshot[i-1].is_Move()) {
                         bossshot[i].bossfire(i, direct, type);
                         bossshot[i].show(renderer, NULL);
@@ -148,5 +184,9 @@ void enemy::setSp() {
 
     shotback.getsize(20, 20);
     shotback.setImg(p_sup_bul);
-    shotback.getSpeed(10);
+    shotback.getSpeed(5);
+
+    for (int i = 0; i < 20; i++) {
+        spshot[i] = shotback;
+    }
 }

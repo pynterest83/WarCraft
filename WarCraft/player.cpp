@@ -91,7 +91,7 @@ void player::handleBullet(SDL_Event event) {
 	if (state[SDL_SCANCODE_SPACE] && backSpace) {
 		if (turn == 0) Mix_PlayChannel(-1, p_shot1, 0);
 		else Mix_PlayChannel(-1, p_shot2, 0);
-		if (!isSkilledQ && !isSkilledR) {
+		if (!isSkilledQ) {
 			for (int i = 0; i < num_bullet; i++) {
 				if (!shot[i].is_Move()) {
 					shot[i].setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot[i].getRect().h / 2);
@@ -121,26 +121,18 @@ void player::handleBullet(SDL_Event event) {
 				skill_wait.Start();
 			}
 		}
-		else if (isSkilledR) {
-			if (skill_time.GetTime() < (Uint32)15000) {
-				for (int i = 0; i < num_bullet; i++) {
-					if (!shot[i].is_Move()) {
-						shot[i].setPos(rect.x + rect.w, rect.y + rect.h / 2 - shot[i].getRect().h / 2);
-						shot[i].setStatus(true);
-						backSpace = false;
-						break;
-					}
-				}
-			}
-			else {
-				SupIsSet = false;
-				isSkilledR = false;
-				skill_time.Pause();
-				skill_time.Reset();
-				skill_wait.Start();
-			}
+	}
+
+	if (isSkilledR) {
+		if (skill_time.GetTime() >= (Uint32)15000) {
+			SupIsSet = false;
+			isSkilledR = false;
+			skill_time.Pause();
+			skill_time.Reset();
+			skill_wait.Start();
 		}
 	}
+
 	if (state[SDL_SCANCODE_E]) {
 		Mix_PlayChannel(-1, skillE, 0);
 		for (int i = 0; i < num_bullet; i++) {
@@ -200,9 +192,9 @@ void player::update(SDL_Renderer* renderer, double direct)
 				supporter.setPos(mouse.x, mouse.y);
 				SupIsSet = true;
 				SDL_ShowCursor(SDL_ENABLE);
+				if (-sqrt(3) <= direct && direct <= sqrt(3)) supporter.spautoshot();
 			}
 			if (SupIsSet) {
-				supporter.autoshot();
 				supporter.update(renderer, direct);
 			}
 		}

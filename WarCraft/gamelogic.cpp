@@ -149,24 +149,25 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 						astro1.getBullet(j).setStatus(false);
 					}
 				}
+				for (int k = 0; k < 20; k++) {
+					if (checkCollision(astro1.getSup().getspShot(k).getRect(), list_creep.at(i).getRect()) && astro1.SupIsSet) {
+						list_creep.at(i).kill(dmg);
+						if (list_creep.at(i).is_killed()) {
+							Mix_PlayChannel(-1, explo_sound, 0);
+							curframe_ex = 0;
+							explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
+							enemy sEnemy(SCREEN_WIDTH + i * 200, level);
+							list_creep.at(i) = sEnemy;
+							score += 10 + (level - 1) * 2;
+							cnt++;
+						}
 
-				if (checkCollision(astro1.getSup().getRectShotback(), list_creep.at(i).getRect()) && astro1.getSup().getShotback().is_Move() && astro1.SupIsSet) {
-					list_creep.at(i).kill(dmg);
-					if (list_creep.at(i).is_killed()) {
-						Mix_PlayChannel(-1, explo_sound, 0);
-						curframe_ex = 0;
-						explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
-						enemy sEnemy(SCREEN_WIDTH + i * 200, level);
-						list_creep.at(i) = sEnemy;
-						score += 10 + (level - 1) * 2;
-						cnt++;
+						else {
+							curframe_ex = 0;
+							explo_rect = { list_creep.at(i).getRect().x, list_creep.at(i).getRect().y, 50, 50 };
+						}
+						astro1.getSup().getspShot(k).setStatus(false);
 					}
-
-					else {
-						curframe_ex = 0;
-						explo_rect = { list_creep.at(i).getRect().x, list_creep.at(i).getRect().y, 50, 50 };
-					}
-					astro1.getSup().getShotback().setStatus(false);
 				}
 			}
 
@@ -245,13 +246,14 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 				astro1.getBullet(j).setStatus(false);
 			}
 		}
+		for (int i = 0; i < 20; i++) {
+			if (checkCollision(astro1.getSup().getspShot(i).getRect(), Boss.getRect()) && astro1.SupIsSet) {
+				curframe_ex = 0;
+				explo_rect = { astro1.getSup().getRectShotback().x - 10, astro1.getSup().getRectShotback().y - 10, 100, 100 };
 
-		if (checkCollision(astro1.getSup().getRectShotback(), Boss.getRect()) && astro1.getSup().getShotback().is_Move() && astro1.SupIsSet) {
-			curframe_ex = 0;
-			explo_rect = { astro1.getSup().getRectShotback().x - 10, astro1.getSup().getRectShotback().y - 10, 100, 100};
-
-			Boss.kill(dmg);
-			astro1.getSup().getShotback().setStatus(false);
+				Boss.kill(dmg);
+				astro1.getSup().getspShot(i).setStatus(false);
+			}
 		}
 
 		for (int i = 0; i < 20; i++) {
