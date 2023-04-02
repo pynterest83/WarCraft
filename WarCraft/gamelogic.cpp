@@ -137,6 +137,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 							curframe_ex = 0;
 							explo_rect = { list_creep.at(i).getRect().x - 50, list_creep.at(i).getRect().y - 50, 200, 200 };
 							enemy sEnemy(SCREEN_WIDTH + i * 200, level);
+							sEnemy.setImg(creep[type - 1][i % 5]);
 							list_creep.at(i) = sEnemy;
 							score += 10 + (level - 1) * 2;
 							cnt++;
@@ -200,14 +201,17 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 
 			// enemy move and update enemy
 			int opt = rand() % 10000;
-			list_creep.at(i).move(opt, astro1.getRect().y);
 			double direct = (double)(astro1.getRect().y - list_creep.at(i).getRect().y) / (astro1.getRect().x - list_creep.at(i).getRect().x);
+			list_creep.at(i).move(opt, astro1.getRect().y, direct);
 			list_creep.at(i).update(renderer, direct);
 			if (type == 2) {
 				if (-sqrt(3) <= direct && direct <= sqrt(3)) list_creep.at(i).autoshot();
 			}
-			else {
+			else if (type == 1){
 				if (checkSeen(astro1.getRect(), list_creep.at(i).getRect())) list_creep.at(i).autoshot();
+			}
+			else {
+				list_creep.at(i).autoshot();
 			}
 		}
 	}
@@ -235,7 +239,7 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 		else Boss.bossautoshot();
 
 		int opt = rand() % 10000;
-		Boss.move(opt, astro1.getRect().y);
+		Boss.move(opt, astro1.getRect().y, direct);
 
 		for (int j = 0; j < astro1.num_bullet; j++) {
 			if (checkCollision(astro1.getRectBullet(j), Boss.getRect()) && astro1.getBullet(j).is_Move() && Boss.getRect().x + Boss.getRect().w < SCREEN_WIDTH) {

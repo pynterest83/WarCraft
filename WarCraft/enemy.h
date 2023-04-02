@@ -27,7 +27,7 @@ public:
     enemy() {};
     ~enemy(){};
 
-    void move(int opt, int y_pos);
+    void move(int opt, int y_pos, double direct);
 
     void update(SDL_Renderer* renderer, double direct);
 

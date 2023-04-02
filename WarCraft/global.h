@@ -77,6 +77,7 @@ extern SDL_Texture* slider2;
 extern SDL_Texture* gfx;
 extern SDL_Texture* sfx;
 extern SDL_Texture* border;
+extern SDL_Texture* shop_but;
 extern SDL_Rect rec_header_rect;
 extern SDL_Rect rec_but_rect;
 extern SDL_Rect inf_header_rect;
@@ -101,6 +102,7 @@ extern SDL_Rect sfx_rect;
 extern SDL_Rect setting_rect;
 extern SDL_Rect border_rect1;
 extern SDL_Rect border_rect2;
+extern SDL_Rect shop_but_rect;
 
 extern SDL_Texture* bgr[];
 extern SDL_Texture* scorebar;
@@ -153,8 +155,8 @@ extern Timer heal_wait;
 extern Timer heal_time;
 extern int x_heal, y_heal;
 
-extern SDL_Texture* creep[];
-extern SDL_Texture* boss[];
+extern SDL_Texture* creep[3][5];
+extern SDL_Texture* boss[3][2];
 extern SDL_Texture* creep_bul[];
 extern SDL_Texture* boss_bul[];
 extern SDL_Texture* p_img[];

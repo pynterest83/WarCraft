@@ -91,6 +91,7 @@ int main(int argc, char* argv[]) {
 				vector<enemy> list_creep;
 				for (int i = 0; i < 5; i++) {
 					enemy sEnemy(SCREEN_WIDTH + i * 200, level);
+					sEnemy.setImg(creep[type - 1][i%5]);
 					list_creep.push_back(sEnemy);
 				}
 				enemy Boss(SCREEN_WIDTH + 200, level);

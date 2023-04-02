@@ -26,6 +26,11 @@ void ebullet::fire(double direct, int type)
 	else if (type == 1) {
 		rect.x -= speed;
 	}
+	else {
+		r++;
+		rect.x = start_x + 100 * cos(r);
+		rect.y = start_y + 100 * sin(r);
+	}
 }
 
 void ebullet::bossfire(int i, double direct, int type)
@@ -43,6 +48,18 @@ void ebullet::bossfire(int i, double direct, int type)
 	else if (type == 2) {
 		rect.x -= speed;
 		rect.y -= direct * speed;
+	}
+	else {
+		double a = atan(direct);
+		r += speed;
+		if (i % 2 == 0) {
+			rect.x -= speed*cos(a - 0.017*(i%5));
+			rect.y -= speed * sin(a - 0.017*(i%5));
+		}
+		else {
+			rect.x -= speed * cos(a + 0.017*(i%5));
+			rect.y -= speed * sin(a + 0.017*(i%5));
+		}
 	}
 }
 

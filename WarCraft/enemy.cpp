@@ -7,11 +7,11 @@ enemy::enemy(int _x, int level){
 
     alive = true;
     x= _x;
-    y= rand()%(SCREEN_HEIGHT-60);
+    y= rand()%(SCREEN_HEIGHT) + 60;
     rect.w = 50;
 	rect.h = 50;
     setPos(x,y);
-    setImg(creep[type-1]);
+    setImg(creep[type-1][level%2]);
     shotback.setImg(creep_bul[type-1]);
     shotback.getSpeed(5 * level);
     blood = 1 * level;
@@ -20,41 +20,57 @@ enemy::enemy(int _x, int level){
     e_frame = 0;
 }
 
-void enemy::move(int opt, int y_pos) {
+void enemy::move(int opt, int y_pos, double direct) {
     if (!isBoss) {
-        if (rect.y == 0 || rect.y == SCREEN_HEIGHT - rect.h) opt -= 1;
-        rect.x -= 2;
-        if (rect.y < SCREEN_HEIGHT - 3 / 2 * rect.h && opt % 2 == 0) {
-            rect.y += 2;
+        if (type == 1 || type == 2) {
+            if (rect.y == 0 || rect.y == SCREEN_HEIGHT - rect.h) opt -= 1;
+            rect.x -= 2;
+            if (rect.y < SCREEN_HEIGHT - 3 / 2 * rect.h && opt % 2 == 0) {
+                rect.y += 2;
+            }
+            if (rect.y > 60 + rect.h / 2 && opt % 2 != 0) {
+                rect.y -= 2;
+            }
+            if (rect.x < -rect.w) rect.x = SCREEN_WIDTH;
         }
-        if (rect.y > 60 + rect.h / 2 && opt % 2 != 0) {
-            rect.y -= 2;
+        else {
+            rect.x -= 3;
+            rect.y -= direct * 3;
         }
-        if (rect.x < -rect.w) rect.x = SCREEN_WIDTH;
     }
 
     else {
-        if (rect.x > SCREEN_WIDTH - rect.h - 50) rect.x -= 2;
+		if (rect.x > SCREEN_WIDTH - rect.h - 50) rect.x -= 2;
         else {
-            if (rect.y >= y_pos - 15 && rect.y <= y_pos + 15) bossMove = true;
+			if (rect.y >= y_pos - 15 && rect.y <= y_pos + 15) bossMove = true;
             if (bossMove) {
-                if (rect.y < y_pos) rect.y -= 2;
+				if (rect.y < y_pos) rect.y -= 2;
 				if (rect.y > y_pos) rect.y += 2;
-                if (rect.y == SCREEN_HEIGHT/4 || rect.y == SCREEN_HEIGHT * 3 /4) bossMove = false;
-            }
+				if (rect.y == SCREEN_HEIGHT / 4 || rect.y == SCREEN_HEIGHT * 3 / 4) bossMove = false;
+			}
             if (!bossMove) {
-                if (rect.y < y_pos) rect.y += 2;
-                if (rect.y > y_pos) rect.y -= 2;
-                if (rect.y == SCREEN_HEIGHT / 4 || rect.y == SCREEN_HEIGHT * 3 / 4) bossMove = true;
-            }
-        }
+				if (rect.y < y_pos) rect.y += 2;
+				if (rect.y > y_pos) rect.y -= 2;
+				if (rect.y == SCREEN_HEIGHT / 4 || rect.y == SCREEN_HEIGHT * 3 / 4) bossMove = true;
+			}
+		}
     }
 }
 
 void enemy::autoshot(){
-    if (!shotback.is_Move() && rect.x<SCREEN_WIDTH){
-        shotback.setPos(rect.x, rect.y + rect.h/2 - shotback.getRect().h/2);
-        shotback.setStatus(true);
+    if (type == 1 || type == 2) {
+        if (!shotback.is_Move() && rect.x < SCREEN_WIDTH) {
+            shotback.setPos(rect.x, rect.y + rect.h / 2 - shotback.getRect().h / 2);
+            shotback.setStatus(true);
+        }
+    }
+    else {
+        shotback.start_x = rect.x;
+        shotback.start_y = rect.y + rect.h / 2 - shotback.getRect().h / 2;
+        if (!shotback.is_Move() && rect.x < SCREEN_WIDTH) {
+            shotback.setPos(rect.x - 100, rect.y + rect.h / 2 - shotback.getRect().h / 2);
+            shotback.setStatus(true);
+        }
     }
 }
 
@@ -107,7 +123,7 @@ void enemy::update(SDL_Renderer* renderer, double direct){
                 spshot[0].setStatus(false);
                 for (int i = 1; i < 20; i++) {
                     if (spshot[i].is_Move() && !spshot[i - 1].is_Move()) {
-                        spshot[i].spfire(direct);
+                        if (-sqrt(3) <= direct && direct <= sqrt(3)) spshot[i].spfire(direct);
                         spshot[i].show(renderer, NULL);
                     }
                     if (!spshot[i-1].is_Move()) {
@@ -133,7 +149,7 @@ void enemy::update(SDL_Renderer* renderer, double direct){
             }
         }
         else {
-            if (type == 1) {
+            if (type == 1 || type == 3 ) {
                 for (int i = 0; i < 20; i++) {
                     if (bossshot[i].is_Move()) {
                         bossshot[i].bossfire(i, direct, type);
@@ -163,7 +179,7 @@ void enemy::setBoss(int level) {
     blood = 5*level;
     rect.w = 125;
     rect.h = 100;
-    setImg(boss[type - 1]);
+    setImg(boss[type - 1][level%2]);
     setPos(SCREEN_WIDTH + 200, SCREEN_HEIGHT / 2);
 
     shotback.getsize(35, 35);

@@ -192,7 +192,7 @@ void player::update(SDL_Renderer* renderer, double direct)
 				supporter.setPos(mouse.x, mouse.y);
 				SupIsSet = true;
 				SDL_ShowCursor(SDL_ENABLE);
-				if (-sqrt(3) <= direct && direct <= sqrt(3)) supporter.spautoshot();
+				supporter.spautoshot();
 			}
 			if (SupIsSet) {
 				supporter.update(renderer, direct);
@@ -208,7 +208,7 @@ SDL_Rect player::getRectBullet(int i)
 }
 
 void player::setP2() {
-	setImg(creep[1]);
+	setImg(creep[1][0]);
 
 	x = SCREEN_WIDTH - rect.w;
 	y = SCREEN_HEIGHT / 2;

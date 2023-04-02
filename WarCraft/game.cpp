@@ -28,6 +28,7 @@ void game::loadMenu() {
 	gfx = IMG_LoadTexture(renderer, "resources/Music.png");
 	sfx = IMG_LoadTexture(renderer, "resources/Sound.png");
 	border = IMG_LoadTexture(renderer, "resources/border.png");
+	shop_but = IMG_LoadTexture(renderer, "resources/shop.png");
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -46,6 +47,7 @@ void game::loadMenu() {
 	pause_rect = { SCREEN_WIDTH - 120, 5, 50, 50 };
 	sound_rect = { SCREEN_WIDTH - 60, 5, 50, 50 };
 	set_but_rect = { 10, SCREEN_HEIGHT - 70, 50, 50 };
+	shop_but_rect = { 70, SCREEN_HEIGHT - 70, 50, 50 };
 	setting_rect = { SCREEN_WIDTH/2 - 400, SCREEN_HEIGHT/2 - 150, 800, 300 };
 	gfx_rect = { SCREEN_WIDTH / 2 - 350, SCREEN_HEIGHT / 2 - 120, 150, 30 };
 	gfx_control = { SCREEN_WIDTH / 2 - 300, SCREEN_HEIGHT / 2 - 80, 600, 50 };
@@ -82,7 +84,7 @@ void game :: loadSound() {
 
 void game :: loadDefault() {
 	type = rand() % 2 + 1;
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 3; i++) {
 		bgr[i] = loadTexture(renderer, "resources/bgr" + to_string(i + 1) + ".png");
 	}
 	scorebar = IMG_LoadTexture(renderer, "resources/scorebar.png");
@@ -156,16 +158,24 @@ void game::Resetgame() {
 
 void game::loadCharacter() {
 	for (int i = 0; i < 2; i++) {
-		creep[i] = loadTexture(renderer, "resources/creep" + to_string(i+1) + ".png");
-		boss[i] = loadTexture(renderer, "resources/boss" + to_string(i+1) + ".png");
-		creep_bul[i] = loadTexture(renderer, "resources/creepbul" + to_string(i+1) + ".png");
-		boss_bul[i] = loadTexture(renderer, "resources/bossbul" + to_string(i+1) + ".png");
 		p_shot[i] = loadTexture(renderer, "resources/playerbullet" + to_string(i + 1) + ".png");
 		e_flame[i] = loadTexture(renderer, "resources/e_flame" + to_string(i + 1) + ".png");
 	}
 
 	for (int i = 0; i < 3; i++) {
 		p_img[i] = loadTexture(renderer, "resources/player" + to_string(i + 1) + ".png");
+		creep_bul[i] = loadTexture(renderer, "resources/creepbul" + to_string(i + 1) + ".png");
+		boss_bul[i] = loadTexture(renderer, "resources/bossbul" + to_string(i + 1) + ".png");
+	}
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 5; j++) {
+			creep[i][j] = loadTexture(renderer, "resources/creep" + to_string(i + 1) + to_string(j + 1) + ".png");
+		}
+	}
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 2; j++) {
+			boss[i][j] = loadTexture(renderer, "resources/boss" + to_string(i + 1) + to_string(j + 1) + ".png");
+		}
 	}
 	p_engine = loadTexture(renderer, "resources/engine_boost.png");
 	p_sup = loadTexture(renderer, "resources/support1.png");

@@ -78,8 +78,9 @@ public:
 					curframe_ex++;
 				}
 
-				type = rand() % 2 + 1 ;
+				type = rand() % 3 + 1 ;
 				// regenBoss and Enemy
+				level++;
 				enemy Boss1(SCREEN_WIDTH - 100, level);
 				Boss1.setBoss(level);
 				check = false;
@@ -97,7 +98,6 @@ public:
 					list_creep.at(i) = sEnemy;
 				}
 				// update level
-				level++;
 				astro1.speed ++;
 				SDL_SetTextureColorMod(bgr[type-1], 150, 150, 150);
 				renderbackground();
