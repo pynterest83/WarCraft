@@ -9,3 +9,4 @@ void renderMenuGameOver();
 void renderMenuHighScore();
 void renderMenuInfo();
 void renderMenuSettings();
+void renderMenuShop();

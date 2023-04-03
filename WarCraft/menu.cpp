@@ -72,7 +72,7 @@ void renderMenu() {
 		SDL_SetTextureColorMod(shop_but, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
-			//isShop = true;
+			isShop = true;
 		}
 	}
 	else {
@@ -171,6 +171,7 @@ void renderMenuGameOver() {
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
 			isChoose = false;
 			Start = true;
 		}
@@ -180,6 +181,7 @@ void renderMenuGameOver() {
 	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
 		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
 			quit = true;
 		}
 	}
@@ -276,5 +278,22 @@ void renderMenuSettings() {
 
 	SDL_RenderCopy(renderer, slider1, NULL, &gfx_control);
 	SDL_RenderCopy(renderer, slider2, NULL, &sfx_control);
+	SDL_RenderPresent(renderer);
+}
+
+void renderMenuShop() {
+	SDL_RenderCopy(renderer, shopbgr, NULL, NULL);
+	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	if (SDL_PointInRect(&mouse, &back_rect)) {
+		SDL_SetTextureColorMod(back, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isShop = false;
+		}
+	}
+	else SDL_SetTextureColorMod(back, 150, 150, 150);
+
 	SDL_RenderPresent(renderer);
 }

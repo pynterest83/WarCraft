@@ -29,6 +29,7 @@ void game::loadMenu() {
 	sfx = IMG_LoadTexture(renderer, "resources/Sound.png");
 	border = IMG_LoadTexture(renderer, "resources/border.png");
 	shop_but = IMG_LoadTexture(renderer, "resources/shop.png");
+	shopbgr = IMG_LoadTexture(renderer, "resources/shopbgr.png");
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
