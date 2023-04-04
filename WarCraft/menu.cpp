@@ -282,8 +282,24 @@ void renderMenuSettings() {
 }
 
 void renderMenuShop() {
+	money.open("coin.txt", ios::in);
+	money >> coin_sum;
+	money.close();
+	bought.open("isBought.txt", ios::in);
+	bought >> isBought;
+	bought.close();
+
 	SDL_RenderCopy(renderer, shopbgr, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_RenderCopy(renderer, pausewindow, NULL, &shop_window_rect);
+	SDL_RenderCopy(renderer, coin, NULL, &coin_rect2);
+	SDL_RenderCopy(renderer, p_img[0], NULL, &shop_item[0]);
+	SDL_RenderCopy(renderer, new_player, NULL, &shop_item[1]);
+	SDL_RenderCopy(renderer, price, NULL, &price_rect);
+	if (!isBought) {
+		SDL_SetTextureColorMod(price, 150, 150, 150);
+		SDL_SetTextureColorMod(new_player, 150, 150, 150);
+	}
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
@@ -295,5 +311,40 @@ void renderMenuShop() {
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
 
-	SDL_RenderPresent(renderer);
+	if (coin_sum >= 1000 && !isBought) {
+		if (SDL_PointInRect(&mouse, &shop_item[1])) {
+			SDL_SetTextureColorMod(new_player, 255, 255, 255);
+			SDL_SetTextureColorMod(price, 255, 255, 255);
+			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+				bought.open("isBought.txt", ios::out);
+				money.open("coin.txt", ios::out);
+				isBought = true;
+				bought << isBought;
+				bought.close();
+				coin_sum -= 1000;
+				money << coin_sum;
+				money.close();
+			}
+		}
+		else SDL_SetTextureColorMod(back, 150, 150, 150);
+	}
+
+	if (isBought) {
+		if (SDL_PointInRect(&mouse, &shop_item[1])) {
+			SDL_SetTextureColorMod(new_player, 255, 255, 255);
+			SDL_SetTextureColorMod(price, 255, 255, 255);
+			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+				SDL_SetTextureColorMod(p_img[0], 150, 150, 150);
+				player_skin = 2;
+			}
+		}
+		else if (SDL_PointInRect(&mouse, &shop_item[0])) {
+			SDL_SetTextureColorMod(p_img[0], 255, 255, 255);
+			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+				SDL_SetTextureColorMod(new_player, 150, 150, 150);
+				SDL_SetTextureColorMod(price, 150, 150, 150);
+				player_skin = 1;
+			}
+		}
+	}
 }

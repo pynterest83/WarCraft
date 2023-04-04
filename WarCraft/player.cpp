@@ -7,8 +7,14 @@ player::player() {
 	rect.h = 60;
 	setPos(x, y);
 
-	shottype[1].setImg(p_shot[0]);
-	shottype[1].setSpeed(10);
+	if (player_skin == 1) {
+		shottype[1].setImg(p_shot[0]);
+		shottype[1].setSpeed(10);
+	}
+	else {
+		shottype[1].setImg(new_player_bul);
+		shottype[1].setSpeed(10);
+	}
 	shottype[0].setImg(p_shot[1]);
 	shottype[0].setSpeed(25);
 	num_bullet = 40;
@@ -161,9 +167,14 @@ void player::update(SDL_Renderer* renderer, double direct)
 {
 	if (alive)
 	{
-		if (blood >= 35) body = p_img[0];
-		else if (blood >= 10) body = p_img[1];
-		else if (blood < 10) body = p_img[2];
+		if (player_skin == 1) {
+			if (blood >= 35) body = p_img[0];
+			else if (blood >= 10) body = p_img[1];
+			else if (blood < 10) body = p_img[2];
+		}
+		else {
+			body = new_player;
+		}
 		show(renderer, NULL);
 
 		SDL_Rect e_boost = { rect.x - 30, rect.y - 20, 100, 100 };

@@ -118,6 +118,7 @@ void renderbackground() {
 	SDL_Rect next_bgr = { bgr_rect.x + SCREEN_WIDTH, bgr_rect.y, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_RenderCopy(renderer, bgr[type-1], NULL, &next_bgr);
 	SDL_RenderCopy(renderer, scorebar, NULL, &scorebar_rect);
+	SDL_RenderCopy(renderer, coin, NULL, &coin_rect1);
 	SDL_RenderCopy(renderer, pause, NULL, &pause_rect);
 
 	bgr_rect.x--;
@@ -140,6 +141,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 							sEnemy.setImg(creep[type - 1][i % 5]);
 							list_creep.at(i) = sEnemy;
 							score += 10 + (level - 1) * 2;
+							coin_cnt++;
 							cnt++;
 						}
 
@@ -160,6 +162,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 							enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 							list_creep.at(i) = sEnemy;
 							score += 10 + (level - 1) * 2;
+							coin_cnt++;
 							cnt++;
 						}
 
@@ -196,6 +199,7 @@ void check_creep(player& astro1, vector<enemy>& list_creep, int& dmg) {
 				enemy sEnemy(SCREEN_WIDTH + i * 200, level);
 				list_creep.at(i) = sEnemy;
 				score += 10 + (level - 1) * 2;
+				coin_cnt++;
 				cnt++;
 			}
 
@@ -332,11 +336,18 @@ void gameOver() {
 	Mix_PlayChannel(-1, explo_sound, 0);
 	highscore.open("highscore.txt", ios::app);
 	highscore << score << " ";
+	money.open("coin.txt", ios::in);
+	money >> coin_sum;
+	money.close();
+	money.open("coin.txt", ios::out);
+	coin_sum += coin_cnt;
+	money << coin_sum;
 
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, gameover, NULL, NULL);
 
 	highscore.close();
+	money.close();
 }
 
 void g_Animation(player& astro1, SDL_Rect &lifebar_rect, SDL_Rect& energy_rect) {

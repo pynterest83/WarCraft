@@ -20,6 +20,8 @@ int main(int argc, char* argv[]) {
 
 	Text rate(SCREEN_WIDTH /2 - 150, SCREEN_HEIGHT/2 - 40, 50, 300, 1);
 	rate.initText(font_text, "font/Koulen-Regular.ttf");
+	Text money_sum(SCREEN_WIDTH / 2 - 70, 60, 60, 60, 1);
+	money_sum.initText(font_text, "font/Koulen-Regular.ttf");
 
 	while (!quit) {
 		while (!Start && !quit && !isChoose && !isHi && !isInf && !isSet && !isShop) {
@@ -68,6 +70,9 @@ int main(int argc, char* argv[]) {
 				}
 			}
 			renderMenuShop();
+			money_sum.setText(to_string(coin_sum));
+			money_sum.createaText(font_text, renderer);
+			SDL_RenderPresent(renderer);
 		}
 		while (isSet && !quit) {
 			while (SDL_PollEvent(&event) != 0) {

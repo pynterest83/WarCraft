@@ -20,6 +20,7 @@ public:
 		Round.initText(font_text, "font/Koulen-Regular.ttf");
 		GameOver1.initText(font_text, "font/Koulen-Regular.ttf");
 		GameOver2.initText(font_text, "font/Koulen-Regular.ttf");
+		Money.initText(font_text, "font/Koulen-Regular.ttf");
 	}
 	void loadCharacter();
 	void loadSound();
@@ -85,6 +86,7 @@ public:
 				Boss1.setBoss(level);
 				check = false;
 				score += 50 * level;
+				coin_cnt += 10;
 				cnt = 0;
 				Boss = Boss1;
 
@@ -113,6 +115,10 @@ public:
 			// render score text
 			Score.setText("Score: " + to_string(score));
 			Score.createaText(font_text, renderer);
+
+			// render money text
+			Money.setText(to_string(coin_cnt));
+			Money.createaText(font_text, renderer);
 
 			// render default
 			g_Animation(astro1, lifebar_rect, energy_rect);
