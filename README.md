@@ -15,4 +15,33 @@
   * Timer.h / Timer.cpp [AdvancedTimer](https://lazyfoo.net/tutorials/SDL/23_advanced_timers/index.php)
   * Text.h / Text.cpp  [TrueTypeFonts](https://lazyfoo.net/tutorials/SDL/16_true_type_fonts/index.php)
   * object.h / object.cpp, rendergame.h / rendergame.cpp: learn from phattrienphanmem123az and have many additions.
-  
+
+# Features <a name="features"></a>
+
+**1. GameWindow**
+* Two game mode: PlayervsBot and PlayervsPlayer.
+* Animations for player, enemies, shield and explosion.
+* 3 skills for player, 3 types of enemy.
+* Seamless background based on type of enemy.
+* Random pickups: shield, heal and asteroid.
+* Limit FPS to be compatible with all devices (if not, when running the game on a high-configuration machine, the image will be rendered too fast, causing the "fast forward" effect).
+
+**2. TabPause/GameOver**
+* Enable/Mute the game.
+* View current score.
+* Continue, exit and replay.
+
+**3. TabGameMenu**
+* Start/Exit.
+* HighScore/Information.
+* Setting Volume.
+* Shop to buy skin for player.
+
+# How to play <a name="play"></a>
+* Use AWSD to move.
+* Use QER to use skills.
+* Use SPACE to shoot.
+* Press ESC to Pause.
+
+# Installation <a name="installation"></a>
+Download zip, open 'x64/Release/WarCraft.exe' to PLAY.
