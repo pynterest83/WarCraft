@@ -53,7 +53,7 @@ void ebullet::bossfire(int i, double direct, int type)
 		double a = atan(direct);
 		r += speed;
 		if (i % 2 == 0) {
-			rect.x -= speed*cos(a - 0.017*(i%5));
+			rect.x -= speed * cos(a - 0.017*(i%5));
 			rect.y -= speed * sin(a - 0.017*(i%5));
 		}
 		else {

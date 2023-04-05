@@ -44,6 +44,7 @@ extern Text Round;
 extern Text GameOver1;
 extern Text GameOver2;
 extern Text Money;
+extern Text DisPlayFps;
 
 extern Mix_Music* cover;
 extern Mix_Chunk* p_shot1;
@@ -138,6 +139,7 @@ extern int cnt;
 extern int curframe_ex;
 extern int curframe_blood;
 extern int curframe_energy;
+extern Timer frame;
 
 extern SDL_Texture* shield_pickup;
 extern SDL_Texture* shield;

@@ -21,6 +21,7 @@ public:
 		GameOver1.initText(font_text, "font/Koulen-Regular.ttf");
 		GameOver2.initText(font_text, "font/Koulen-Regular.ttf");
 		Money.initText(font_text, "font/Koulen-Regular.ttf");
+		DisPlayFps.initText(font_text, "font/Koulen-Regular.ttf");
 	}
 	void loadCharacter();
 	void loadSound();
@@ -34,7 +35,12 @@ public:
 		shield_wait.Start();
 		heal_wait.Start();
 		asteroid_wait.Start();
+		int frame_rate = 60;
 		while (!quit && !Pause) {
+			//start frame timer
+			frame.Reset();
+			frame.Start();
+
 			//event loop
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -63,8 +69,9 @@ public:
 			
 			// checkShooting
 			check_creep(astro1, list_creep, dmg);
-			// generate boss
 			check_boss(astro1, Boss, list_creep, dmg);
+
+			// change round
 			if (Boss.is_killed() && check) {
 				Mix_PlayChannel(-1, explo_sound, 0);
 				Boss.isBoss = false;
@@ -165,7 +172,18 @@ public:
 			}
 			handleMute();
 			SDL_SetTextureColorMod(bgr[type-1], 255, 255, 255);
+
+			// render FPS text
+			DisPlayFps.setText(to_string(frame_rate));
+			DisPlayFps.createaText(font_text, renderer);
+
 			SDL_RenderPresent(renderer);
+
+			//// check frame
+			if (frame.GetTime() < 1000 / FPS) {
+				SDL_Delay(1000 / FPS - frame.GetTime());
+			}
+			frame_rate = 1000 / frame.GetTime();
 		}
 	}
 	void load2Playergame(player& astro1, player& astro2) {

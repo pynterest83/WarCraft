@@ -27,6 +27,7 @@ Text Round(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 40, 80, 350, 1);
 Text GameOver1(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
 Text GameOver2(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
 Text Money(SCREEN_WIDTH/2 + 400, 5, 50, 20, 1);
+Text DisPlayFps(SCREEN_WIDTH / 2 - 25, 5, 50, 50, 1);
 
 Mix_Music* cover = NULL;
 Mix_Chunk* p_shot1 = NULL;
@@ -121,6 +122,7 @@ int cnt = 0;
 int curframe_ex = 0;
 int curframe_blood = 0;
 int curframe_energy = 10;
+Timer frame;
 
 SDL_Texture* shield_pickup = NULL;
 SDL_Texture* shield = NULL;
