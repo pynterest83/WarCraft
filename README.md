@@ -31,6 +31,8 @@
 * View current score.
 * Continue, exit and replay.
 
+![Screenshot (141)](https://user-images.githubusercontent.com/111046219/230269203-aead33d6-f2ab-445c-8e81-2a3ed34e32af.png)
+
 **3. TabGameMenu**
 * Start/Exit.
 * HighScore/Information.
