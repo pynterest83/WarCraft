@@ -36,7 +36,7 @@
 * HighScore/Information.
 * Setting Volume.
 * Shop to buy skin for player.
-* 
+
 ![Screenshot (135)](https://user-images.githubusercontent.com/111046219/230268944-490a3639-cb54-4221-be6c-e68b3537239e.png)
 
 # How to play <a name="play"></a>
