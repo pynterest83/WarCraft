@@ -22,6 +22,7 @@ void game::loadMenu() {
 	sound[1] = IMG_LoadTexture(renderer, "resources/sound2.png");
 	SOUND = sound[0];
 	settings = IMG_LoadTexture(renderer, "resources/settings.png");
+	zoom = IMG_LoadTexture(renderer, "resources/Zoom.png");
 	set_but = IMG_LoadTexture(renderer, "resources/set_but.png");
 	slider1 = IMG_LoadTexture(renderer, "resources/slider.png");
 	slider2 = IMG_LoadTexture(renderer, "resources/slider.png");
@@ -31,9 +32,12 @@ void game::loadMenu() {
 	shop_but = IMG_LoadTexture(renderer, "resources/shop.png");
 	shopbgr = IMG_LoadTexture(renderer, "resources/shopbgr.png");
 	coin = IMG_LoadTexture(renderer, "resources/coin.png");
-	new_player = IMG_LoadTexture(renderer, "resources/player.png");
-	price = IMG_LoadTexture(renderer, "resources/price.png");
-	new_player_bul = IMG_LoadTexture(renderer, "resources/playerbullet.png");
+	for (int i = 0; i < 2; i++) {
+		price[i] = loadTexture(renderer, "resources/price" + to_string(i + 1) + ".png");
+		new_player[i] = loadTexture(renderer, "resources/new_player" + to_string(i + 1) + ".png");
+		new_player_bul[i] = loadTexture(renderer, "resources/new_playerbul" + to_string(i + 1) + ".png");
+		isBought[i] = false;
+	}
 
 	start_rect = { SCREEN_WIDTH/2 - 125, 250, 250, 80 };
 	rec_but_rect = { SCREEN_WIDTH / 2 - 125, 350, 250, 80 };
@@ -65,7 +69,9 @@ void game::loadMenu() {
 	coin_rect2 = {SCREEN_WIDTH/2 - 150, 60, 50, 50};
 	shop_item[0] = { SCREEN_WIDTH / 2 - 150, 150, 60, 60 };
 	shop_item[1] = { SCREEN_WIDTH/2 - 150, 250, 60, 60 };
-	price_rect = { SCREEN_WIDTH / 2 - 50, 260, 100, 40 };
+	shop_item[2] = { SCREEN_WIDTH/2 - 150, 350, 60, 60 };
+	price_rect[0] = {SCREEN_WIDTH / 2 - 50, 260, 100, 40};
+	price_rect[1] = {SCREEN_WIDTH / 2 - 50, 360, 100, 40};
 }
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);

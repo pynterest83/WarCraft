@@ -68,8 +68,8 @@ void ebullet::spfire(double direct)
 	if (rect.x <= 0 || rect.y <= 60 || rect.y >= SCREEN_HEIGHT - rect.h - 20 || rect.x >= SCREEN_WIDTH - rect.w - 20) {
 		isMove = false;
 	}
-	rect.x += speed;
-	rect.y += direct * speed;
+	rect.x += 20;
+	rect.y += direct * 20;
 }
 
 void ebullet::bouncefire(double direct) {
@@ -100,21 +100,21 @@ void ebullet::bouncefire(double direct) {
 }
 
 void ebullet::bounce1(double direct) {
-	rect.x -= speed;
-	rect.y += direct * speed;
+	rect.x -= 20;
+	rect.y += direct * 20;
 }
 
 void ebullet::bounce2(double direct) {
-	rect.x += speed;
-	rect.y += direct * speed;
+	rect.x += 20;
+	rect.y += direct * 20;
 }
 
 void ebullet::bounce3(double direct) {
-	rect.y += speed;
-	rect.x += direct * speed;
+	rect.y += 20;
+	rect.x += direct * 20;
 }
 
 void ebullet::bounce4(double direct) {
-	rect.y -= speed;
-	rect.x += direct * speed;
+	rect.y -= 20;
+	rect.x += direct * 20;
 }

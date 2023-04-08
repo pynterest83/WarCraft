@@ -11,8 +11,12 @@ player::player() {
 		shottype[1].setImg(p_shot[0]);
 		shottype[1].setSpeed(10);
 	}
+	else if (player_skin == 2){
+		shottype[1].setImg(new_player_bul[0]);
+		shottype[1].setSpeed(10);
+	}
 	else {
-		shottype[1].setImg(new_player_bul);
+		shottype[1].setImg(new_player_bul[1]);
 		shottype[1].setSpeed(10);
 	}
 	shottype[0].setImg(p_shot[1]);
@@ -172,8 +176,11 @@ void player::update(SDL_Renderer* renderer, double direct)
 			else if (blood >= 10) body = p_img[1];
 			else if (blood < 10) body = p_img[2];
 		}
+		else if (player_skin == 2){
+			body = new_player[0];
+		}
 		else {
-			body = new_player;
+			body = new_player[1];
 		}
 		show(renderer, NULL);
 

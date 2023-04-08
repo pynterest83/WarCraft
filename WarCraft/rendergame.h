@@ -21,6 +21,8 @@ using namespace std;
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 const int FPS = 65;
+const float scaleX = 1280 / 1366.0;
+const float scaleY = 720 / 768.0;
 static TTF_Font* font_text=NULL;
 
 namespace RD {

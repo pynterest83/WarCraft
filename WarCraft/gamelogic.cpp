@@ -431,7 +431,6 @@ void handlePause1() {
 					if (quit) break;
 					if (!isChoose) break;
 				}
-				SDL_RenderPresent(renderer);
 			}
 		}
 	}
@@ -439,6 +438,10 @@ void handlePause1() {
 
 void handlePause2() {
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 	if (SDL_PointInRect(&mouse, &pause_rect)) {
 		SDL_SetTextureColorMod(pause, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -467,7 +470,6 @@ void handlePause2() {
 					if (quit) break;
 					if (!isChoose) break;
 				}
-				SDL_RenderPresent(renderer);
 			}
 		}
 	}
@@ -476,6 +478,10 @@ void handlePause2() {
 void handleMute() {
 	SDL_RenderCopy(renderer, SOUND, NULL, &sound_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 	if (SDL_PointInRect(&mouse, &sound_rect)) {
 		SDL_SetTextureColorMod(SOUND, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {

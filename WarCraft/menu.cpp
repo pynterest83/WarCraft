@@ -12,6 +12,10 @@ void renderMenu() {
 	SDL_RenderCopy(renderer, set_but, NULL, &set_but_rect);
 	SDL_RenderCopy(renderer, shop_but, NULL, &shop_but_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
@@ -89,6 +93,11 @@ void renderMenu2() {
 	SDL_RenderCopy(renderer, mode2P, NULL, &mode2P_rect);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
+
 	if (SDL_PointInRect(&mouse, &mode1P_rect)) {
 		SDL_SetTextureColorMod(mode1P, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -131,6 +140,10 @@ void renderMenuPause() {
 	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
 	SDL_RenderCopy(renderer, game_continue, NULL, &game_continue_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
@@ -167,6 +180,10 @@ void renderMenuGameOver() {
 	SDL_RenderCopy(renderer, replay, NULL, &replay_rect);
 	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
@@ -207,6 +224,10 @@ void renderMenuHighScore() {
 	SDL_RenderCopy(renderer, record, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 	
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -223,6 +244,10 @@ void renderMenuInfo() {
 	SDL_RenderCopy(renderer, info, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -239,6 +264,7 @@ void renderMenuInfo() {
 void renderMenuSettings() {
 	SDL_RenderCopy(renderer, settings, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
+	SDL_RenderCopy(renderer, zoom, NULL, &sound_rect);
 	SDL_RenderCopy(renderer, rec_but, NULL, &setting_rect);
 	SDL_SetTextureColorMod(rec_but, 255, 255, 255);
 	SDL_RenderCopy(renderer, gfx, NULL, &gfx_rect);
@@ -248,6 +274,22 @@ void renderMenuSettings() {
 	SDL_RenderCopy(renderer, border, NULL, &border_rect1);
 	SDL_RenderCopy(renderer, border, NULL, &border_rect2);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
+
+	if (SDL_PointInRect(&mouse, &sound_rect)) {
+		SDL_SetTextureColorMod(zoom, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isFullScreen = !isFullScreen;
+		}
+	}
+	else SDL_SetTextureColorMod(zoom, 150, 150, 150);
+
+	if (isFullScreen) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else SDL_SetWindowFullscreen(window, 0);
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -286,7 +328,11 @@ void renderMenuShop() {
 	money >> coin_sum;
 	money.close();
 	bought.open("isBought.txt", ios::in);
-	bought >> isBought;
+	int m = 0;
+	while (!bought.eof()) {
+		bought >> isBought[m];
+		m++;
+	}
 	bought.close();
 
 	SDL_RenderCopy(renderer, shopbgr, NULL, NULL);
@@ -294,47 +340,80 @@ void renderMenuShop() {
 	SDL_RenderCopy(renderer, pausewindow, NULL, &shop_window_rect);
 	SDL_RenderCopy(renderer, coin, NULL, &coin_rect2);
 	SDL_RenderCopy(renderer, p_img[0], NULL, &shop_item[0]);
-	SDL_RenderCopy(renderer, new_player, NULL, &shop_item[1]);
-	SDL_RenderCopy(renderer, price, NULL, &price_rect);
-	if (!isBought) {
-		SDL_SetTextureColorMod(price, 150, 150, 150);
-		SDL_SetTextureColorMod(new_player, 150, 150, 150);
-	}
+	SDL_RenderCopy(renderer, new_player[0], NULL, &shop_item[1]);
+	SDL_RenderCopy(renderer, new_player[1], NULL, &shop_item[2]);
+	SDL_RenderCopy(renderer, price[0], NULL, &price_rect[0]);
+	SDL_RenderCopy(renderer, price[1], NULL, &price_rect[1]);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	if (isFullScreen) {
+		mouse.x *= scaleX;
+		mouse.y *= scaleY;
+	}
 
-	if (coin_sum >= 1000 && !isBought) {
+	for (int i = 0; i < 2; i++) {
+		if (!isBought[i]) {
+			SDL_SetTextureColorMod(price[i], 150, 150, 150);
+			SDL_SetTextureColorMod(new_player[i], 150, 150, 150);
+		}
+	}
+
+	if (coin_sum >= 100 && !isBought[0]) {
 		if (SDL_PointInRect(&mouse, &shop_item[1])) {
-			SDL_SetTextureColorMod(new_player, 255, 255, 255);
-			SDL_SetTextureColorMod(price, 255, 255, 255);
+			SDL_SetTextureColorMod(new_player[0], 255, 255, 255);
+			SDL_SetTextureColorMod(price[0], 255, 255, 255);
 			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 				bought.open("isBought.txt", ios::out);
 				money.open("coin.txt", ios::out);
-				isBought = true;
-				bought << isBought;
+				isBought[0] = true;
+				for (int i = 0; i < 2; i++) {
+					bought << isBought[i] << endl;
+				}
+				bought.close();
+				coin_sum -= 100;
+				money << coin_sum;
+				money.close();
+			}
+		}
+	}
+
+	if (coin_sum >= 1000 && !isBought[1]) {
+		if (SDL_PointInRect(&mouse, &shop_item[2])) {
+			SDL_SetTextureColorMod(new_player[1], 255, 255, 255);
+			SDL_SetTextureColorMod(price[1], 255, 255, 255);
+			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+				bought.open("isBought.txt", ios::out);
+				money.open("coin.txt", ios::out);
+				isBought[1] = true;
+				for (int i = 0; i < 2; i++) {
+					bought << isBought[i] << endl;
+				}
 				bought.close();
 				coin_sum -= 1000;
 				money << coin_sum;
 				money.close();
 			}
 		}
-		else SDL_SetTextureColorMod(back, 150, 150, 150);
 	}
 
-	if (isBought) {
-		if (SDL_PointInRect(&mouse, &shop_item[1])) {
-			SDL_SetTextureColorMod(new_player, 255, 255, 255);
-			SDL_SetTextureColorMod(price, 255, 255, 255);
-			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
-				SDL_SetTextureColorMod(p_img[0], 150, 150, 150);
-				player_skin = 2;
+	for (int i = 0; i < 2; i++) {
+		if (isBought[i]) {
+			if (SDL_PointInRect(&mouse, &shop_item[i+1])) {
+				SDL_SetTextureColorMod(new_player[i], 255, 255, 255);
+				SDL_SetTextureColorMod(price[i], 255, 255, 255);
+				if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+					SDL_SetTextureColorMod(p_img[0], 150, 150, 150);
+					SDL_SetTextureColorMod(new_player[1 - i], 150, 150, 150);
+					SDL_SetTextureColorMod(price[1  -i], 150, 150, 150);
+					player_skin = i+2;
+				}
 			}
-		}
-		else if (SDL_PointInRect(&mouse, &shop_item[0])) {
-			SDL_SetTextureColorMod(p_img[0], 255, 255, 255);
-			if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
-				SDL_SetTextureColorMod(new_player, 150, 150, 150);
-				SDL_SetTextureColorMod(price, 150, 150, 150);
-				player_skin = 1;
+			else if (SDL_PointInRect(&mouse, &shop_item[0])) {
+				SDL_SetTextureColorMod(p_img[0], 255, 255, 255);
+				if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+					SDL_SetTextureColorMod(new_player[i], 150, 150, 150);
+					SDL_SetTextureColorMod(price[i], 150, 150, 150);
+					player_skin = 1;
+				}
 			}
 		}
 	}
@@ -344,7 +423,6 @@ void renderMenuShop() {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isShop = false;
-			SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 		}
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
