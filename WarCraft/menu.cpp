@@ -302,15 +302,6 @@ void renderMenuShop() {
 	}
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 
-	if (SDL_PointInRect(&mouse, &back_rect)) {
-		SDL_SetTextureColorMod(back, 255, 255, 255);
-		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
-			SDL_Delay(100);
-			isShop = false;
-		}
-	}
-	else SDL_SetTextureColorMod(back, 150, 150, 150);
-
 	if (coin_sum >= 1000 && !isBought) {
 		if (SDL_PointInRect(&mouse, &shop_item[1])) {
 			SDL_SetTextureColorMod(new_player, 255, 255, 255);
@@ -347,4 +338,14 @@ void renderMenuShop() {
 			}
 		}
 	}
+	
+	if (SDL_PointInRect(&mouse, &back_rect)) {
+		SDL_SetTextureColorMod(back, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
+			SDL_Delay(100);
+			isShop = false;
+			SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+		}
+	}
+	else SDL_SetTextureColorMod(back, 150, 150, 150);
 }
