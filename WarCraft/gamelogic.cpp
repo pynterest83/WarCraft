@@ -438,10 +438,8 @@ void handlePause1() {
 
 void handlePause2() {
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 	if (SDL_PointInRect(&mouse, &pause_rect)) {
 		SDL_SetTextureColorMod(pause, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {

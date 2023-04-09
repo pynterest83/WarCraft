@@ -274,16 +274,12 @@ void renderMenuSettings() {
 	}
 	else SDL_SetTextureColorMod(zoom, 150, 150, 150);
 
-	if (isFullScreen) {
-		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-		scaleX = 1280 / 1366.0;
-		scaleY = 720 / 768.0;
-	}
-	else {
-		SDL_SetWindowFullscreen(window, 0);
-		scaleX = 1.0;
-		scaleY = 1.0;
-	}
+	if (isFullScreen) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else SDL_SetWindowFullscreen(window, 0);
+	int x, y;
+	SDL_GetWindowSize(window, &x, &y);
+	scaleX = 1280.0 / x;
+	scaleY = 720.0 / y;
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
