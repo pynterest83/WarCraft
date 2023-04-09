@@ -12,10 +12,8 @@ void renderMenu() {
 	SDL_RenderCopy(renderer, set_but, NULL, &set_but_rect);
 	SDL_RenderCopy(renderer, shop_but, NULL, &shop_but_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
@@ -93,10 +91,8 @@ void renderMenu2() {
 	SDL_RenderCopy(renderer, mode2P, NULL, &mode2P_rect);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &mode1P_rect)) {
 		SDL_SetTextureColorMod(mode1P, 255, 255, 255);
@@ -140,10 +136,8 @@ void renderMenuPause() {
 	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
 	SDL_RenderCopy(renderer, game_continue, NULL, &game_continue_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
@@ -180,10 +174,8 @@ void renderMenuGameOver() {
 	SDL_RenderCopy(renderer, replay, NULL, &replay_rect);
 	SDL_RenderCopy(renderer, game_quit, NULL, &game_quit_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
@@ -224,10 +216,8 @@ void renderMenuHighScore() {
 	SDL_RenderCopy(renderer, record, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 	
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -244,10 +234,8 @@ void renderMenuInfo() {
 	SDL_RenderCopy(renderer, info, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -274,10 +262,8 @@ void renderMenuSettings() {
 	SDL_RenderCopy(renderer, border, NULL, &border_rect1);
 	SDL_RenderCopy(renderer, border, NULL, &border_rect2);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	if (SDL_PointInRect(&mouse, &sound_rect)) {
 		SDL_SetTextureColorMod(zoom, 255, 255, 255);
@@ -288,8 +274,16 @@ void renderMenuSettings() {
 	}
 	else SDL_SetTextureColorMod(zoom, 150, 150, 150);
 
-	if (isFullScreen) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-	else SDL_SetWindowFullscreen(window, 0);
+	if (isFullScreen) {
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		scaleX = 1280 / 1366.0;
+		scaleY = 720 / 768.0;
+	}
+	else {
+		SDL_SetWindowFullscreen(window, 0);
+		scaleX = 1.0;
+		scaleY = 1.0;
+	}
 
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
@@ -300,7 +294,7 @@ void renderMenuSettings() {
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
 
-	if (mouse.x >= SCREEN_WIDTH / 2 - 300 && mouse.x <= SCREEN_WIDTH / 2 + 300 && mouse.y >= SCREEN_HEIGHT / 2 + 30 && mouse.y <= SCREEN_HEIGHT + 80) {
+	if (mouse.x >= (SCREEN_WIDTH / 2 - 300)*scaleX - 5 && mouse.x <= (SCREEN_WIDTH / 2 + 300)*scaleX && mouse.y >= (SCREEN_HEIGHT / 2 + 30)*scaleY && mouse.y <= (SCREEN_HEIGHT + 80)*scaleY) {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			sfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
 			for (int i = 0; i < 8; i++) {
@@ -311,7 +305,7 @@ void renderMenuSettings() {
 		}
 	}
 
-	else if (mouse.x >= SCREEN_WIDTH / 2 - 300 && mouse.x <= SCREEN_WIDTH / 2 + 300 && mouse.y >= SCREEN_HEIGHT / 2 - 80 && mouse.y <= SCREEN_HEIGHT - 30) {
+	else if (mouse.x >= (SCREEN_WIDTH / 2 - 300)*scaleX - 5 && mouse.x <= (SCREEN_WIDTH / 2 + 300)*scaleX && mouse.y >= (SCREEN_HEIGHT / 2 - 80)*scaleY && mouse.y <= (SCREEN_HEIGHT - 30)*scaleY) {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			gfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
 			Mix_VolumeMusic((gfx_control.w) * 30 * 1.0 / 600);
@@ -345,10 +339,8 @@ void renderMenuShop() {
 	SDL_RenderCopy(renderer, price[0], NULL, &price_rect[0]);
 	SDL_RenderCopy(renderer, price[1], NULL, &price_rect[1]);
 	SDL_GetMouseState(&mouse.x, &mouse.y);
-	if (isFullScreen) {
-		mouse.x *= scaleX;
-		mouse.y *= scaleY;
-	}
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
 
 	for (int i = 0; i < 2; i++) {
 		if (!isBought[i]) {

@@ -1,5 +1,8 @@
 #include "rendergame.h"
 
+float scaleX = 1.0;
+float scaleY = 1.0;
+
 void RD::logSDLError(const string& msg, bool fatal)
 {
 	cout << msg << " Error: " << SDL_GetError() << endl;
