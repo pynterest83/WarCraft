@@ -403,7 +403,7 @@ void check2P(player& astro1, player& astro2, int& dmg1, int& dmg2) {
 	}
 }
 
-void handlePause1() {
+void handlePause1(player& astro1) {
 	if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_ESCAPE) {
 			Pause = true;
@@ -413,6 +413,8 @@ void handlePause1() {
 			Shield.Pause();
 			shield_time.Pause();
 			heal_time.Pause();
+			astro1.skill_time.Pause();
+			astro1.skill_wait.Pause();
 			while (Pause) {
 				handleMute();
 				renderMenuPause();
@@ -423,6 +425,8 @@ void handlePause1() {
 					Shield.Unpause();
 					shield_time.Unpause();
 					heal_time.Unpause();
+					astro1.skill_time.Unpause();
+					astro1.skill_wait.Unpause();
 				}
 				if (SDL_PollEvent(&event) != 0) {
 					if (event.type == SDL_QUIT) {
@@ -436,7 +440,7 @@ void handlePause1() {
 	}
 }
 
-void handlePause2() {
+void handlePause2(player& astro1) {
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
@@ -450,6 +454,8 @@ void handlePause2() {
 			Shield.Pause();
 			shield_time.Pause();
 			heal_time.Pause();
+			astro1.skill_time.Pause();
+			astro1.skill_wait.Pause();
 			while (Pause) {
 				handleMute();
 				renderMenuPause();
@@ -460,6 +466,8 @@ void handlePause2() {
 					Shield.Unpause();
 					shield_time.Unpause();
 					heal_time.Unpause();
+					astro1.skill_time.Unpause();
+					astro1.skill_wait.Unpause();
 				}
 				if (SDL_PollEvent(&event) != 0) {
 					if (event.type == SDL_QUIT) {
@@ -473,6 +481,65 @@ void handlePause2() {
 	}
 	else SDL_SetTextureColorMod(pause, 150, 150, 150);
 }
+
+void handlePause11(player& astro1, player& astro2) {
+	if (event.type == SDL_KEYDOWN) {
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+			Pause = true;
+			astro1.skill_time.Pause();
+			astro1.skill_wait.Pause();
+			astro2.skill_time.Pause();
+			astro2.skill_wait.Pause();
+			while (Pause) {
+				handleMute();
+				renderMenuPause();
+				if (!Pause) {
+					astro1.skill_time.Unpause();
+					astro1.skill_wait.Unpause();
+					astro2.skill_time.Unpause();
+					astro2.skill_wait.Unpause();
+				}
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+					if (quit) break;
+					if (!isChoose) break;
+				}
+			}
+		}
+	}
+}
+
+void handlePause22(player& astro1, player& astro2) {
+	if (event.type == SDL_KEYDOWN) {
+		if (event.key.keysym.sym == SDLK_ESCAPE) {
+			Pause = true;
+			astro1.skill_time.Pause();
+			astro1.skill_wait.Pause();
+			astro2.skill_time.Pause();
+			astro2.skill_wait.Pause();
+			while (Pause) {
+				handleMute();
+				renderMenuPause();
+				if (!Pause) {
+					astro1.skill_time.Unpause();
+					astro1.skill_wait.Unpause();
+					astro2.skill_time.Unpause();
+					astro2.skill_wait.Unpause();
+				}
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+					if (quit) break;
+					if (!isChoose) break;
+				}
+			}
+		}
+	}
+}
+
 void handleMute() {
 	SDL_RenderCopy(renderer, SOUND, NULL, &sound_rect);
 	SDL_GetMouseState(&mouse.x, &mouse.y);

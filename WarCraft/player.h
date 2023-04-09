@@ -18,8 +18,6 @@ private:
 	bullet shottype[2];
 	enemy supporter;
 	int turn;
-	Timer skill_time;
-	Timer skill_wait;
 
 	int en_frame;
 	SDL_Texture* engine;
@@ -35,6 +33,8 @@ public:
 	bool SupIsSet;
 	int speed;
 	bool isP2;
+	Timer skill_time;
+	Timer skill_wait;
 
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	player();

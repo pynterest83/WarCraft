@@ -46,8 +46,8 @@ public:
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
-				handlePause1();
-				handlePause2();
+				handlePause1(astro1);
+				handlePause2(astro1);
 				astro1.handleBullet(event);
 			}
 
@@ -195,8 +195,8 @@ public:
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
-				handlePause1();
-				handlePause2();
+				handlePause11(astro1, astro2);
+				handlePause22(astro1, astro2);
 				astro1.handleBullet(event);
 				astro2.P2HandleBullet(event);
 			}

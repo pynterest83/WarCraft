@@ -34,8 +34,8 @@ void enemy::move(int opt, int y_pos, double direct) {
             if (rect.x < -rect.w) rect.x = SCREEN_WIDTH;
         }
         else {
-            rect.x -= 3;
-            rect.y -= direct * 3;
+            rect.x -= 5;
+            if (direct>=-sqrt(3) && direct <= sqrt(3)) rect.y -= direct * 5;
         }
     }
 
