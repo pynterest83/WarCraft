@@ -48,6 +48,7 @@ public:
 				}
 				handlePause1(astro1);
 				handlePause2(astro1);
+				handleMute();
 				astro1.handleBullet(event);
 			}
 
@@ -197,6 +198,7 @@ public:
 				}
 				handlePause11(astro1, astro2);
 				handlePause22(astro1, astro2);
+				handleMute();
 				astro1.handleBullet(event);
 				astro2.P2HandleBullet(event);
 			}

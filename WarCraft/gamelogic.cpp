@@ -512,8 +512,12 @@ void handlePause11(player& astro1, player& astro2) {
 }
 
 void handlePause22(player& astro1, player& astro2) {
-	if (event.type == SDL_KEYDOWN) {
-		if (event.key.keysym.sym == SDLK_ESCAPE) {
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	mouse.x *= scaleX;
+	mouse.y *= scaleY;
+	if (SDL_PointInRect(&mouse, &pause_rect)) {
+		SDL_SetTextureColorMod(pause, 255, 255, 255);
+		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			Pause = true;
 			astro1.skill_time.Pause();
 			astro1.skill_wait.Pause();
@@ -523,10 +527,10 @@ void handlePause22(player& astro1, player& astro2) {
 				handleMute();
 				renderMenuPause();
 				if (!Pause) {
-					astro1.skill_time.Unpause();
-					astro1.skill_wait.Unpause();
-					astro2.skill_time.Unpause();
-					astro2.skill_wait.Unpause();
+					astro1.skill_time.Pause();
+					astro1.skill_wait.Pause();
+					astro2.skill_time.Pause();
+					astro2.skill_wait.Pause();
 				}
 				if (SDL_PollEvent(&event) != 0) {
 					if (event.type == SDL_QUIT) {
@@ -538,6 +542,7 @@ void handlePause22(player& astro1, player& astro2) {
 			}
 		}
 	}
+	else SDL_SetTextureColorMod(pause, 150, 150, 150);
 }
 
 void handleMute() {
