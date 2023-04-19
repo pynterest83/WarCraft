@@ -82,6 +82,7 @@ public:
 					SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
 					SDL_RenderClear(renderer);
 					renderbackground();
+					handleMute();
 					SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
 					SDL_RenderPresent(renderer);
 					curframe_ex++;
@@ -111,6 +112,7 @@ public:
 				astro1.speed ++;
 				SDL_SetTextureColorMod(bgr[type-1], 150, 150, 150);
 				renderbackground();
+				handleMute();
 				Round.setText("ROUND " + to_string(level));
 				Round.createaText(font_text, renderer);
 				SDL_RenderPresent(renderer);
