@@ -15,6 +15,7 @@ void renderMenu() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// if start button is pressed
 	if (SDL_PointInRect(&mouse, &start_rect)) {
 		SDL_SetTextureColorMod(start, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -24,6 +25,7 @@ void renderMenu() {
 	}
 	else SDL_SetTextureColorMod(start, 150, 150, 150);
 
+	// if exit button is pressed
 	if (SDL_PointInRect(&mouse, &exit_rect)) {
 		SDL_SetTextureColorMod(game_exit, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -33,6 +35,7 @@ void renderMenu() {
 	}
 	else SDL_SetTextureColorMod(game_exit, 150, 150, 150);
 
+	// if record button is pressed
 	if (SDL_PointInRect(&mouse, &rec_but_rect)) {
 		SDL_SetTextureColorMod(rec_but, 255, 255, 255);
 		SDL_SetTextureColorMod(rec_header, 255, 255, 255);
@@ -46,6 +49,7 @@ void renderMenu() {
 		SDL_SetTextureColorMod(rec_header, 150, 150, 150);
 	}
 
+	// if info button is pressed
 	if (SDL_PointInRect(&mouse, &inf_but_rect)) {
 		SDL_SetTextureColorMod(inf_but, 255, 255, 255);
 		SDL_SetTextureColorMod(info_header, 255, 255, 255);
@@ -59,6 +63,7 @@ void renderMenu() {
 		SDL_SetTextureColorMod(info_header, 150, 150, 150);
 	}
 
+	// if settings button is pressed
 	if (SDL_PointInRect(&mouse, &set_but_rect)) {
 		SDL_SetTextureColorMod(set_but, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -70,6 +75,7 @@ void renderMenu() {
 		SDL_SetTextureColorMod(set_but, 150, 150, 150);
 	}
 
+	// if shop button is pressed
 	if (SDL_PointInRect(&mouse, &shop_but_rect)) {
 		SDL_SetTextureColorMod(shop_but, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -94,6 +100,7 @@ void renderMenu2() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// if 1P mode button is pressed
 	if (SDL_PointInRect(&mouse, &mode1P_rect)) {
 		SDL_SetTextureColorMod(mode1P, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -104,6 +111,7 @@ void renderMenu2() {
 	}
 	else SDL_SetTextureColorMod(mode1P, 150, 150, 150);
 
+	// if 2P mode button is pressed
 	if (SDL_PointInRect(&mouse, &mode2P_rect)) {
 		SDL_SetTextureColorMod(mode2P, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -114,6 +122,7 @@ void renderMenu2() {
 	}
 	else SDL_SetTextureColorMod(mode2P, 150, 150, 150);
 
+	// back to main menu
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -139,6 +148,7 @@ void renderMenuPause() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// if replay button is pressed
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -148,6 +158,7 @@ void renderMenuPause() {
 	}
 	else SDL_SetTextureColorMod(replay, 150, 150, 150);
 
+	// if quit button is pressed
 	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
 		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -156,6 +167,7 @@ void renderMenuPause() {
 	}
 	else SDL_SetTextureColorMod(game_quit, 150, 150, 150);
 
+	// if continue button is pressed
 	if (SDL_PointInRect(&mouse, &game_continue_rect)) {
 		SDL_SetTextureColorMod(game_continue, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -177,6 +189,7 @@ void renderMenuGameOver() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// if replay button is pressed
 	if (SDL_PointInRect(&mouse, &replay_rect)) {
 		SDL_SetTextureColorMod(replay, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -187,6 +200,7 @@ void renderMenuGameOver() {
 	}
 	else SDL_SetTextureColorMod(replay, 150, 150, 150);
 
+	// if quit button is pressed
 	if (SDL_PointInRect(&mouse, &game_quit_rect)) {
 		SDL_SetTextureColorMod(game_quit, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -200,6 +214,7 @@ void renderMenuGameOver() {
 }
 
 void renderMenuHighScore() {
+	// read in file
 	highscore.open("highscore.txt", ios::in);
 	while (highscore) {
 		if (highscore) {
@@ -208,6 +223,7 @@ void renderMenuHighScore() {
 			rating.push_back(a);
 		}
 	}
+	// sort
 	for (int i = rating.size() - 1; i < 10; i++) {
 		rating.push_back(0);
 	}
@@ -219,12 +235,14 @@ void renderMenuHighScore() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 	
+	// show top 10
 	for (int i = 0; i < 10; i++) {
 		rate.setPos(SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 200 + i * 50);
 		rate.setText("TOP   " + to_string(i + 1) + "         " + to_string(rating[i]));
 		rate.createaText(renderer);
 	}
 
+	// if back button is pressed
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -245,6 +263,7 @@ void renderMenuInfo() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// if back button is pressed
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -261,6 +280,7 @@ void renderMenuSettings() {
 	SDL_RenderCopy(renderer, settings, NULL, NULL);
 	SDL_RenderCopy(renderer, back, NULL, &back_rect);
 	SDL_RenderCopy(renderer, zoom, NULL, &sound_rect);
+	// setting windows
 	SDL_RenderCopy(renderer, rec_but, NULL, &setting_rect);
 	SDL_SetTextureColorMod(rec_but, 255, 255, 255);
 	SDL_RenderCopy(renderer, gfx, NULL, &gfx_rect);
@@ -273,6 +293,8 @@ void renderMenuSettings() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// zoom rect is the same position with sound rect
+	// zoom out and rescale
 	if (SDL_PointInRect(&mouse, &sound_rect)) {
 		SDL_SetTextureColorMod(zoom, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -289,6 +311,7 @@ void renderMenuSettings() {
 	scaleX = 1280.0 / x;
 	scaleY = 720.0 / y;
 
+	// back
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -298,6 +321,8 @@ void renderMenuSettings() {
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
 
+	// volume slider
+	// gfx
 	if (mouse.x >= (SCREEN_WIDTH / 2 - 300)*scaleX - 5 && mouse.x <= (SCREEN_WIDTH / 2 + 300)*scaleX && mouse.y >= (SCREEN_HEIGHT / 2 + 30)*scaleY && mouse.y <= (SCREEN_HEIGHT + 80)*scaleY) {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			sfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
@@ -309,6 +334,7 @@ void renderMenuSettings() {
 		}
 	}
 
+	// sfx
 	else if (mouse.x >= (SCREEN_WIDTH / 2 - 300)*scaleX - 5 && mouse.x <= (SCREEN_WIDTH / 2 + 300)*scaleX && mouse.y >= (SCREEN_HEIGHT / 2 - 80)*scaleY && mouse.y <= (SCREEN_HEIGHT - 30)*scaleY) {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			gfx_control.w = mouse.x - (SCREEN_WIDTH / 2 - 300);
@@ -322,6 +348,7 @@ void renderMenuSettings() {
 }
 
 void renderMenuShop() {
+	// load money and isbought from file
 	money.open("coin.txt", ios::in);
 	money >> coin_sum;
 	money.close();
@@ -346,9 +373,11 @@ void renderMenuShop() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	// render amount of money
 	money_sum.setText(to_string(coin_sum));
 	money_sum.createaText(renderer);
 
+	// set default if hasn't bought
 	for (int i = 0; i < 2; i++) {
 		if (!isBought[i]) {
 			SDL_SetTextureColorMod(price[i], 150, 150, 150);
@@ -356,6 +385,7 @@ void renderMenuShop() {
 		}
 	}
 
+	// buy new player1
 	if (coin_sum >= 100 && !isBought[0]) {
 		if (SDL_PointInRect(&mouse, &shop_item[1])) {
 			SDL_SetTextureColorMod(new_player[0], 255, 255, 255);
@@ -375,6 +405,7 @@ void renderMenuShop() {
 		}
 	}
 
+	// buy new player2
 	if (coin_sum >= 1000 && !isBought[1]) {
 		if (SDL_PointInRect(&mouse, &shop_item[2])) {
 			SDL_SetTextureColorMod(new_player[1], 255, 255, 255);
@@ -394,6 +425,7 @@ void renderMenuShop() {
 		}
 	}
 
+	// choose player
 	for (int i = 0; i < 2; i++) {
 		if (isBought[i]) {
 			if (SDL_PointInRect(&mouse, &shop_item[i+1])) {
@@ -417,6 +449,7 @@ void renderMenuShop() {
 		}
 	}
 	
+	// back to menu
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
