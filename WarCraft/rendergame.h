@@ -26,12 +26,19 @@ extern float scaleY;
 static TTF_Font* font_text=NULL;
 
 namespace RD {
+	// log error
     void logSDLError(const string& msg, bool fatal);
+	// init SDL
 	void initSDL(SDL_Window*& window, SDL_Renderer*& renderer);
+	// quit sdl
 	void quitSDL(SDL_Window* window, SDL_Renderer* renderer);
+
+	// check interaction between 2 objects
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 	bool checkSeen(SDL_Rect a, SDL_Rect b);
 	bool checkCrash(SDL_Rect a, SDL_Rect b);
+
+	// load texture
 	SDL_Texture* loadTexture(SDL_Renderer* renderer, string path);
 }
 

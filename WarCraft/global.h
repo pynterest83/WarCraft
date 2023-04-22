@@ -16,6 +16,8 @@
 using namespace RD;
 using namespace std;
 
+// EXTERN ALL FEATURE IN GLOBAL.CPP
+
 //default feature
 extern SDL_Window* window;
 extern SDL_Renderer* renderer;

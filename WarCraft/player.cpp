@@ -217,7 +217,6 @@ void player::update(SDL_Renderer* renderer, double direct)
 			}
 		}
 	}
-	//else SDL_DestroyTexture(body);
 }
 
 SDL_Rect player::getRectBullet(int i)
@@ -317,5 +316,4 @@ void player::P2update(SDL_Renderer* renderer) {
 			}
 		}
 	}
-	else SDL_DestroyTexture(body);
 }

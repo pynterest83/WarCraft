@@ -7,7 +7,6 @@ Timer::Timer()
     Paused = false;
     TimeWhenPaused = 0;
     StartTime = 0;
-    PauseTime = 0;
 }
 Timer::~Timer() {};
 void Timer::Start()
@@ -15,14 +14,12 @@ void Timer::Start()
     Started = true;
     Paused = false;
     StartTime = SDL_GetTicks();
-    PauseTime = 0;
 }
 void Timer::Reset()
 {
     Started = false;
     Paused = false;
     StartTime = 0;
-    PauseTime = 0;
 }
 void Timer::Pause()
 {
@@ -39,7 +36,6 @@ void Timer::Unpause()
     {
         Paused = false;
         StartTime = SDL_GetTicks() - TimeWhenPaused;
-        PauseTime = 0;
     }
 }
 Uint32 Timer::GetTime()

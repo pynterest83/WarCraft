@@ -15,10 +15,13 @@ Text::~Text()
 
 void Text::initText(TTF_Font*& fontText, string path)
 {
-	if (TTF_Init() == -10) {
+	// if init error
+	if (TTF_Init() == -1) {
 		cout << "Error load Text" << endl;
 	}
+	// open and load font
 	fontText = TTF_OpenFont(path.c_str(), 100);
+	// if load error
 	if (fontText == NULL) {
 		cout << "Error load Font" << endl;
 	}
@@ -43,9 +46,12 @@ void Text::setColor(const int& type)
 
 void Text::createaText(TTF_Font* font, SDL_Renderer* renderer)
 {
+	// create surface
 	textSurface = TTF_RenderText_Solid(font, str.c_str(), text_color);
+	// change surface to texture to use renderer
 	body = SDL_CreateTextureFromSurface(renderer, textSurface);
 	show(renderer, NULL);
+	// clear to avoid memory leak
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(body);
 }
