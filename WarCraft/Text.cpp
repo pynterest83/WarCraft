@@ -13,16 +13,16 @@ Text::~Text()
 {
 }
 
-void Text::initText(TTF_Font*& fontText, string path)
+void Text::initText(string path)
 {
 	// if init error
 	if (TTF_Init() == -1) {
 		cout << "Error load Text" << endl;
 	}
 	// open and load font
-	fontText = TTF_OpenFont(path.c_str(), 100);
+	font_text = TTF_OpenFont(path.c_str(), 100);
 	// if load error
-	if (fontText == NULL) {
+	if (font_text == NULL) {
 		cout << "Error load Font" << endl;
 	}
 }
@@ -44,10 +44,10 @@ void Text::setColor(const int& type)
 	}
 }
 
-void Text::createaText(TTF_Font* font, SDL_Renderer* renderer)
+void Text::createaText(SDL_Renderer* renderer)
 {
 	// create surface
-	textSurface = TTF_RenderText_Solid(font, str.c_str(), text_color);
+	textSurface = TTF_RenderText_Solid(font_text, str.c_str(), text_color);
 	// change surface to texture to use renderer
 	body = SDL_CreateTextureFromSurface(renderer, textSurface);
 	show(renderer, NULL);

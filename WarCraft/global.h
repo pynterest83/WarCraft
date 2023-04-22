@@ -48,6 +48,8 @@ extern Text GameOver1;
 extern Text GameOver2;
 extern Text Money;
 extern Text DisPlayFps;
+extern Text rate;
+extern Text money_sum;
 
 extern Mix_Music* cover;
 extern Mix_Chunk* p_shot1;

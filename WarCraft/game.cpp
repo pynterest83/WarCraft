@@ -73,6 +73,16 @@ void game::loadMenu() {
 	price_rect[0] = {SCREEN_WIDTH / 2 - 50, 260, 100, 40};
 	price_rect[1] = {SCREEN_WIDTH / 2 - 50, 360, 100, 40};
 }
+void game::loadText() {
+	Score.initText("font/Koulen-Regular.ttf");
+	Round.initText("font/Koulen-Regular.ttf");
+	GameOver1.initText("font/Koulen-Regular.ttf");
+	GameOver2.initText("font/Koulen-Regular.ttf");
+	Money.initText("font/Koulen-Regular.ttf");
+	DisPlayFps.initText("font/Koulen-Regular.ttf");
+	rate.initText("font/Koulen-Regular.ttf");
+	money_sum.initText("font/Koulen-Regular.ttf");
+}
 void game :: loadSound() {
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
 	cover = Mix_LoadMUS("sound/Levels-Avicii.mp3");
@@ -199,5 +209,190 @@ void game::loadCharacter() {
 	p_sup = loadTexture(renderer, "resources/support1.png");
 	p_sup_bul = loadTexture(renderer, "resources/supportbul1.png");
 	mouse_img = loadTexture(renderer, "resources/setCursor.png");
+}
+
+void game::loadSingleGame(player& astro1, vector<enemy>& list_creep, enemy& Boss) {
+	shield_wait.Start();
+	heal_wait.Start();
+	asteroid_wait.Start();
+	int frame_rate = 60;
+	while (!quit && !Pause) {
+		//start frame timer
+		frame.Reset();
+		frame.Start();
+
+		//event loop
+		while (SDL_PollEvent(&event) != 0) {
+			if (event.type == SDL_QUIT) {
+				quit = true;
+			}
+			handlePause1(astro1);
+			handlePause2(astro1);
+			handleMute();
+			astro1.handleBullet(event);
+		}
+
+		//render background
+		renderbackground();
+
+		// astro move
+		astro1.move();
+		int dmg = astro1.damage;
+
+		// set up shield
+		setupShield(astro1);
+
+		// set up heal
+		setupHeal(astro1);
+
+		// setup asteroid
+		setupAsteroid(astro1);
+
+		// checkShooting
+		check_creep(astro1, list_creep, dmg);
+		check_boss(astro1, Boss, list_creep, dmg);
+
+		//render and update astro by time
+		updatePlayer(astro1, list_creep);
+
+		// render score text
+		Score.setText("Score: " + to_string(score));
+		Score.createaText(renderer);
+
+		// render money text
+		Money.setText(to_string(coin_cnt));
+		Money.createaText(renderer);
+
+		// render default
+		g_Animation(astro1, lifebar_rect, energy_rect);
+
+		// render shield pick up
+		if (!isShield && shield_wait.Paused) {
+			SDL_Rect source_shield = { curframe_shield * 32, 0, 32, 32 };
+			SDL_RenderCopy(renderer, shield_pickup, &source_shield, &shieldpickup_rect);
+			curframe_shield++;
+			curframe_shield %= 15;
+		}
+
+		// render asteroid
+		if (curframe_asteroid >= 0) {
+			SDL_Rect source_asteroid = { curframe_asteroid * 96, 0, 96, 96 };
+			SDL_RenderCopy(renderer, d_astoroid, &source_asteroid, &d_asteroid_rect);
+			curframe_asteroid--;
+		}
+
+		// render heal
+		if (heal_wait.Paused && !isHeal) {
+			SDL_Rect source_heal = { curframe_heal * 204, 0, 204, 204 };
+			SDL_RenderCopy(renderer, heal_pickup, &source_heal, &heal_rect);
+			curframe_heal++;
+			curframe_heal %= 10;
+		}
+
+		// end game
+		if (astro1.isKilled()) {
+			Mix_PlayChannel(-1, explo_sound, 0);
+			// open highscore and money to update
+			highscore.open("highscore.txt", ios::app);
+			highscore << score << " ";
+			money.open("coin.txt", ios::in);
+			money >> coin_sum;
+			money.close();
+			money.open("coin.txt", ios::out);
+			coin_sum += coin_cnt;
+			money << coin_sum;
+
+			highscore.close();
+			money.close();
+
+			SDL_RenderCopy(renderer, gameover, NULL, NULL);
+			GameOver1.setText("YOUR SCORE: " + to_string(score));
+			GameOver1.createaText(renderer);
+
+			while (!quit && isChoose) {
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+				}
+				renderMenuGameOver();
+			}
+			break;
+		}
+		handleMute();
+		SDL_SetTextureColorMod(bgr[type - 1], 255, 255, 255);
+
+		// render FPS text
+		DisPlayFps.setText(to_string(frame_rate));
+		DisPlayFps.createaText(renderer);
+
+		SDL_RenderPresent(renderer);
+
+		// check frame
+		if (frame.GetTime() < 1000 / FPS) {
+			SDL_Delay(1000 / FPS - frame.GetTime());
+		}
+		frame_rate = 1000 / frame.GetTime();
+	}
+}
+
+void game::load2Playergame(player& astro1, player& astro2) {
+	SDL_Rect p2_life_bar_rect = { SCREEN_WIDTH - 250, 0, 140, 60 };
+	SDL_Rect p2_energy_rect = { SCREEN_WIDTH - 300, 0, 40, 60 };
+	while (!quit && !Pause) {
+		//event loop
+		while (SDL_PollEvent(&event) != 0) {
+			if (event.type == SDL_QUIT) {
+				quit = true;
+			}
+			handlePause11(astro1, astro2);
+			handlePause22(astro1, astro2);
+			handleMute();
+			astro1.handleBullet(event);
+			astro2.P2HandleBullet(event);
+		}
+		//render background
+		renderbackground();
+
+		// astro move
+		astro1.move();
+		astro2.move();
+		int dmg1 = astro1.damage;
+		int dmg2 = astro2.damage;
+		// checkShooting
+		check2P(astro1, astro2, dmg1, dmg2);
+
+		updatePlayer2(astro1);
+		updatePlayer2(astro2);
+
+		g_Animation(astro2, lifebar_rect, energy_rect);
+		g_Animation(astro1, p2_life_bar_rect, p2_energy_rect);
+
+		// end game
+		if (astro1.isKilled() || astro2.isKilled()) {
+			Mix_PlayChannel(-1, explo_sound, 0);
+			SDL_RenderCopy(renderer, gameover, NULL, NULL);
+			if (astro2.isKilled()) {
+				GameOver2.setText("PLAYER 1 WIN");
+				GameOver2.createaText(renderer);
+			}
+			else {
+				GameOver2.setText("PLAYER 2 WIN");
+				GameOver2.createaText(renderer);
+			}
+			while (!quit && isChoose) {
+				if (SDL_PollEvent(&event) != 0) {
+					if (event.type == SDL_QUIT) {
+						quit = true;
+					}
+				}
+				renderMenuGameOver();
+			}
+			break;
+		}
+
+		handleMute();
+		SDL_RenderPresent(renderer);
+	}
 }
 

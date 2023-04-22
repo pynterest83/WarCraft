@@ -8,6 +8,8 @@ class Text : public object {
 	// color of text
 	SDL_Color text_color;
 	SDL_Surface* textSurface;
+	// font
+	TTF_Font* font_text;
 
 public:
 	// 3 popular color
@@ -20,11 +22,11 @@ public:
 	Text(int _x, int _y, int _h, int _w, int color);
 	~Text();
 	// load font
-	void initText(TTF_Font*& fontText, string path);
+	void initText(string path);
 	// set str = text
 	void setText(string text) { str = text; }
 	// set some default color to choose
 	void setColor(const int& type);
 	// create text
-	void createaText(TTF_Font* font, SDL_Renderer* renderer);
+	void createaText(SDL_Renderer* renderer);
 };

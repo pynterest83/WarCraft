@@ -219,6 +219,12 @@ void renderMenuHighScore() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 	
+	for (int i = 0; i < 10; i++) {
+		rate.setPos(SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 200 + i * 50);
+		rate.setText("TOP   " + to_string(i + 1) + "         " + to_string(rating[i]));
+		rate.createaText(renderer);
+	}
+
 	if (SDL_PointInRect(&mouse, &back_rect)) {
 		SDL_SetTextureColorMod(back, 255, 255, 255);
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
@@ -228,6 +234,8 @@ void renderMenuHighScore() {
 		}
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
+
+	SDL_RenderPresent(renderer);
 }
 
 void renderMenuInfo() {
@@ -338,6 +346,9 @@ void renderMenuShop() {
 	mouse.x *= scaleX;
 	mouse.y *= scaleY;
 
+	money_sum.setText(to_string(coin_sum));
+	money_sum.createaText(renderer);
+
 	for (int i = 0; i < 2; i++) {
 		if (!isBought[i]) {
 			SDL_SetTextureColorMod(price[i], 150, 150, 150);
@@ -414,4 +425,6 @@ void renderMenuShop() {
 		}
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
+
+	SDL_RenderPresent(renderer);
 }

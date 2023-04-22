@@ -23,7 +23,6 @@ const int SCREEN_HEIGHT = 720;
 const int FPS = 65;
 extern float scaleX;
 extern float scaleY;
-static TTF_Font* font_text=NULL;
 
 namespace RD {
 	// log error

@@ -336,6 +336,53 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 			Boss.kill(level + 1);
 		}
 	}
+
+	// update round
+	if (Boss.is_killed() && check) {
+		Mix_PlayChannel(-1, explo_sound, 0);
+		Boss.isBoss = false;
+		curframe_ex = 0;
+		explo_rect = { Boss.getRect().x - Boss.getRect().w, Boss.getRect().y - Boss.getRect().h, 300, 300 };
+		while (curframe_ex < 70) {
+			SDL_Rect source_rect = { curframe_ex * 100, 0, 100, 100 };
+			SDL_RenderClear(renderer);
+			renderbackground();
+			handleMute();
+			SDL_RenderCopy(renderer, explo, &source_rect, &explo_rect);
+			SDL_RenderPresent(renderer);
+			curframe_ex++;
+		}
+
+		type = rand() % 3 + 1;
+		// regenBoss and Enemy
+		level++;
+		enemy Boss1(SCREEN_WIDTH - 100, level);
+		Boss1.setBoss(level);
+		check = false;
+		score += 50 * level;
+		coin_cnt += 10;
+		cnt = 0;
+		Boss = Boss1;
+
+		for (int i = 0; i < astro1.num_bullet; i++) {
+			astro1.getBullet(i).setStatus(false);
+			if (astro1.getBullet(i).is_Move()) astro1.getBullet(i).setPos(0, 0);
+		}
+		for (int i = 0; i < 5; i++) {
+			list_creep.at(i).kill(level + 1);
+			enemy sEnemy(SCREEN_WIDTH + i * 200, level);
+			list_creep.at(i) = sEnemy;
+		}
+		// update level
+		astro1.speed++;
+		SDL_SetTextureColorMod(bgr[type - 1], 150, 150, 150);
+		renderbackground();
+		handleMute();
+		Round.setText("ROUND " + to_string(level));
+		Round.createaText(renderer);
+		SDL_RenderPresent(renderer);
+		SDL_Delay(3000);
+	}
 }
 
 // update player for the first gametype
@@ -384,28 +431,6 @@ void updatePlayer2(player& astro) {
 			curframe_ex++;
 		}
 	}
-}
-
-// rendergame over
-void gameOver() {
-	Mix_PlayChannel(-1, explo_sound, 0);
-
-	// open highscore and money to update
-	highscore.open("highscore.txt", ios::app);
-	highscore << score << " ";
-	money.open("coin.txt", ios::in);
-	money >> coin_sum;
-	money.close();
-	money.open("coin.txt", ios::out);
-	coin_sum += coin_cnt;
-	money << coin_sum;
-
-	// render bge gameover
-	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, gameover, NULL, NULL);
-
-	highscore.close();
-	money.close();
 }
 
 // some default animation

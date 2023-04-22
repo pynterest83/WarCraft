@@ -40,6 +40,8 @@ Text GameOver1(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
 Text GameOver2(SCREEN_WIDTH / 2 - 175, SCREEN_HEIGHT / 2 - 100, 80, 350, 1);
 Text Money(SCREEN_WIDTH/2 + 400, 5, 50, 20, 1);
 Text DisPlayFps(SCREEN_WIDTH / 2 - 25, 5, 50, 50, 1);
+Text rate(SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 40, 50, 300, 1);
+Text money_sum(SCREEN_WIDTH / 2 - 70, 60, 60, 60, 1);
 
 // game sound
 Mix_Music* cover = NULL; // music cover

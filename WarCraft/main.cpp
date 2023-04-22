@@ -18,11 +18,6 @@ int main(int argc, char* argv[]) {
 	Game.loadHeal();
 	Game.loadMenu();
 
-	Text rate(SCREEN_WIDTH /2 - 150, SCREEN_HEIGHT/2 - 40, 50, 300, 1);
-	rate.initText(font_text, "font/Koulen-Regular.ttf");
-	Text money_sum(SCREEN_WIDTH / 2 - 70, 60, 60, 60, 1);
-	money_sum.initText(font_text, "font/Koulen-Regular.ttf");
-
 	while (!quit) {
 		while (!Start && !quit && !isChoose && !isHi && !isInf && !isSet && !isShop) {
 			while (SDL_PollEvent(&event) != 0) {
@@ -47,13 +42,6 @@ int main(int argc, char* argv[]) {
 				}
 			}
 			renderMenuHighScore();
-			for (int i = 0; i < 10; i++) {
-				rate.setPos(SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 2 - 200 + i * 50);
-				rate.setText("TOP   " + to_string(i+1) + "         " + to_string(rating[i]));
-				rate.createaText(font_text, renderer);
-			}
-
-			SDL_RenderPresent(renderer);
 		}
 		while (isInf && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
@@ -70,9 +58,6 @@ int main(int argc, char* argv[]) {
 				}
 			}
 			renderMenuShop();
-			money_sum.setText(to_string(coin_sum));
-			money_sum.createaText(font_text, renderer);
-			SDL_RenderPresent(renderer);
 		}
 		while (isSet && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
