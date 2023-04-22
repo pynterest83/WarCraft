@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
 	Game.loadMenu();
 
 	while (!quit) {
+		// render menu
 		while (!Start && !quit && !isChoose && !isHi && !isInf && !isSet && !isShop) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -27,14 +28,19 @@ int main(int argc, char* argv[]) {
 			}
 			renderMenu();
 		}
+
+		// render choose gametype menu
 		while (Start && !quit && !isChoose) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
 			}
+			Game.Resetgame();
 			renderMenu2();
 		}
+
+		// render high score menu
 		while (isHi && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -43,6 +49,8 @@ int main(int argc, char* argv[]) {
 			}
 			renderMenuHighScore();
 		}
+
+		// render info menu
 		while (isInf && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -51,6 +59,8 @@ int main(int argc, char* argv[]) {
 			}
 			renderMenuInfo();
 		}
+
+		// render shop menu
 		while (isShop && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
@@ -59,13 +69,17 @@ int main(int argc, char* argv[]) {
 			}
 			renderMenuShop();
 		}
+
+		// render setting menu
 		while (isSet && !quit) {
 			while (SDL_PollEvent(&event) != 0) {
 				if (event.type == SDL_QUIT) {
 					quit = true;
 				}
 
+				// change background music
 				if (event.type == SDL_DROPFILE) {
+					// get the file path
 					char* dropped_filedir = event.drop.file;
 					const char* path = dropped_filedir;
 					cover = Mix_LoadMUS(path);
@@ -75,6 +89,8 @@ int main(int argc, char* argv[]) {
 			}
 			renderMenuSettings();
 		}
+
+		// render gameplay
 		while (isChoose && !quit) {
 			Pause = false;
 			Game.Resetgame();
@@ -95,12 +111,16 @@ int main(int argc, char* argv[]) {
 				enemy Boss(SCREEN_WIDTH + 200, level);
 				Boss.setBoss(level);
 				Boss.bossautoshot();
+
+				// load single game
 				Game.loadSingleGame(astro1, list_creep, Boss);
 			}
 			else if (gametype == 2) {
 				player astro2;
 				astro2.setP2();
 				astro2.isP2 = true;
+
+				// load 2 player game
 				Game.load2Playergame(astro1, astro2);
 			}
 		}

@@ -2,7 +2,6 @@
 
 bullet::bullet()
 {
-	angle = 0;
 	x;
 	y;
 	isMove = false;

@@ -267,7 +267,7 @@ void check_boss(player& astro1, enemy& Boss, vector<enemy>& list_creep, int& dmg
 	}
 	// check interation
 	if (score >= 150 && check) {
-		// check all of bullet out of screen
+		// check all of bullet out of screen for type 1
 		bool out_of_screen = true;
 
 		double direct = (double)((double)astro1.getRect().y - Boss.getRect().y) / ((double)astro1.getRect().x - Boss.getRect().x);

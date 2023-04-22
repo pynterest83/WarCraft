@@ -25,6 +25,7 @@ public:
 	void bounce2(double direct);
 	void bounce3(double direct);
 	void bounce4(double direct);
+	// set staus of bullet to false to stop or bouncing it
 	void setStatus(bool _isMove) {
 		isMove = _isMove;
 		if (_isMove == false) {

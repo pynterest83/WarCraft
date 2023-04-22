@@ -8,22 +8,24 @@
 
 class player : public object {
 private:
+	// player image
 	int x;
 	int y;
 	int w;
 	int h;
 	bool alive;
-
+	
+	// bullet
 	bullet shot[40];
 	bullet shottype[2];
 	enemy supporter;
 	int turn;
+	bool backSpace;
 
+	// engine image
 	int en_frame;
 	SDL_Texture* engine;
 	SDL_Texture* engine_boost;
-
-	bool backSpace;
 public:
 	int blood;
 	int num_bullet;
@@ -36,7 +38,9 @@ public:
 	Timer skill_time;
 	Timer skill_wait;
 
+	// state keyboard
 	const Uint8* state = SDL_GetKeyboardState(NULL);
+
 	player();
 	void move();
 	~player();

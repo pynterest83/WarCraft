@@ -15,17 +15,20 @@ ebullet::~ebullet()
 
 void ebullet::fire(double direct, int type)
 {
-
+	// condition to stop bullet
 	if (rect.x < 0 || rect.y <0 || rect.y > SCREEN_HEIGHT || rect.x > SCREEN_WIDTH) {
 		isMove = false;
 	}
+	// type 2: fly direct to player
 	if (type == 2) {
 		rect.x -= speed;
 		rect.y -= direct * speed;
 	}
+	// type 1: fly directly
 	else if (type == 1) {
 		rect.x -= speed;
 	}
+	// type 3: fly in circle
 	else {
 		r++;
 		rect.x = start_x + 100 * cos(r);
@@ -39,16 +42,18 @@ void ebullet::bossfire(int i, double direct, int type)
 		isMove = false;
 	}
 	
-	
+	// type 1: fly in circle span out
 	if (type == 1) {
 		r += speed;
 		rect.x = start_x + r*cos(3.14 / 10 * i);
 		rect.y = start_y + r*sin(3.14 / 10 * i);
 	}
+	// type 2: fly direct to player
 	else if (type == 2) {
 		rect.x -= speed;
 		rect.y -= direct * speed;
 	}
+	// fly direct to player in a group of bullet and large angle
 	else {
 		double a = atan(direct);
 		r += speed;
@@ -73,6 +78,7 @@ void ebullet::spfire(double direct)
 }
 
 void ebullet::bouncefire(double direct) {
+	// detect which direction to bounce
 	if (rect.x >= SCREEN_WIDTH - rect.w - 20) {
 		isBouncing1 = true;
 		isBouncing2 = false;
@@ -98,7 +104,7 @@ void ebullet::bouncefire(double direct) {
 		isBouncing3 = false;
 	}
 }
-
+// bouncing function
 void ebullet::bounce1(double direct) {
 	rect.x -= 20;
 	rect.y += direct * 20;
