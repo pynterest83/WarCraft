@@ -216,17 +216,20 @@ void renderMenuGameOver() {
 void renderMenuHighScore() {
 	// read in file
 	highscore.open("highscore.txt", ios::in);
-	while (highscore) {
+	while (!highscore.eof()) {
 		if (highscore) {
 			int a;
 			highscore >> a;
 			rating.push_back(a);
 		}
 	}
-	// sort
+	// remove duplicate
+	rating.erase(rating.begin() + rating.size() - 1);
+	// the size < 10, insert 0
 	for (int i = rating.size() - 1; i < 10; i++) {
 		rating.push_back(0);
 	}
+	// sort
 	sort(rating.begin(), rating.end(), greater<int>());
 
 	SDL_RenderCopy(renderer, record, NULL, NULL);
@@ -248,7 +251,6 @@ void renderMenuHighScore() {
 		if (SDL_GetMouseState(&mouse.x, &mouse.y) & SDL_BUTTON(1)) {
 			SDL_Delay(100);
 			isHi = false;
-			//highscore.close();
 		}
 	}
 	else SDL_SetTextureColorMod(back, 150, 150, 150);
