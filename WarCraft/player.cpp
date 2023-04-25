@@ -160,6 +160,7 @@ void player::handleBullet(SDL_Event event) {
 		if (skill_time.GetTime() >= (Uint32)15000) {
 			SupIsSet = false;
 			isSkilledR = false;
+			SDL_ShowCursor(SDL_ENABLE); // if not set, show again the default cursor
 			skill_time.Pause();
 			skill_time.Reset();
 			skill_wait.Start();

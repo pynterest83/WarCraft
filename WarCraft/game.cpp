@@ -291,6 +291,7 @@ void game::loadSingleGame(player& astro1, vector<enemy>& list_creep, enemy& Boss
 
 		// end game
 		if (astro1.isKilled()) {
+			SDL_ShowCursor(SDL_ENABLE); // show cursor when game over 
 			Mix_PlayChannel(-1, explo_sound, 0);
 			// open highscore and money to update
 			highscore.open("highscore.txt", ios::app);
