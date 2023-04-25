@@ -223,8 +223,6 @@ void renderMenuHighScore() {
 			rating.push_back(a);
 		}
 	}
-	// remove duplicate
-	rating.erase(rating.begin() + rating.size() - 1);
 	// the size < 10, insert 0
 	for (int i = rating.size() - 1; i < 10; i++) {
 		rating.push_back(0);

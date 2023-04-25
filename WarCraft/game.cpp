@@ -294,7 +294,7 @@ void game::loadSingleGame(player& astro1, vector<enemy>& list_creep, enemy& Boss
 			Mix_PlayChannel(-1, explo_sound, 0);
 			// open highscore and money to update
 			highscore.open("highscore.txt", ios::app);
-			highscore << score << " ";
+			highscore << " " << score;
 			money.open("coin.txt", ios::in);
 			money >> coin_sum;
 			money.close();
